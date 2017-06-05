@@ -1,6 +1,7 @@
 # 平台控制面
-
-一）目录结构
+====================================
+### 
+* 一）目录结构
 +ACE 				自适应网络通信库和IPC库
 +ACEWrapper 		ACE封装库
 +AuthMgr			认证进程
@@ -21,7 +22,8 @@
 +radiusserver		第三方radius服务器，测试用。
 +Platform			WFNOS 平台库
 
-二）如何编译
+### 
+* 二）如何编译
 进入Build目录下。source env.sh设置环境变量
 1)整体编译
 	make debug=1编译debug版本
@@ -32,13 +34,13 @@
 	make ipoe编译ipoe进程
 	
 3)所有库编译生成动态链接库。
-
-三）打包
+### 
+* 三）打包
 修过版本号version.h。
 #define MAJOR_VERSION 1
 #define MINOR_VERSION 0
 #define BETA_VERSION 1
-
+### 
 然后执行编译。生成tar报文
 目录结构如下：
 +bin
