@@ -1,0 +1,56 @@
+二月 10, 2015 4:05:52 下午 org.apache.catalina.core.AprLifecycleListener init
+信息: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files\Java\jdk1.8.0_31\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Python34\;C:\Python34\Scripts;C:\Perl\site\bin;C:\Perl\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;D:\Program Files\VisualSVN Server\bin;.
+二月 10, 2015 4:05:52 下午 org.apache.coyote.AbstractProtocol init
+信息: Initializing ProtocolHandler ["http-bio-80"]
+二月 10, 2015 4:05:52 下午 org.apache.coyote.AbstractProtocol init
+信息: Initializing ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 4:05:52 下午 org.apache.catalina.startup.Catalina load
+信息: Initialization processed in 471 ms
+二月 10, 2015 4:05:52 下午 org.apache.catalina.core.StandardService startInternal
+信息: Starting service Catalina
+二月 10, 2015 4:05:52 下午 org.apache.catalina.core.StandardEngine startInternal
+信息: Starting Servlet Engine: Apache Tomcat/7.0.42
+二月 10, 2015 4:05:52 下午 org.apache.catalina.startup.HostConfig deployDirectory
+信息: Deploying web application directory C:\OpenPortalServer\webapps\ROOT
+二月 10, 2015 4:05:53 下午 org.apache.coyote.AbstractProtocol start
+信息: Starting ProtocolHandler ["http-bio-80"]
+二月 10, 2015 4:05:53 下午 org.apache.coyote.AbstractProtocol start
+信息: Starting ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 4:05:53 下午 org.apache.catalina.startup.Catalina start
+信息: Server startup in 489 ms
+二月 10, 2015 9:57:16 下午 org.apache.catalina.core.StandardServer await
+信息: A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol pause
+信息: Pausing ProtocolHandler ["http-bio-80"]
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol pause
+信息: Pausing ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 9:57:16 下午 org.apache.catalina.core.StandardService stopInternal
+信息: Stopping service Catalina
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol stop
+信息: Stopping ProtocolHandler ["http-bio-80"]
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol stop
+信息: Stopping ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol destroy
+信息: Destroying ProtocolHandler ["http-bio-80"]
+二月 10, 2015 9:57:16 下午 org.apache.coyote.AbstractProtocol destroy
+信息: Destroying ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 9:57:19 下午 org.apache.catalina.core.AprLifecycleListener init
+信息: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files\Java\jdk1.8.0_31\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Python34\;C:\Python34\Scripts;C:\Perl\site\bin;C:\Perl\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;D:\Program Files\VisualSVN Server\bin;.
+二月 10, 2015 9:57:19 下午 org.apache.coyote.AbstractProtocol init
+信息: Initializing ProtocolHandler ["http-bio-80"]
+二月 10, 2015 9:57:19 下午 org.apache.coyote.AbstractProtocol init
+信息: Initializing ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 9:57:19 下午 org.apache.catalina.startup.Catalina load
+信息: Initialization processed in 507 ms
+二月 10, 2015 9:57:19 下午 org.apache.catalina.core.StandardService startInternal
+信息: Starting service Catalina
+二月 10, 2015 9:57:19 下午 org.apache.catalina.core.StandardEngine startInternal
+信息: Starting Servlet Engine: Apache Tomcat/7.0.42
+二月 10, 2015 9:57:19 下午 org.apache.catalina.startup.HostConfig deployDirectory
+信息: Deploying web application directory C:\OpenPortalServer\webapps\ROOT
+二月 10, 2015 9:57:20 下午 org.apache.coyote.AbstractProtocol start
+信息: Starting ProtocolHandler ["http-bio-80"]
+二月 10, 2015 9:57:20 下午 org.apache.coyote.AbstractProtocol start
+信息: Starting ProtocolHandler ["ajp-bio-8009"]
+二月 10, 2015 9:57:20 下午 org.apache.catalina.startup.Catalina start
+信息: Server startup in 537 ms

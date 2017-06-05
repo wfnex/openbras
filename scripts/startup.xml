@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<starosxml  scope="application">
+	<load src="/opt/staros.xyz/starcore/scripts/starcore_process_map.xml"/>
+	<load src="/opt/staros.xyz/openbras/scripts/openbras_unittest_process.xml"/>
+	<variable name="newSession"/>
+	<variable name="nulltest" type="string"/>
+	<variable name="systemparam" type="params"/>
+	<function name="StartProcess">
+		<parameters>
+			<parameter name="processname" type="string"/>
+			<parameter name="autostart" type="string"/>
+		</parameters>
+		<variable name="starparams" type="params"/>
+		<set name="starparams" paramname="ProcessName" value="context.processname.toString()"/>
+		<set name="starparams" paramname="AutoRestart" value="context.autostart.toString()"/>
+		<application method="LocalEventRequest" event="StartProcess" params="context.starparams"/>
+		<wait event="application.PROCESSRUNNOTIFY" timeout="5000">
+		  <function>
+			<log><![CDATA[ Start Process <%=context.processname.toString()%> Success!]]></log>
+			<goto label="SuccessOut"/>
+		  </function>
+		</wait>
+		<log><![CDATA[ Start Process <%=context.processname.toString()%> TimeOut]]></log>
+		<label name="SuccessOut"/>
+	</function>
+	<events>
+		<onevent event="application.ONSTART">
+			<function>
+				<set name="systemparam" paramname="DiscoveryMcastAddr" value="'239.2.2.4'"/>
+				<set name="systemparam" paramname="DiscoveryMcastAddrPort" value="'16016'"/>
+				<set name="systemparam" paramname="DIPCServerIP" value="'127.0.0.1'"/>
+				<set name="systemparam" paramname="DIPCPortInt" value="'44446'"/>
+				<set name="systemparam" paramname="DIPCPortExt" value="'44448'"/>
+				<set name="systemparam" paramname="AutoRestart" value="'Disable'"/>
+				<set name="systemparam" paramname="KeepAliveTimer" value="'60'"/>
+				<set name="systemparam" paramname="ClusterId" value="'1'"/>
+				<set name="systemparam" paramname="DataCenterId" value="'11'"/>
+				<application method="LocalEventRequest" event="StartSystem" params="context.systemparam"/>
+				<function name="startstarcoreprocess"/>
+				<function name="startopenbrasunittest"/>
+				<application method="LocalEventRequest" event="EndStart" params="context.systemparam"/>
+				<wait event="InvalidEvent" timeout="1000"/>
+				<log>    </log>
+				<log>******************************************************************************************</log>
+				<log>*</log>
+				<log>*  Copyright (C) 2016-2017, Nanjing StarOS Technology Co., Ltd</log>
+				<log>*  Welcome to Openbras/log>
+				<log>*</log>
+				<log>******************************************************************************************</log>
+			</function>
+		</onevent>
+		<onevent event="session.ONSTART">
+			<variable name="dbdialog"/>
+			<function>
+			</function>
+		</onevent>
+		<onevent event="*">
+			<function>
+			<log level="1"><![CDATA[ invalid event <%=event.getName()%>]]> </log>
+			</function>
+		</onevent>
+	</events>
+</starosxml>

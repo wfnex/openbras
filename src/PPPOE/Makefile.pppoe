@@ -1,0 +1,17 @@
+#you can use static_libs=1/0 ,to build static lib or dynamiclib
+MYBIN=PPPOE
+MYFILES = md5.cpp\
+CClientDiscovery.cpp\
+CEtherIntf.cpp\
+CPPPOEPacketHandler.cpp\
+CPPPOEDiscoveryHandler.cpp\
+CPPPOESessionHandler.cpp\
+CPPPOEEventHandler.cpp\
+CPPPOE.cpp\
+CSession.cpp\
+pppoe.cpp
+
+MYCPPFLAGS= -I../include -I../PPP -std=gnu++11
+MYLDFLAGS= -L../PPP -L../libs
+MYDLLLIB= ../PPP/libPPP.a ../libs/libflexbngmsg.a ../libs/libmDNSEmbedded.a ../libs/libzmq.a ../BNGEvent/libBNGEvent.a -lcrypto -lssl -lprotobuf
+include $(ACE_ROOT)/include/makeinclude/templatemakefilebin.GNU

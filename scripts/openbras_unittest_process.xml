@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<starosxml  scope="application">
+	<function name="startopenbrasunittest">
+		<variable name="app2param" type="params"/>
+		<set name="app2param" paramname="ProjectName" value="'/opt/staros.xyz/openbras/'"/>
+		<application method="LocalEventRequest" event="LoadProject" params="context.app2param"/>
+		<function>
+			<log>Start OpenBRAS Process</log>
+			<function name="StartProcess">
+				<parameters>
+					<parameter name="processname" type="string" in="'PPPOETEST'"/>
+					<parameter name="autostart" type="string" in="'Disable'"/>
+				</parameters>
+			</function>
+		</function>
+	</function>
+</starosxml>

@@ -1,0 +1,4 @@
+# -*- Makefile -*-
+
+$(TARGETS_NESTED):
+

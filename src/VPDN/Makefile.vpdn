@@ -1,0 +1,17 @@
+#you can use static_libs=1/0 ,to build static lib or dynamiclib
+MYBIN=Portal
+MYFILES = CPortalClient.cpp\
+CPortalConfig.cpp\
+CPortalFakeServer.cpp\
+CPortalManager.cpp\
+CPortalServerChannel.cpp\
+CPortalServerManager.cpp\
+CPortalUserMgr.cpp\
+CTCPTransport.cpp\
+portal.cpp
+
+MYCPPFLAGS= -I../include -I../libconfig/src -I../Utils -std=gnu++11
+MYLDFLAGS= -L../libs
+MYDLLLIB= -lcrypto -lssl ../libconfig/libiniparser.a ../Utils/libutils.a ../UserMgr/libUserMgr.a \
+	../AuthMgr/libAuthMgr.a
+include $(ACE_ROOT)/include/makeinclude/templatemakefilebin.GNU

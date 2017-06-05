@@ -1,0 +1,3 @@
+include $(USER_ROOT)/make/makeinclude/macros.GNU
+MYDIRS= Utils PPP PPPOE Portal IPOE Radius UserMgr AuthMgr BNGEvent
+include $(USER_ROOT)/make/makeinclude/allinone.GNU

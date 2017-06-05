@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <servlet>
+    <description>LoginServlet</description>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.leeson.portal.controller.Login</servlet-class>
+  </servlet>
+  <servlet>
+    <description>VCodeServlet</description>
+    <display-name>VCodeServlet</display-name>
+    <servlet-name>VCodeServlet</servlet-name>
+    <servlet-class>com.leeson.portal.controller.VCodeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>LoginOutServlet</description>
+    <display-name>LoginOutServlet</display-name>
+    <servlet-name>LoginOut</servlet-name>
+    <servlet-class>com.leeson.portal.controller.LoginOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VCodeServlet</servlet-name>
+    <url-pattern>/VCodeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginOut</servlet-name>
+    <url-pattern>/LoginOut</url-pattern>
+  </servlet-mapping>
+</web-app>
