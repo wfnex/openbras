@@ -1,6 +1,7 @@
 #include "CAddSessionId.h"
 
-CAddSessionId::CAddSessionId()
+CAddSessionId::CAddSessionId(uint16_t startid,uint16_t endid)
+    :m_startid(startid),m_endid(endid)
 {
 }
 
@@ -38,6 +39,18 @@ void CAddSessionId::FreeId(uint16_t id)
         ACE_DEBUG((LM_ERROR, "CAddSessionId::FreeId(), m_SessionId NULL.\n"));
 }
 
+LISTINT GetSessionId()
+{
+    return m_SessionId;
+}
+uint16_t Getstartid()
+{
+    return m_startid;
+}
+uint16_t Getendid()
+{
+    return m_endid;
+}
 
 
 

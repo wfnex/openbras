@@ -11,7 +11,7 @@ CRadiusScheme.cpp\
 CRadiusTransaction.cpp\
 radius.cpp
 
-MYCPPFLAGS=-I../include -std=gnu++11
+MYCPPFLAGS=-I../include -I../libconfig/src -I../Utils -std=gnu++11 -I../Portal
 MYLDFLAGS= 
 MYDLLLIB= 
 include $(USER_ROOT)/make/makeinclude/allinone.GNU

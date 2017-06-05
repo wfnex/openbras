@@ -106,7 +106,7 @@ int CIPOEModule::OnModifyUserResponse(const UM_RESPONSE &response)
     return 0;
 }
 
-int CIPOEModule::onKickUserNotify(const Sm_Kick_User* kickInfo)
+int CIPOEModule::OnKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_INFO, "CIPOEModule::onKickUserNotify\n"));
 

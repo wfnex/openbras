@@ -10,12 +10,16 @@
 #include <unordered_map>
 #include "openportal.h"
 #include "CReferenceControl.h"
-
-class CPortalClient;
+//#include "CRadiusScheme.h"
+//class CPortalClient;
+class CRadiusMessage;
+class CRadiusScheme;
+class TransactionResponse;
+class CRadiusTransaction;
 class CRadiusConnector : public CReferenceControl,public ACE_Event_Handler
 {
 public:
-    CRadiusConnector(CRadiusScheme *scheme);
+    CRadiusConnector(CRadiusScheme* scheme);
     virtual ~CRadiusConnector();
     virtual int StartConnect(const ACE_INET_Addr &peeraddr);
     virtual int StopConnect();
@@ -33,13 +37,14 @@ public:
     std::string GetSharedKey();
     int GetTimeOut();
     int GetRetrans();
+    int FindTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans);
     int SendMessage(CRadiusMessage &accessReqMsg,TransactionResponse callback);
 protected:
     ACE_HANDLE m_handler;
-    CRadiusScheme *m_pscheme;
+    CCmAutoPtr<CRadiusScheme> m_pscheme;
     ACE_INET_Addr m_peeraddr;
     ACE_Thread_Mutex m_mutex;
-    std::string<uint8_t, CCmAutoPtr<CRadiusTransaction>> m_trans;
+    std::unordered_map<uint8_t, CCmAutoPtr<CRadiusTransaction> > m_trans;
     int m_accessRequest;       // Client send
     int m_accessAccept;       // Server send
     int m_accessReject;       // Server send

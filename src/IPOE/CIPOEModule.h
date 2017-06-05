@@ -30,7 +30,7 @@ public:
     virtual int OnAddUserResponse(const UM_RESPONSE &response); 
     virtual int OnDeleteUserResponse(const UM_RESPONSE &response);
     virtual int OnModifyUserResponse(const UM_RESPONSE &response);
-    virtual int onKickUserNotify(const Sm_Kick_User* kickInfo);
+    virtual int OnKickUserNotify(const Sm_Kick_User* kickInfo);
     
 private:
     CDHCPServer m_dhcpserver;

@@ -4,7 +4,7 @@ export CURRENTPWD:=$(shell pwd)
 export PRJDIR=$(CURRENTPWD)
 export USER_ROOT=$(CURRENTPWD)/../
 export PROJECT_NAME=openbras
-build_starfaceserver=1
+build_openbras=1
 
 #######################################################################################
 NULL_STDERR = 2>$(/dev/null) || true

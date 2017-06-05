@@ -32,12 +32,12 @@ void CPPP::Init()
     
     switch (GetAuthType())
     {
-        case PAP:
+        case PPP_PAP:
         {
             m_pap.Init();
             break;
         }
-        case CHAP:
+        case PPP_CHAP:
         {
             m_chap.Init();
             break;
@@ -62,12 +62,12 @@ void CPPP::OnAuthResponse(WORD32 result, std::string &reason)
 
     switch (GetAuthType())
     {
-        case CHAP:
+        case PPP_CHAP:
         {
             m_chap.ResponseAuthenResult(result, reason);
             break;
         }
-        case PAP:
+        case PPP_PAP:
         {
             m_pap.ResponseAuthenResult(result, reason);
             break;
@@ -184,12 +184,12 @@ void CPPP::OnLCPUp()
 
     switch (GetAuthType())
     {
-        case CHAP:
+        case PPP_CHAP:
         {
             m_chap.LowerUp();
             break;
         }
-        case PAP:
+        case PPP_PAP:
         {
             m_pap.LowerUp();
             break;
@@ -273,17 +273,17 @@ void CPPP::OnIPCPUp()
 
     switch (GetAuthType())
     {
-        case PAP:
+        case PPP_PAP:
         {
             username = m_pap.GetUsername();
-            sInfo.auth_type = PAP;
+            sInfo.auth_type = PPP_PAP;
             
             break;
         }
-        case CHAP:
+        case PPP_CHAP:
         {
             username = m_chap.GetUserName();
-            sInfo.auth_type = CHAP;
+            sInfo.auth_type = PPP_CHAP;
             
             break;
         }

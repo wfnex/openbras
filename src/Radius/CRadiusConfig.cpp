@@ -1,7 +1,7 @@
 /***********************************************************************
  * Copyright (C) 2014, Nanjing WFNEX Technology Co., Ltd 
 **********************************************************************/
-#include "CRadiuConfig.h"
+#include "CRadiusConfig.h"
 #include "CPortalManager.h"
 
 CRadiusConfig::CRadiusConfig(CRadiusManager &mgr)
@@ -75,8 +75,6 @@ int CRadiusConfig::Init()
 
     m_acct_session_timeout=iniparser_getint(ini,"Test:Acct_Session_Time",0);
     m_acct_terminate_cause=iniparser_getint(ini,"Test:Acct_Terminate_Cause",0);
-
-#endif
 
     
     iniparser_freedict(ini); 

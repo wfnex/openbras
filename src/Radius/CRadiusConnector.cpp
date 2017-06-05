@@ -9,7 +9,8 @@
 #include "CPortalManager.h"
 #include "CPortalConfig.h"
 #include "md5.h"
-
+#include "radius.h"
+#include "CRadiusData.hxx"
 CRadiusConnector::CRadiusConnector(CRadiusScheme *scheme)
     :m_handler(ACE_INVALID_HANDLE)
     ,m_pscheme(scheme)
@@ -123,9 +124,6 @@ int CRadiusConnector::StartConnect(const ACE_INET_Addr &peeraddr)
                  ACE_TEXT ("register_handler for input")),
                 -1);
     }
-
-    StartDetect(
-
     return 0;
 }
 
@@ -156,8 +154,21 @@ int CRadiusConnector::StopConnect()
 int CRadiusConnector::handle_timeout (const ACE_Time_Value &current_time,
                           const void *act)
 {
-    ACE_DEBUG ((LM_DEBUG,"(%P|%t) CRadiusConnector::handle_timeout m_detectcount=%d,isdead=%d\n",m_detectcount,m_isDead));
+    ACE_DEBUG ((LM_DEBUG,"(%P|%t) CRadiusConnector::handle_timeou"));
 
+
+    return 0;
+}
+int CRadiusConnector::FindTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans)
+{
+    ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
+    std::unordered_map<uint8_t, CCmAutoPtr<CRadiusTransaction>>::iterator it = m_trans.find(id);
+    if (it == m_trans.end())
+    {
+        return -1;
+    }
+
+    trans = it->second;
 
     return 0;
 }
@@ -197,7 +208,7 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
     }
 
     std::string shared_key = GetSharedKey();
-    char *secret = shared_key.c_str();
+    const char *secret = shared_key.c_str();
     
     CRadiusData msgRecvd(rawMsg.buffer,ntohs(rawMsg.msgHdr.length));
 
@@ -207,9 +218,9 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
     FindTransaction(id, transaction);
     if (transaction.Get() == NULL)
     {
-        return;
+        return 1;
     }
-    const uint8_t* reqAuth = transaction->getAuthenticator();
+    const uint8_t* reqAuth = 0;//transaction->getAuthenticator();
     CRadiusMessage accessResp( msgRecvd, secret );
     if(!accessResp.verifyResponseAuthenticator(reqAuth, secret))
     {
@@ -219,20 +230,6 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
     transaction->RecvResponse(accessResp);
 
     //RemoveTransaction(id);
-
-    return 0;
-}
-
-int CRadiusConnector::FindTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans)
-{
-    ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
-    std::string<uint8_t, CCmAutoPtr<CRadiusTransaction>>::iterator it = m_trans.find(id);
-    if (it == m_trans.end())
-    {
-        return -1;
-    }
-
-    trans = it->second;
 
     return 0;
 }
@@ -343,14 +340,16 @@ int CRadiusConnector::SendMessage(CRadiusMessage &accessReqMsg,TransactionRespon
     accessReqMsg.setIdentifier(id);
     accessReqMsg.calcAuthenticator(secret);
     //const uint8_t* reqAuth = accessReqMsg.getAuthenticator();
-    ACE_DEBUG ((LM_DEBUG,"Send\n[%s]\n", accessReqMsg.verbose().c_str());
     CCmAutoPtr<CRadiusTransaction> trans(new CRadiusTransaction(id,this,accessReqMsg, callback));
     if (AddTransaction(id,trans) == -1)
     {
         return -1;
     }
 
-    return  SendData(reinterpret_cast<const char *>(accessReqMsg.data().buffer),ntohs(accessReqMsg.data().msgHdr.length));
+    return  SendData(reinterpret_cast<const char *>(accessReqMsg.data().buffer),
+        std::ntohs(accessReqMsg.data().msgHdr.length));
 }
+
+
 
 

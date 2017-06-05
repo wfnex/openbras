@@ -361,11 +361,11 @@ void CPPPOE::OnPPPOEAuthRequest(Auth_Request &authReq)
                 authReq.session, authReq.mac[0], authReq.mac[1], authReq.mac[2], 
                 authReq.mac[3], authReq.mac[4], authReq.mac[5],
                 authReq.username, authReq.framedProtocol, authReq.serviceType));
-    if (PAP == m_authType)
+    if (PPP_PAP == m_authType)
     {
         ACE_DEBUG ((LM_DEBUG, "userpasswd=%s\n", authReq.userpasswd));
     }
-    else if (CHAP == m_authType)
+    else if (PPP_CHAP == m_authType)
     {
         static CHAR buffer[50];
         ::memset(buffer, 0, sizeof(buffer));
@@ -522,7 +522,7 @@ int CPPPOE::OnModifyUserResponse(const UM_RESPONSE &response)
     return 0;
 }
 
-int CPPPOE::onKickUserNotify(const Sm_Kick_User* kickInfo)
+int CPPPOE::OnKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::onKickUserNotify\n"));
     
@@ -679,6 +679,13 @@ void CPPPOE::SetAuthType(BYTE authType)
 void CPPPOE::SetHostName(std::string &hostName)
 {
     m_hostName = hostName;
+}
+void CPPPOE::FreeId(uint16_t id)
+{
+    if(id >= m_psessionid.Getstartid() && id <= m_psessionid.Getendid())
+        m_psessionid.GetSessionId().push_back(id);
+    else
+        ACE_DEBUG((LM_ERROR, "CPPPOE::FreeId(), m_SessionId NULL.\n"));
 }
 
 

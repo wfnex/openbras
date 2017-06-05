@@ -8,7 +8,6 @@
 #include "aceinclude.h"
 #include "CReferenceControl.h"
 #include "STDInclude.h"
-#include "Protocol.h"
 #include "pppoe.h"
 #include "BaseDefines.h"
 

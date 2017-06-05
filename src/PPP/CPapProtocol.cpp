@@ -246,7 +246,7 @@ CPapProtocolSvr::upap_rauthreq(BYTE *inp, int id, int len)
     Auth_Request authReq;
     ::memset(&authReq, 0, sizeof authReq);
 
-    authReq.authtype = PAP;
+    authReq.authtype = PPP_PAP;
 
     size_t cpyLen = (ruserlen < AUTHMGR_MAX_USERNAME_SIZE - 1) ? ruserlen: AUTHMGR_MAX_USERNAME_SIZE - 1;
     strncpy(authReq.username, ruser, cpyLen);

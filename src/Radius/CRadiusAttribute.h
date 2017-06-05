@@ -110,13 +110,9 @@ public:
 
     /// Get a human readable representation of this attribute
     std::string verbose() const;
-
+    std::string itos(uint32_t a);
 private:
 
-    /// Disable default constructor
-    RadiusAttribute()
-    {
-    }
 
     /// RADIUS Attribute Type
     RadiusAttributeType  myType;

@@ -28,65 +28,65 @@ void CChapProtocolSvr::Init()
     // 也可挂在list。
 	//chap_md5_init();
 #ifdef CHAPMS
-	chapms_init();
+    chapms_init();
 #endif    
 }
 
 void CChapProtocolSvr::Input(unsigned char *packet ,size_t size)
 {
-	unsigned char code, id;
-	int len;
+    unsigned char code, id;
+    int len;
 
     ACE_DEBUG ((LM_INFO, "CChapProtocolSvr::Input, size=%u\n", size));
 
-	if (size < CHAP_HDRLEN)
-	{
-        ACE_DEBUG ((LM_ERROR, "size too short.\n"));
-		return;
-	}
-    
-	GETCHAR(code, packet);
-	GETCHAR(id, packet);
-	GETSHORT(len, packet);
-    
-	if (len < CHAP_HDRLEN || len > size)
-	{
-        ACE_DEBUG ((LM_ERROR, "invalid length(%u)\n", len));
-		return;
-	}
-    
-	len -= CHAP_HDRLEN;
-
-	switch (code) 
+    if (size < CHAP_HDRLEN)
     {
-    	case CHAP_RESPONSE:
+        ACE_DEBUG ((LM_ERROR, "size too short.\n"));
+        return;
+    }
+
+    GETCHAR(code, packet);
+    GETCHAR(id, packet);
+    GETSHORT(len, packet);
+
+    if (len < CHAP_HDRLEN || len > size)
+    {
+        ACE_DEBUG ((LM_ERROR, "invalid length(%u)\n", len));
+        return;
+    }
+    
+    len -= CHAP_HDRLEN;
+
+    switch (code) 
+    {
+        case CHAP_RESPONSE:
         {
-    		chap_handle_response(id, packet, len);
-    		break;
-    	}
+            chap_handle_response(id, packet, len);
+            break;
+        }
         case CHAP_CHALLENGE:
-    	case CHAP_FAILURE:
-    	case CHAP_SUCCESS:
+        case CHAP_FAILURE:
+        case CHAP_SUCCESS:
         default:
         {
             ACE_DEBUG ((LM_ERROR, "Invalid code(%#x)\n", code));
-    		break;
+            break;
         }
-	}    
+    }    
 }
 
 void CChapProtocolSvr::Protrej()
 {
-	if (m_server.flags & TIMEOUT_PENDING) 
+    if (m_server.flags & TIMEOUT_PENDING) 
     {
-		m_server.flags &= ~TIMEOUT_PENDING;
-		CancelTimer();
-	}
-	if (m_server.flags & AUTH_STARTED) 
+        m_server.flags &= ~TIMEOUT_PENDING;
+        CancelTimer();
+    }
+    if (m_server.flags & AUTH_STARTED) 
     {
-		m_server.flags = 0;
-		m_psink->OnAuthenResult(0, PPP_CHAP);
-	}
+        m_server.flags = 0;
+        m_psink->OnAuthenResult(0, PPP_CHAP);
+    }
 }
 
 /*
@@ -94,21 +94,21 @@ void CChapProtocolSvr::Protrej()
  */
 void CChapProtocolSvr::LowerUp()
 {
-	m_server.flags |= LOWERUP;
-	if (m_server.flags & AUTH_STARTED)
-	{
+    m_server.flags |= LOWERUP;
+    if (m_server.flags & AUTH_STARTED)
+    {
         ACE_Time_Value current_time; // current_time is NOT used in handle_timeout().
-		handle_timeout (current_time);
-	}
+        handle_timeout (current_time);
+    }
 }
 
 void CChapProtocolSvr::LowerDown()
 {
-	if (m_server.flags & TIMEOUT_PENDING)
-	{
-		CancelTimer();
-	}
-	m_server.flags = 0;
+    if (m_server.flags & TIMEOUT_PENDING)
+    {
+        CancelTimer();
+    }
+    m_server.flags = 0;
 }
 
 void CChapProtocolSvr::Open()
@@ -131,31 +131,31 @@ void CChapProtocolSvr::Close(char *reason)
 int CChapProtocolSvr::handle_timeout (const ACE_Time_Value &current_time, const void *act)
 {
     ACE_DEBUG ((LM_DEBUG, "CChapProtocolSvr::handle_timeout\n"));
-    
-	m_server.flags &= ~TIMEOUT_PENDING;
-    
-	if ((m_server.flags & CHALLENGE_VALID) == 0) 
+
+    m_server.flags &= ~TIMEOUT_PENDING;
+
+    if ((m_server.flags & CHALLENGE_VALID) == 0) 
     {
-		m_server.challenge_xmits = 0;
-		chap_generate_challenge();
-		m_server.flags |= CHALLENGE_VALID;
-	} 
+    m_server.challenge_xmits = 0;
+    chap_generate_challenge();
+    m_server.flags |= CHALLENGE_VALID;
+    } 
     else if (m_server.challenge_xmits >= m_max_transmits) 
     {
-		m_server.flags &= ~CHALLENGE_VALID;
-		m_server.flags |= AUTH_DONE | AUTH_FAILED;
+    m_server.flags &= ~CHALLENGE_VALID;
+    m_server.flags |= AUTH_DONE | AUTH_FAILED;
 
-    	ACE_DEBUG((LM_DEBUG, 
-                   "the number of transmitting challenges exceeds %d times\n", 
-                   m_max_transmits));
-        m_psink->OnAuthenResult(0, PPP_CHAP);        
+    ACE_DEBUG((LM_DEBUG, 
+               "the number of transmitting challenges exceeds %d times\n", 
+               m_max_transmits));
+    m_psink->OnAuthenResult(0, PPP_CHAP);        
 
-		return 0;
-	}
+    return 0;
+    }
 
     m_psink->OnAuthenOutput(m_server.challenge, m_server.challenge_pktlen);
-	++m_server.challenge_xmits;
-	m_server.flags |= TIMEOUT_PENDING;
+    ++m_server.challenge_xmits;
+    m_server.flags |= TIMEOUT_PENDING;
 
     return 0;
 }
@@ -182,26 +182,26 @@ void CChapProtocolSvr::StartTimer(int seconds)
 void
 CChapProtocolSvr::chap_handle_response(int id, unsigned char *pkt, int len)
 {
-	int response_len;
-	unsigned char *response;
-	char *name = NULL;	/* initialized to shut gcc up */
+    int response_len;
+    unsigned char *response;
+    char *name = NULL;	/* initialized to shut gcc up */
 
     ACE_DEBUG ((LM_DEBUG, "CChapProtocolSvr::chap_handle_response, id=%d, len=%d\n", id, len));
-    
-	if ((m_server.flags & LOWERUP) == 0)
-	{
-        ACE_DEBUG ((LM_ERROR, "lower still down\n"));
-		return;
-	}
-    
-	if (id != m_server.challenge[PPP_HDRLEN+1])
-	{
-        ACE_DEBUG ((LM_ERROR, 
-                    "id dismatch, id=%d, m_server.challenge[PPP_HDRLEN+1]=%u\n",
-                    id,
-                    m_server.challenge[PPP_HDRLEN+1]));
-		return;
-	}
+
+    if ((m_server.flags & LOWERUP) == 0)
+    {
+    ACE_DEBUG ((LM_ERROR, "lower still down\n"));
+    return;
+    }
+
+    if (id != m_server.challenge[PPP_HDRLEN+1])
+    {
+    ACE_DEBUG ((LM_ERROR, 
+                "id dismatch, id=%d, m_server.challenge[PPP_HDRLEN+1]=%u\n",
+                id,
+                m_server.challenge[PPP_HDRLEN+1]));
+    return;
+    }
 
     if (len < 2)
     {
@@ -209,19 +209,19 @@ CChapProtocolSvr::chap_handle_response(int id, unsigned char *pkt, int len)
         return;
     }
     
-	if (m_server.flags & CHALLENGE_VALID) 
+    if (m_server.flags & CHALLENGE_VALID) 
     {
-		response = pkt;
-		GETCHAR(response_len, pkt);
-		len -= (response_len + 1);	/* length of name */
-		name = (char *)pkt + response_len;
-		if (len < 0)
-			return;
+        response = pkt;
+        GETCHAR(response_len, pkt);
+        len -= (response_len + 1);	/* length of name */
+        name = (char *)pkt + response_len;
+        if (len < 0)
+        return;
 
-		if (m_server.flags & TIMEOUT_PENDING) {
-			m_server.flags &= ~TIMEOUT_PENDING;
-			CancelTimer();
-		}
+        if (m_server.flags & TIMEOUT_PENDING) {
+        m_server.flags &= ~TIMEOUT_PENDING;
+        CancelTimer();
+    }
 
         m_username = std::string(name, len);
 
@@ -232,7 +232,7 @@ CChapProtocolSvr::chap_handle_response(int id, unsigned char *pkt, int len)
 
             // TBD!!!! 目前域名也存放在username中，domain字段空着。
 
-            authReq.authtype = CHAP;
+            authReq.authtype = PPP_CHAP;
             authReq.chapid = id;
             size_t cpyLen = (len < AUTHMGR_MAX_USERNAME_SIZE - 1) ? len : (AUTHMGR_MAX_USERNAME_SIZE - 1);
             ::strncpy(authReq.username, name, cpyLen);
@@ -252,11 +252,11 @@ CChapProtocolSvr::chap_handle_response(int id, unsigned char *pkt, int len)
             
             m_psink->SendAuthRequest2AM(authReq);
         }
-	} 
+    } 
     else if ((m_server.flags & AUTH_DONE) == 0)
     {
         ACE_DEBUG ((LM_INFO, "authentication already done.\n"));
-		return;
+        return;
     }
 }
 
@@ -330,37 +330,37 @@ void CChapProtocolSvr::ResponseAuthenResult(int result, std::string &reason)
 void
 CChapProtocolSvr::chap_generate_challenge()
 {
-	int clen = 1, nlen, len;
-	unsigned char *p;
+    int clen = 1, nlen, len;
+    unsigned char *p;
 
-	p = m_server.challenge;
-	MAKEHEADER(p, PPP_CHAP);
-	p += CHAP_HDRLEN;
-	chap_md5_generate_challenge(p);
-	clen = *p;
-	nlen = strlen(m_server.name);
-	memcpy(p + 1 + clen, m_server.name, nlen);
+    p = m_server.challenge;
+    MAKEHEADER(p, PPP_CHAP);
+    p += CHAP_HDRLEN;
+    chap_md5_generate_challenge(p);
+    clen = *p;
+    nlen = strlen(m_server.name);
+    memcpy(p + 1 + clen, m_server.name, nlen);
 
-	len = CHAP_HDRLEN + 1 + clen + nlen;
-	m_server.challenge_pktlen = PPP_HDRLEN + len;
+    len = CHAP_HDRLEN + 1 + clen + nlen;
+    m_server.challenge_pktlen = PPP_HDRLEN + len;
 
-	p = m_server.challenge + PPP_HDRLEN;
-	p[0] = CHAP_CHALLENGE;
-	p[1] = ++m_server.id;
-	p[2] = len >> 8;
-	p[3] = len;
+    p = m_server.challenge + PPP_HDRLEN;
+    p[0] = CHAP_CHALLENGE;
+    p[1] = ++m_server.id;
+    p[2] = len >> 8;
+    p[3] = len;
 }
 
 void
 CChapProtocolSvr::chap_md5_generate_challenge(unsigned char *cp)
 {
-	int clen;
+    int clen;
 
-	//clen = (int)(drand48() * (MD5_MAX_CHALLENGE - MD5_MIN_CHALLENGE))
-	//	+ MD5_MIN_CHALLENGE;
-	clen = (int)AUTHMGR_MAX_CHALLENGE_SIZE;
-	*cp++ = clen;
-	random_bytes(cp, clen);
+    //clen = (int)(drand48() * (MD5_MAX_CHALLENGE - MD5_MIN_CHALLENGE))
+    //	+ MD5_MIN_CHALLENGE;
+    clen = (int)AUTHMGR_MAX_CHALLENGE_SIZE;
+    *cp++ = clen;
+    random_bytes(cp, clen);
 }
 
 /*
@@ -370,43 +370,43 @@ CChapProtocolSvr::chap_md5_generate_challenge(unsigned char *cp)
  */
 void CChapProtocolSvr::chap_auth_peer(std::string &our_name, int digest_code)
 {
-	//struct chap_digest_type *dp;
+    //struct chap_digest_type *dp;
     ACE_DEBUG ((LM_DEBUG, 
                 "CChapProtocolSvr::chap_auth_peer, our_name=%s, digest_code=%d\n",
                 our_name.c_str(),
                 digest_code));
 
-	if (m_server.flags & AUTH_STARTED) 
+    if (m_server.flags & AUTH_STARTED) 
     {
         ACE_DEBUG ((LM_ERROR, "CHAP: peer authentication already started!\n"));
-		return;
-	}
+        return;
+    }
 
     // Currently, we only support MD5.
-	/*for (dp = chap_digests; dp != NULL; dp = dp->next)
-		if (dp->code == digest_code)
-			break;
-	if (dp == NULL)
-		fatal("CHAP digest 0x%x requested but not available",
-		      digest_code);
-*/
-	//ss->digest = dp;
+    /*for (dp = chap_digests; dp != NULL; dp = dp->next)
+    if (dp->code == digest_code)
+    break;
+    if (dp == NULL)
+    fatal("CHAP digest 0x%x requested but not available",
+      digest_code);
+    */
+    //ss->digest = dp;
 
 #define BRAS_CHAP_MAXNAMELEN	256	/* max length of hostname or name for auth */
-	
+
     static CHAR host_name[BRAS_CHAP_MAXNAMELEN];   /* Our name for authentication purposes */
     ::strncpy(host_name, our_name.c_str(), BRAS_CHAP_MAXNAMELEN - 1);
     host_name[BRAS_CHAP_MAXNAMELEN - 1] = 0;
 
-	m_server.name = host_name;
-	/* Start with a random ID value */
-	m_server.id = (unsigned char)(drand48() * 256);
-	m_server.flags |= AUTH_STARTED;
-	if (m_server.flags & LOWERUP)
-	{
-		ACE_Time_Value current_time; // current_time is NOT used in handle_timeout();
+    m_server.name = host_name;
+    /* Start with a random ID value */
+    m_server.id = (unsigned char)(drand48() * 256);
+    m_server.flags |= AUTH_STARTED;
+    if (m_server.flags & LOWERUP)
+    {
+    	ACE_Time_Value current_time; // current_time is NOT used in handle_timeout();
         handle_timeout(current_time);
-	}
+    }
 }
 
 

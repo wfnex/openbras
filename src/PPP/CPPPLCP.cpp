@@ -50,12 +50,12 @@ void CPPPLCP::Init()
     
     switch (m_authType)
     {
-        case PAP:
+        case PPP_PAP:
         {
             wo->neg_upap = 1;
             break;
         }
-        case CHAP:
+        case PPP_CHAP:
         {
             wo->neg_chap = 1;
             wo->chap_mdtype = MDTYPE_ALL;
@@ -76,13 +76,13 @@ void CPPPLCP::Init()
     
     switch (m_authType)
     {
-        case CHAP:
+        case PPP_CHAP:
         {
             ao->neg_chap = 1;
             ao->chap_mdtype = MDTYPE_ALL;
             break;
         }
-        case PAP:
+        case PPP_PAP:
         {
             ao->neg_upap = 1;
             break;

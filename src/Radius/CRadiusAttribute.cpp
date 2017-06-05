@@ -3,8 +3,15 @@
 **********************************************************************/
 #include <netinet/in.h>
 #include <cstdio>
-
+#include <cstring>
 #include "CRadiusAttribute.h"
+
+std::string itos(uint32_t a)
+{
+    char buffer[1024]={0};
+    snprintf(buffer, sizeof(buffer), "%d",a);
+    return std::string(buffer);
+}
 
 
 CRadiusAttribute::CRadiusAttribute( const RadiusAttributeType type,
@@ -23,9 +30,6 @@ CRadiusAttribute::CRadiusAttribute( const RadiusAttributeType type,
         uint8_t value16[ RadiusMaxAttributeLength ];
         ::memcpy( value16, value, length );
         ::memset( value16+length, '\0', 16 - (length % 16) );
-        cpLog( LOG_DEBUG_STACK, "User-Password length %d -> %d",
-                                    length,
-                                    (length+16)&0xFFF0 );
         myValue = CRadiusData( value16, (length+16)&0xFFF0 );
     }
     else
@@ -131,7 +135,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  User-Name (" + itos( myType ) + ") = \"" +
+            attrStr = "  User-Name (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -145,7 +149,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  User-Password (" + itos( myType ) + ") = \"" +
+            attrStr = "  User-Password (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -158,7 +162,7 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
             // TODO: show CHAP Ident, but not password
-            attrStr = "  CHAP-Password (" + itos( myType ) + ")\n";
+            attrStr = "  CHAP-Password (" + ::itos( myType ) + ")\n";
             break;
         }
         case RA_NAS_IP_ADDRESS:
@@ -176,7 +180,7 @@ CRadiusAttribute::verbose() const
                                      myValue.data()[1],
                                      myValue.data()[2],
                                      myValue.data()[3] );
-            attrStr = "  NAS-IP-Address (" + itos( myType ) + ") = " +
+            attrStr = "  NAS-IP-Address (" + ::itos( myType ) + ") = " +
                       tempBuff + "\n";
             break;
         }
@@ -191,8 +195,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             u_int32_t port = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  NAS-Port (" + itos( myType ) + ") = " +
-                      itos( port ) + "\n";
+            attrStr = "  NAS-Port (" + ::itos( myType ) + ") = " +
+                      ::itos( port ) + "\n";
             break;
         }
         case RA_SERVICE_TYPE:
@@ -206,8 +210,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             u_int32_t serviceType = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  Service-Type (" + itos( myType ) + ") = " +
-                      itos( serviceType ) + "\n";
+            attrStr = "  Service-Type (" + ::itos( myType ) + ") = " +
+                      ::itos( serviceType ) + "\n";
             // TODO: more info
             break;
         }
@@ -221,7 +225,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  Reply-Message (" + itos( myType ) + ") = \"" +
+            attrStr = "  Reply-Message (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -233,7 +237,7 @@ CRadiusAttribute::verbose() const
         //   |     Type      |    Length     |  String ...
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-            attrStr = "  State (" + itos( myType ) + ") \n";
+            attrStr = "  State (" + ::itos( myType ) + ") \n";
             // TODO: more info
             break;
         }
@@ -245,7 +249,7 @@ CRadiusAttribute::verbose() const
         //   |     Type      |    Length     |  String ...
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-            attrStr = "  Class (" + itos( myType ) + ") \n";
+            attrStr = "  Class (" + ::itos( myType ) + ") \n";
             // TODO: more info
             break;
         }
@@ -263,13 +267,13 @@ CRadiusAttribute::verbose() const
 	      myValue.data()[0] != 1 || myValue.data()[1] > myValue.length())
 	    {
                 // TODO: more info
-		attrStr = "  Vendor-Specific (" + itos( myType ) + ") \n";
+		attrStr = "  Vendor-Specific (" + ::itos( myType ) + ") \n";
 		break;
 	    }
 	    u_int8_t avpLength = myValue.data()[1] - 2;
 	    memcpy( tempBuff, myValue.data() + 2, avpLength);
 	    tempBuff[avpLength] = '\0';
-	    attrStr = "  Cisco AVPair (" + itos( myValue.data()[0] ) +
+	    attrStr = "  Cisco AVPair (" + ::itos( myValue.data()[0] ) +
 		      ") = \"" + tempBuff + "\"\"\n";
             break;
         }
@@ -284,8 +288,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             u_int32_t to = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  Session-Timeout (" + itos( myType ) + ") = " +
-                      itos( to ) + "\n";
+            attrStr = "  Session-Timeout (" + ::itos( myType ) + ") = " +
+                      ::itos( to ) + "\n";
             break;
         }
         case RA_CALLED_STATION_ID:
@@ -298,7 +302,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  Called-Station-Id (" + itos( myType ) + ") = \"" +
+            attrStr = "  Called-Station-Id (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -312,7 +316,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  Calling-Station-Id (" + itos( myType ) + ") = \"" +
+            attrStr = "  Calling-Station-Id (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -326,41 +330,41 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            string acctTypeStr;
+            std::string acctTypeStr;
             u_int32_t acctType = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
             switch( acctType )
             {
                 case RAS_START:
                 {
-                    acctTypeStr = "Start (" + itos(acctType) + ")";
+                    acctTypeStr = "Start (" + ::itos(acctType) + ")";
                     break;
                 }
                 case RAS_STOP:
                 {
-                    acctTypeStr = "Stop (" + itos(acctType) + ")";
+                    acctTypeStr = "Stop (" + ::itos(acctType) + ")";
                     break;
                 }
                 case RAS_INTERIM:
                 {
-                    acctTypeStr = "Interim-Update (" + itos(acctType) + ")";
+                    acctTypeStr = "Interim-Update (" + ::itos(acctType) + ")";
                     break;
                 }
                 case RAS_ON:
                 {
-                    acctTypeStr = "Accounting-On (" + itos(acctType) + ")";
+                    acctTypeStr = "Accounting-On (" + ::itos(acctType) + ")";
                     break;
                 }
                 case RAS_OFF:
                 {
-                    acctTypeStr = "Accounting-Off (" + itos(acctType) + ")";
+                    acctTypeStr = "Accounting-Off (" + ::itos(acctType) + ")";
                     break;
                 }
                 default:
                 {
-                    acctTypeStr = "Unknown (" + itos(acctType) + ")";
+                    acctTypeStr = "Unknown (" + ::itos(acctType) + ")";
                 }
             }
-            attrStr = "  Acct-Status-Type (" + itos( myType ) + ") = " +
+            attrStr = "  Acct-Status-Type (" + ::itos( myType ) + ") = " +
                       acctTypeStr + "\n";
             break;
         }
@@ -375,8 +379,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             u_int32_t duration = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  Acct-Delay-Time (" + itos( myType ) + ") = " +
-                      itos( duration ) + "\n";
+            attrStr = "  Acct-Delay-Time (" + ::itos( myType ) + ") = " +
+                      ::itos( duration ) + "\n";
             break;
         }
         case RA_ACCT_INPUT_OCTETS:
@@ -389,7 +393,7 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            attrStr = "  Acct-Input-Octets (" + itos( myType ) + ")\n";
+            attrStr = "  Acct-Input-Octets (" + ::itos( myType ) + ")\n";
             // TODO: more info
             break;
         }
@@ -403,7 +407,7 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            attrStr = "  Acct-Output-Octets (" + itos( myType ) + ")\n";
+            attrStr = "  Acct-Output-Octets (" + ::itos( myType ) + ")\n";
             // TODO: more info
             break;
         }
@@ -417,7 +421,7 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data(), myValue.length() );
             tempBuff[ myValue.length() ] = '\0';
-            attrStr = "  Acct-Session-Id (" + itos( myType ) + ") = \"" +
+            attrStr = "  Acct-Session-Id (" + ::itos( myType ) + ") = \"" +
                       tempBuff + "\"\n";
             break;
         }
@@ -431,7 +435,7 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            attrStr = "  Acct-Authentic (" + itos( myType ) + ")\n";
+            attrStr = "  Acct-Authentic (" + ::itos( myType ) + ")\n";
             // TODO: more info
             break;
         }
@@ -446,8 +450,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             u_int32_t duration = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  Acct-Session-Time (" + itos( myType ) + ") = " +
-                      itos( duration ) + "\n";
+            attrStr = "  Acct-Session-Time (" + ::itos( myType ) + ") = " +
+                      ::itos( duration ) + "\n";
             break;
         }
         case RA_ACCT_INPUT_PACKETS:
@@ -460,7 +464,7 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            attrStr = "  Acct-Input-Packets (" + itos( myType ) + ")\n";
+            attrStr = "  Acct-Input-Packets (" + ::itos( myType ) + ")\n";
             // TODO: more info
             break;
         }
@@ -474,7 +478,7 @@ CRadiusAttribute::verbose() const
         //              Value (cont)         |
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-            attrStr = "  Acct-Output-Packets (" + itos( myType ) + ")\n";
+            attrStr = "  Acct-Output-Packets (" + ::itos( myType ) + ")\n";
             // TODO: more info
             break;
         }
@@ -494,70 +498,70 @@ CRadiusAttribute::verbose() const
             {
                 case RATC_USER_REQUEST:
                 {
-                    causeStr = "User Request (" + itos(cause) + ")";
+                    causeStr = "User Request (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_LOST_CARRIER:
                 {
-                    causeStr = "Lost Carrier (" + itos(cause) + ")";
+                    causeStr = "Lost Carrier (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_LOST_SERVICE:
                 {
-                    causeStr = "Lost Service (" + itos(cause) + ")";
+                    causeStr = "Lost Service (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_IDLE_TIMEOUT:
                 {
-                    causeStr = "Idle Timeout (" + itos(cause) + ")";
+                    causeStr = "Idle Timeout (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_SESSION_TIMEOUT:
                 {
-                    causeStr = "Session Timeout (" + itos(cause) + ")";
+                    causeStr = "Session Timeout (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_ADMIN_RESET:
                 {
-                    causeStr = "Admin Reset (" + itos(cause) + ")";
+                    causeStr = "Admin Reset (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_ADMIN_REBOOT:
                 {
-                    causeStr = "Admin Reboot (" + itos(cause) + ")";
+                    causeStr = "Admin Reboot (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_PORT_ERROR:
                 {
-                    causeStr = "Port Error (" + itos(cause) + ")";
+                    causeStr = "Port Error (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_NAS_ERROR:
                 {
-                    causeStr = "NAS Error (" + itos(cause) + ")";
+                    causeStr = "NAS Error (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_NAS_REQUEST:
                 {
-                    causeStr = "NAS Request (" + itos(cause) + ")";
+                    causeStr = "NAS Request (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_NAS_REBOOT:
                 {
-                    causeStr = "NAS Reboot (" + itos(cause) + ")";
+                    causeStr = "NAS Reboot (" + ::itos(cause) + ")";
                     break;
                 }
                 case RATC_SERVICE_UNAVAILABLE:
                 {
-                    causeStr = "Service Unavailable (" + itos(cause) + ")";
+                    causeStr = "Service Unavailable (" + ::itos(cause) + ")";
                     break;
                 }
                 default:
                 {
-                    causeStr = "Unknown (" + itos(cause) + ")";
+                    causeStr = "Unknown (" + ::itos(cause) + ")";
                 }
             }
-            attrStr = "  Acct-Terminate-Cause (" + itos( myType ) + ") = " +
+            attrStr = "  Acct-Terminate-Cause (" + ::itos( myType ) + ") = " +
                       causeStr + "\n";
             break;
         }
@@ -572,8 +576,8 @@ CRadiusAttribute::verbose() const
         //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
             uint32_t portType = ntohl( *(reinterpret_cast< const u_int32_t * >(myValue.data())) );
-            attrStr = "  NAS-Port-Type (" + itos( myType ) + ") = " +
-                      itos( portType ) + "\n";
+            attrStr = "  NAS-Port-Type (" + ::itos( myType ) + ") = " +
+                      ::itos( portType ) + "\n";
             // TODO: more info
             break;
         }
@@ -587,7 +591,7 @@ CRadiusAttribute::verbose() const
 
 	    memcpy( tempBuff, myValue.data(), myValue.length() );
 	    tempBuff[ myValue.length() ] = '\0';
-	    attrStr = "  Digest-Response (" + itos( myType ) + ") = \"" +
+	    attrStr = "  Digest-Response (" + ::itos( myType ) + ") = \"" +
 		      tempBuff + "\"\n";
 	    break;
 	}
@@ -632,14 +636,14 @@ CRadiusAttribute::verbose() const
 
             memcpy( tempBuff, myValue.data() + 2, subLength - 2);
             tempBuff[ subLength - 2] = '\0';
-            attrStr = "  Digest-Attributes (" + itos( myType ) + ") = \"" +
-              subAttrStr + " (" + itos( subType ) + ") = \"" +
+            attrStr = "  Digest-Attributes (" + ::itos( myType ) + ") = \"" +
+              subAttrStr + " (" + ::itos( subType ) + ") = \"" +
               tempBuff + "\"\"\n";
             break;
         }
         default:
         {
-            attrStr = "  Unknown (" + itos( myType ) + ")\n";
+            attrStr = "  Unknown (" + ::itos( myType ) + ")\n";
         }
     }
     return std::string( attrLenStr + attrStr );

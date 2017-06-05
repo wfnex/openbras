@@ -66,7 +66,6 @@ private:
     std::string m_calling_station_id;
     int m_acct_session_timeout;
     int m_acct_terminate_cause;
-#endif
 
     CRadiusManager &m_mgr;
 

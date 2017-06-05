@@ -8,7 +8,6 @@
 #include "aceinclude.h"
 #include "CReferenceControl.h"
 #include "STDInclude.h"
-#include "Protocol.h"
 #include "pppoe.h"
 #include "BaseDefines.h"
 #include "CPPPOEDiscoveryHandler.h"
@@ -158,7 +157,7 @@ public:
     int OnAddUserResponse(const UM_RESPONSE &response);     // 增删改用户响应暂时不用实现
     int OnDeleteUserResponse(const UM_RESPONSE &response);
     int OnModifyUserResponse(const UM_RESPONSE &response);
-	int onKickUserNotify(const Sm_Kick_User* kickInfo);
+	int OnKickUserNotify(const Sm_Kick_User* kickInfo);
 
     SWORD32 AddSubscriber(Session_User_Ex &sInfo);
     SWORD32 DelSubscriber(Session_Offline &sInfo);
@@ -180,12 +179,13 @@ public:
     void SetVBUIIntfIP(std::string &ipAddr);
     // Authetication related configurations
     void SetAuthType(BYTE authType);  // The value of authType is the enumeraton of AIM_AUTH_TYPE in aim_ex.h
-    void SetHostName(std::string &hostName);    
+    void SetHostName(std::string &hostName);  
+    void FreeId(uint16_t id);
 
 protected:
     void ClearAllClientDiscovery();
     void ClearAllSession();
-
+                    
 private:
     CPPPOEDiscoveryHandler m_DiscoveryHandle;
     CPPPOESessionHandler m_SessionHandle;
@@ -194,8 +194,7 @@ private:
     SESSIONType m_sessionMgr;
     WORD16 m_nSessionIdBase;
     CEtherIntf m_etherIntf;
-	CAddSessionId m_psessionid;
-	
+    CAddSessionId m_psessionid;
     // Configurations
     CHAR m_acName[PPPOE_MAX_ACNAME_LENGTH];         /* AC Name for pppoe negotiation */
     CHAR m_svcName[PPPOE_MAX_SERVICE_NAME_LENGTH];  /* Service Name for pppoe negotiation */

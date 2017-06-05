@@ -17,7 +17,7 @@ CSession::CSession(CPPPOE &pppoe, WORD16 session)
 CSession::~CSession()
 {
     ACE_DEBUG((LM_DEBUG, "CSession::~CSession(), session id = %#x\n", m_sessionid));
-	m_pppoe.m_psessionid.FreeId(m_sessionid);
+	m_pppoe.FreeId(m_sessionid);
 
     CancelTimer();
 }
