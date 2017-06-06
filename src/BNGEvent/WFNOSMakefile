@@ -1,9 +1,8 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
 include $(USER_ROOT)/make/makeinclude/macros.GNU
-MYLIB=UserMgr
+MYLIB=BNGEvent
 MYFILES = \
-CSessionManagerTest.cpp\
-usermgr.cpp
+CEventReactor.cpp
 
 MYCPPFLAGS=-I../include -std=gnu++11
 MYLDFLAGS= 

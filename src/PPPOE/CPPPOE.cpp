@@ -178,7 +178,7 @@ int CPPPOE::RemoveClientDiscovery(CCmAutoPtr<CClientDiscovery> &discovery)
 
 int CPPPOE::CreateSession(CCmAutoPtr<CSession> &session)
 {
-    WORD16 sessionId = CalculateValidSessId();
+    WORD16 sessionId = AllocId();
     if (0 == sessionId)
     {
         ACE_DEBUG((LM_ERROR, "CPPPOE::CreateSession(), server has reached maximum sessions.\n"));
@@ -256,13 +256,18 @@ CSession * CPPPOE::FindSession(WORD16 sessionid)
     return session.Get();
 }
 
-WORD16 CPPPOE::CalculateValidSessId()
+WORD16 CPPPOE::AllocId()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::CalculateValidSessId\n"));
 
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex4SessionMgr, PPPOE_RESERVED_SESSION_ID);
 
     return m_psessionid.GetId();
+}
+
+void CPPPOE::FreeId(uint16_t id)
+{
+        m_psessionid.FreeId(id);
 }
 
 void CPPPOE::OnLCPDown(WORD16 sessionId, const std::string &reason)
@@ -680,12 +685,6 @@ void CPPPOE::SetHostName(std::string &hostName)
 {
     m_hostName = hostName;
 }
-void CPPPOE::FreeId(uint16_t id)
-{
-    if(id >= m_psessionid.Getstartid() && id <= m_psessionid.Getendid())
-        m_psessionid.GetSessionId().push_back(id);
-    else
-        ACE_DEBUG((LM_ERROR, "CPPPOE::FreeId(), m_SessionId NULL.\n"));
-}
+
 
 

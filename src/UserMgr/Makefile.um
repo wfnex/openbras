@@ -1,7 +1,8 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
-MYLIBNAME=UserMgr
+MYLIB=UserMgr
 MYFILES = \
-CSessionManagerTest.cpp
+CSessionManagerTest.cpp\
+usermgr.cpp
 
 MYCPPFLAGS= -I../include -std=gnu++11
 MYLDFLAGS=

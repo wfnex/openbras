@@ -2,8 +2,7 @@
 include $(USER_ROOT)/make/makeinclude/macros.GNU
 MYLIB=UserMgr
 MYFILES = \
-CSessionManagerTest.cpp\
-usermgr.cpp
+CAuthMgerTest.cpp
 
 MYCPPFLAGS=-I../include -std=gnu++11
 MYLDFLAGS= 

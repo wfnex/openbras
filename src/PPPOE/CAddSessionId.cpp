@@ -38,29 +38,3 @@ void CAddSessionId::FreeId(uint16_t id)
     else
         ACE_DEBUG((LM_ERROR, "CAddSessionId::FreeId(), m_SessionId NULL.\n"));
 }
-
-LISTINT GetSessionId()
-{
-    return m_SessionId;
-}
-uint16_t Getstartid()
-{
-    return m_startid;
-}
-uint16_t Getendid()
-{
-    return m_endid;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -11,6 +11,8 @@
 #include "md5.h"
 #include "radius.h"
 #include "CRadiusData.hxx"
+#include <arpa/inet.h>
+
 CRadiusConnector::CRadiusConnector(CRadiusScheme *scheme)
     :m_handler(ACE_INVALID_HANDLE)
     ,m_pscheme(scheme)
@@ -221,13 +223,13 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
         return 1;
     }
     const uint8_t* reqAuth = 0;//transaction->getAuthenticator();
-    CRadiusMessage accessResp( msgRecvd, secret );
+    CRadiusMessage* accessResp( msgRecvd, secret );
     if(!accessResp.verifyResponseAuthenticator(reqAuth, secret))
     {
         return 0;
     }
 
-    transaction->RecvResponse(accessResp);
+    transaction->RecvResponse(&accessResp);
 
     //RemoveTransaction(id);
 

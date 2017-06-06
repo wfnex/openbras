@@ -144,7 +144,8 @@ public:
     int RemoveSession(CCmAutoPtr<CSession> &session);
     CSession * FindSession(WORD16 sessionid);
 
-    WORD16 CalculateValidSessId();
+    WORD16 AllocId();
+     void FreeId(uint16_t id);
 
     void OnLCPDown(WORD16 sessionId, const std::string &reason);
     void OnPPPOEAuthRequest(Auth_Request &authReq);
@@ -180,7 +181,7 @@ public:
     // Authetication related configurations
     void SetAuthType(BYTE authType);  // The value of authType is the enumeraton of AIM_AUTH_TYPE in aim_ex.h
     void SetHostName(std::string &hostName);  
-    void FreeId(uint16_t id);
+   
 
 protected:
     void ClearAllClientDiscovery();
