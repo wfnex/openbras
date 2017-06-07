@@ -61,7 +61,7 @@ std::string GetDHCPServerIP()
     
     iniparser_dump(ini, stderr);
 
-    s = iniparser_getstring(ini, "IPOE:dhcpserver", NULL);
+    s = const_cast<char *>(iniparser_getstring(ini, "IPOE:dhcpserver", NULL));
 	strip = std::string(s, strlen(s));
     iniparser_freedict(ini);
     return strip;
