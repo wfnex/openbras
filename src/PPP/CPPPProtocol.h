@@ -1,6 +1,6 @@
 
 /*
- * Copyright (c) 2014  Nanjing WFNEX Technology Co., Ltd.  All rights reserved.
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
  */
  
 #ifndef CPPPPROTOCOL_H

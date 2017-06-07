@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014  Nanjing WFN Technology Co., Ltd.  All rights reserved.
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
 */
 
 #include "CChapMS.h"

@@ -1,3 +1,6 @@
+/*
+ *  Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
+ */
 #ifndef _HTTP_PARSE_H_
 #define _HTTP_PARSE_H_
 #include "aceinclude.h"

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (C) 2014, Nanjing WFNEX Technology Co., Ltd 
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
  **********************************************************************/
 
 #include "CPPPOEDiscoveryHandler.h"
@@ -491,7 +491,7 @@ void CPPPOEDiscoveryHandler::processPADR(PPPoEPacket *packet, SWORD32 len)
     	serviceName = "";
     }
 
-    WORD16 sessionId = GetPppoe().CalculateValidSessId();
+    WORD16 sessionId = GetPppoe().AllocId();
     if (PPPOE_RESERVED_SESSION_ID == sessionId)
     {
 	    ACE_DEBUG((LM_ERROR, 

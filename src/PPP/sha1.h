@@ -1,6 +1,6 @@
 /* sha1.h */
 /*
- * Copyright (c) 2014  Nanjing WFN Technology Co., Ltd.  All rights reserved.
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
 */
 
 #ifndef __SHA1_INCLUDE_
