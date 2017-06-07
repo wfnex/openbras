@@ -5,7 +5,9 @@ MYFILES = \
 HttpParse.cpp\
 md4.cpp\
 md5.cpp\
-sha1.cpp
+sha1.cpp\
+iniparser.cpp\
+dictionary.cpp
 
 MYCPPFLAGS=
 MYLDFLAGS= 
