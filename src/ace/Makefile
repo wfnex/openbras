@@ -9,10 +9,6 @@ ace:
 	@chmod a+x $(ACE_ROOT)/bin/ace_install_pkgconfig.pl
 	@chmod a+x $(ACE_ROOT)/MPC/prj_install.pl
 	$(MAKE) -C ./ACE_wrappers -f GNUmakefile ACE static_libs=0
-.PHONY: acessl
-acessl:
-	@chmod a+x $(ACE_ROOT)/bin/add_rel_link.sh
-	$(MAKE) -C ./ACE_wrappers/ace -f GNUmakefile SSL-target static_libs=0
 .PHONY: makeinstall
 makeinstall:
 	@cd ./ACE_wrappers/ace && make -f GNUmakefile install
