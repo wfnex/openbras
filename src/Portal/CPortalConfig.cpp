@@ -37,10 +37,10 @@ int CPortalConfig::Init()
     
     iniparser_dump(ini, stderr);
 
-    s = iniparser_getstring(ini, "Global:PortalClientListenIP", NULL);
+    s = static_cast<char *>(iniparser_getstring(ini, "Global:PortalClientListenIP", NULL));
     m_portalistenip = std::string(s, strlen(s));
     m_portallistenport = iniparser_getint(ini,"Global:PortalClientListenPortal",2000);
-    https = iniparser_getstring(ini, "Global:RedirectServerListenIP", NULL);
+    https = static_cast<char *>(iniparser_getstring(ini, "Global:RedirectServerListenIP", NULL));
     m_httplistenip = std::string(https, strlen(https));
     m_httplistenport = iniparser_getint(ini,"Global:RedirectServerListenPort",4444);
 
@@ -57,7 +57,7 @@ int CPortalConfig::Init()
         
         char buffer[1024]={0};
         sprintf(buffer,"PortalServerList:PortalServer%d",i);
-        char *psip=iniparser_getstring(ini,buffer, NULL);
+        char *psip=static_cast<char *>(iniparser_getstring(ini,buffer, NULL));
 
 
         ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalConfig:Init,buffer=%s\n",buffer)); 
@@ -70,12 +70,12 @@ int CPortalConfig::Init()
 
         ::memset(buffer, 0, sizeof(buffer));
         sprintf(buffer, "PortalServerList:URL%d", i);
-        char *urlstr=iniparser_getstring(ini,buffer, NULL);
+        char *urlstr=static_cast<char *>(iniparser_getstring(ini,buffer, NULL));
 
 
         ::memset(buffer, 0, sizeof(buffer));
         sprintf(buffer, "PortalServerList:KEY%d", i);
-        char *keystr=iniparser_getstring(ini,buffer, NULL);
+        char *keystr=static_cast<char *>(iniparser_getstring(ini,buffer, NULL));
 
         ::memset(buffer, 0, sizeof(buffer));
         sprintf(buffer, "PortalServerList:version%d", i);
