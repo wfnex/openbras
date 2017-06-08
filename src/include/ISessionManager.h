@@ -4,7 +4,7 @@
 #define __ISESSIONMANAGER_H__
 
 #include "aim_ex.h"
-
+#include "aceinclude.h"
 class ISessionManagerSink 
 {
 public:
@@ -15,7 +15,7 @@ public:
     virtual int OnKickUserNotify(const Sm_Kick_User* kickInfo) = 0;
 };
 
-class ISessionManager
+class ACE_Export ISessionManager
 {
 public:
     static ISessionManager& instance();

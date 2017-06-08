@@ -9,8 +9,7 @@ CPPPOEDiscoveryHandler.cpp\
 CPPPOESessionHandler.cpp\
 CPPPOEEventHandler.cpp\
 CPPPOE.cpp\
-CSession.cpp\
-pppoe.cpp
+CSession.cpp
 
 MYCPPFLAGS= -I../include -I../PPP -std=gnu++11
 MYLDFLAGS= 

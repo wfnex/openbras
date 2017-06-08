@@ -4,15 +4,16 @@
 #define __IAUTHMANAGER_H__
 
 #include "aim_ex.h"
+#include "aceinclude.h"
 
-class IAuthManagerSink 
+class ACE_Export IAuthManagerSink 
 {
 public:
     virtual ~IAuthManagerSink(){};
     virtual int OnAuthResponse(const Auth_Response *response) = 0;  
 };
 
-class IAuthManager
+class ACE_Export IAuthManager
 {
 public:
     static IAuthManager &instance();

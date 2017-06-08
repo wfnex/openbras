@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "aceinclude.h"
 
 /*
  * The following #include is necessary on many Unixes but not Linux.
@@ -125,7 +126,7 @@ void iniparser_dumpsection_ini(const dictionary * d, const char * s, FILE * f);
   purposes mostly.
  */
 /*--------------------------------------------------------------------------*/
-void iniparser_dump(const dictionary * d, FILE * f);
+ACE_Export void iniparser_dump(const dictionary * d, FILE * f);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -171,7 +172,7 @@ const char ** iniparser_getseckeys(const dictionary * d, const char * s, const c
   the dictionary, do not free or modify it.
  */
 /*--------------------------------------------------------------------------*/
-const char * iniparser_getstring(const dictionary * d, const char * key, const char * def);
+ACE_Export const char * iniparser_getstring(const dictionary * d, const char * key, const char * def);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -336,7 +337,7 @@ int iniparser_find_entry(const dictionary * ini, const char * entry) ;
   The returned dictionary must be freed using iniparser_freedict().
  */
 /*--------------------------------------------------------------------------*/
-dictionary * iniparser_load(const char * ininame);
+ACE_Export dictionary * iniparser_load(const char * ininame);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -349,7 +350,7 @@ dictionary * iniparser_load(const char * ininame);
   gets out of the current context.
  */
 /*--------------------------------------------------------------------------*/
-void iniparser_freedict(dictionary * d);
+ACE_Export void iniparser_freedict(dictionary * d);
 
 #ifdef __cplusplus
 }

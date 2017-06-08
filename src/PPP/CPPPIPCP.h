@@ -11,7 +11,7 @@
 #include <string>
 #include "BaseDefines.h"
 
-class VPN_PUBLIC IPPPIPCPSink 
+class ACE_Export IPPPIPCPSink 
 {
 public:
     virtual ~IPPPIPCPSink(){}
@@ -22,7 +22,7 @@ public:
     virtual void OnIPCPOutput(unsigned char *packet, size_t size) = 0;
 };
 
-class VPN_PUBLIC CPPPIPCP : public CPPPProtocol, public IFsmSink
+class ACE_Export CPPPIPCP : public CPPPProtocol, public IFsmSink
 {
 public:
     CPPPIPCP(IPPPIPCPSink *psink);

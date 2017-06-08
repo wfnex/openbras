@@ -28,7 +28,7 @@ enum PPPPhase {
 #define BRAS_DEFAULT_AUTHTYPE (PPP_CHAP)
 #define BRAS_DEFAULT_HOSTNAME ("WFNEX")
 
-class VPN_PUBLIC IPPPSink 
+class ACE_Export IPPPSink 
 {
 public:
     virtual ~IPPPSink(){}
@@ -49,7 +49,7 @@ public:
     virtual SWORD32 OnDelSubscriber() = 0;
 };
 
-class VPN_PUBLIC CPPP : public IPPPLCPSink, 
+class ACE_Export CPPP : public IPPPLCPSink, 
                         public IPPPIPCPSink,
                         public IAuthenSvrSink
 {
