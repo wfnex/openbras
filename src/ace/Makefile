@@ -1,5 +1,5 @@
 
-all: ace acessl makeinstall
+all: ace makeinstall
 
 .PHONY: ace
 ace:

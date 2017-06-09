@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 include $(USER_ROOT)/make/makeinclude/macros.GNU
 MYDIRS= ipoe pppoe
+=======
+
+include $(USER_ROOT)/make/makeinclude/macros.GNU
+MYDIRS= pppoe
+>>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 include $(USER_ROOT)/make/makeinclude/allinone.GNU

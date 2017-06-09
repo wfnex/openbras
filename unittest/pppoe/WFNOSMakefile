@@ -1,6 +1,7 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
 include $(USER_ROOT)/make/makeinclude/macros.GNU
 MYBIN=PPPOE
+<<<<<<< HEAD
 MYFILES = pppoe.cpp
 
 MYCPPFLAGS=\
@@ -11,5 +12,13 @@ MYCPPFLAGS=\
 -std=gnu++11
 MYLDFLAGS= 
 MYDLLLIB= -lUserMgr -lAuthMgr -lPPPOE -lPPP -lBNGEvent -lutils -lssl
+=======
+MYFILES = \
+pppoe.cpp\
+
+MYCPPFLAGS= -I../../include -I../../src/PPPOE -I../../src/include -std=gnu++11
+MYLDFLAGS= 
+MYDLLLIB= -lPPP -lPPPOE -lIPOE
+>>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 include $(USER_ROOT)/make/makeinclude/allinone.GNU
 

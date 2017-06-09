@@ -2,6 +2,7 @@
 #define IEVENTREACTOR_H
 
 #include "BaseDefines.h"
+#include "aceinclude.h"
 
 class IEvent 
 {
@@ -11,7 +12,7 @@ public:
     virtual void Fire() = 0;
 };
 
-class IEventReactor
+class ACE_Export IEventReactor
 {
 public:
     virtual ~IEventReactor(){}

@@ -72,6 +72,7 @@
 #include "ace/Log_Msg.h"
 #include "ace/OS_NS_arpa_inet.h"
 #include "ace/SOCK_Dgram_Bcast.h"
+#include "ace/ACE_export.h"
 
 #ifdef _MSC_VER
 #if defined(ACEWRAPPER_EXPORTS)

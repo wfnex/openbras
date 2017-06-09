@@ -118,7 +118,7 @@ public:
     virtual void SetHostName(std::string &hostName) = 0;    
 };
 
-class CPPPOE : public IAuthManagerSink, public ISessionManagerSink, public IPPPOECfgInterface
+class ACE_Export CPPPOE : public IAuthManagerSink, public ISessionManagerSink, public IPPPOECfgInterface
 {
 public:
     CPPPOE();

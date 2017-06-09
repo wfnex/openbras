@@ -1,0 +1,11 @@
+prefix=/home/wangkang/openbras-1.0.0/build/..//src/ace/install
+exec_prefix=/home/wangkang/openbras-1.0.0/build/..//src/ace/install
+libdir=/home/wangkang/openbras-1.0.0/build/..//src/ace/install/lib
+includedir=/home/wangkang/openbras-1.0.0/build/..//src/ace/install/include
+
+Name: ACE_ETCL
+Description: ACE Extended Trading Constraint Language Library
+Requires: ACE
+Version: 6.4.2
+Libs: -L${libdir} -lACE_ETCL
+Cflags: -I${includedir}
