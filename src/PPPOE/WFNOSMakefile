@@ -9,12 +9,8 @@ CPPPOEDiscoveryHandler.cpp\
 CPPPOESessionHandler.cpp\
 CPPPOEEventHandler.cpp\
 CPPPOE.cpp\
-<<<<<<< HEAD
 CSession.cpp\
 CAddSessionId.cpp
-=======
-CSession.cpp
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 MYCPPFLAGS= -I../include -I../PPP -std=gnu++11
 MYLDFLAGS= 

@@ -118,13 +118,13 @@ public:
     virtual void SetHostName(std::string &hostName) = 0;    
 };
 
-class ACE_Export CPPPOE : public IAuthManagerSink, public ISessionManagerSink, public IPPPOECfgInterface
+class CPPPOE : public IAuthManagerSink, public ISessionManagerSink, public IPPPOECfgInterface
 {
 public:
     CPPPOE();
     virtual ~CPPPOE();
 
-    void Init();
+    void Init(const ACE_CString &ifname, const ACE_CString &ifip);
     int Start();
 
     CPPPOEDiscoveryHandler &GetPppoeDiscoveryHndl();

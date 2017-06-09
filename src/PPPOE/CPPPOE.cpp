@@ -59,7 +59,7 @@ void CPPPOE::ClearAllSession()
     } 
 }
 
-void CPPPOE::Init()
+void CPPPOE::Init(const ACE_CString &ifname, const ACE_CString &ifip)
 {
     ACE_DEBUG ((LM_INFO, "CPPPOE::Init\n"));
     
@@ -70,9 +70,9 @@ void CPPPOE::Init()
     ::memcpy(m_acName, "JSNJ-WFNEX-BRAS", strlen("JSNJ-WFNEX-BRAS"));
     ::memcpy(m_svcName, "JSNJ-BROADBAND-ACCESS", strlen("JSNJ-BROADBAND-ACCESS"));
 
-    SetVBUIIntfName("p2p1");
+    SetVBUIIntfName(ifname.c_str());
     SetVBUIIntfMtu(ETH_DATA_LEN);
-    std::string intfIp("10.1.1.1");
+    std::string intfIp(ifip.c_str());
     SetVBUIIntfIP(intfIp);
     #endif
 }

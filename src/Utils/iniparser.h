@@ -17,10 +17,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-<<<<<<< HEAD
-=======
-#include "aceinclude.h"
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 /*
  * The following #include is necessary on many Unixes but not Linux.
@@ -129,11 +125,7 @@ void iniparser_dumpsection_ini(const dictionary * d, const char * s, FILE * f);
   purposes mostly.
  */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
 void iniparser_dump(const dictionary * d, FILE * f);
-=======
-ACE_Export void iniparser_dump(const dictionary * d, FILE * f);
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -179,11 +171,7 @@ const char ** iniparser_getseckeys(const dictionary * d, const char * s, const c
   the dictionary, do not free or modify it.
  */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
 const char * iniparser_getstring(const dictionary * d, const char * key, const char * def);
-=======
-ACE_Export const char * iniparser_getstring(const dictionary * d, const char * key, const char * def);
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -348,11 +336,7 @@ int iniparser_find_entry(const dictionary * ini, const char * entry) ;
   The returned dictionary must be freed using iniparser_freedict().
  */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
 dictionary * iniparser_load(const char * ininame);
-=======
-ACE_Export dictionary * iniparser_load(const char * ininame);
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -365,11 +349,7 @@ ACE_Export dictionary * iniparser_load(const char * ininame);
   gets out of the current context.
  */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
 void iniparser_freedict(dictionary * d);
-=======
-ACE_Export void iniparser_freedict(dictionary * d);
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 
 #ifdef __cplusplus
 }

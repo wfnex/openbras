@@ -39,7 +39,7 @@
 
 #ifndef __MD5_INCLUDE__
 #include <stdint.h>
-#include "aceinclude.h"
+
 
 /* typedef a 32-bit type */
 #ifdef _LP64
@@ -59,9 +59,9 @@ typedef struct {
   unsigned char digest[16];     /* actual digest after MD5Final call */
 } MD5_CTX;
 
-ACE_Export void MD5_Init (MD5_CTX *mdContext);
-ACE_Export void MD5_Update (MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen);
-ACE_Export void MD5_Final (unsigned char hash[], MD5_CTX *mdContext);
+void MD5_Init (MD5_CTX *mdContext);
+void MD5_Update (MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen);
+void MD5_Final (unsigned char hash[], MD5_CTX *mdContext);
 
 #define __MD5_INCLUDE__
 #endif /* __MD5_INCLUDE__ */
