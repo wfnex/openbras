@@ -11,11 +11,7 @@ CDHCPKickUserEventHndl.cpp\
 CAuthMgerTest.cpp\
 CSessionManagerTest.cpp
 
-<<<<<<< HEAD
 MYCPPFLAGS=-I../include -I../Utils -std=gnu++11 
-=======
-MYCPPFLAGS=-I../include -I../libconfig/src -I../Utils -std=gnu++11 
->>>>>>> 407bef47055fee01580476b1e8ebb006fca37c4d
 MYLDFLAGS= 
 MYDLLLIB= 
 include $(USER_ROOT)/make/makeinclude/allinone.GNU
