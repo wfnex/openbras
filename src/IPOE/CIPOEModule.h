@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (C) 2014, Nanjing WFNEX Technology Co., Ltd 
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
  ***********************************************************************/
 
 #ifndef CIPOEMODULE_H
@@ -12,7 +12,7 @@
 
 class IEventReactor;
 
-class CIPOEModule : public IAuthManagerSink, public ISessionManagerSink
+class ACE_Export CIPOEModule : public IAuthManagerSink, public ISessionManagerSink
 {
 public:
     CIPOEModule(ACE_Reactor *preactor);

@@ -1,6 +1,6 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
 include $(USER_ROOT)/make/makeinclude/macros.GNU
-MYBIN=IPOE
+MYLIB=IPOE
 MYFILES = CDHCPServer.cpp\
 CDHCPServerBCR.cpp\
 CDHCPSession.cpp\
@@ -9,10 +9,9 @@ DHCPPacket.cpp\
 CDHCPAuthRespEventHndl.cpp\
 CDHCPKickUserEventHndl.cpp\
 CAuthMgerTest.cpp\
-CSessionManagerTest.cpp\
-ipoe.cpp
+CSessionManagerTest.cpp
 
-MYCPPFLAGS=
+MYCPPFLAGS=-I../include -I../Utils -std=gnu++11 
 MYLDFLAGS= 
 MYDLLLIB= 
 include $(USER_ROOT)/make/makeinclude/allinone.GNU

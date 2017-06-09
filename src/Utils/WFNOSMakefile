@@ -5,9 +5,11 @@ MYFILES = \
 HttpParse.cpp\
 md4.cpp\
 md5.cpp\
-sha1.cpp
+sha1.cpp\
+iniparser.cpp\
+dictionary.cpp
 
-MYCPPFLAGS=
+MYCPPFLAGS= -I../include -std=gnu++11
 MYLDFLAGS= 
 MYDLLLIB= 
 include $(USER_ROOT)/make/makeinclude/allinone.GNU

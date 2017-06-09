@@ -1,11 +1,14 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
 include $(USER_ROOT)/make/makeinclude/macros.GNU
-MYLIB=UserMgr
-MYFILES = \
-CSessionManagerTest.cpp
+MYBIN=IPOE
+MYFILES = ipoe.cpp
 
-MYCPPFLAGS=-I../include -std=gnu++11
+MYCPPFLAGS=\
+-I$(USER_ROOT)/src/include\
+-I$(USER_ROOT)/src/IPOE\
+-I$(USER_ROOT)/src/Utils\
+-std=gnu++11
 MYLDFLAGS= 
-MYDLLLIB= 
+MYDLLLIB= -lIPOE -lutils -lBNGEvent
 include $(USER_ROOT)/make/makeinclude/allinone.GNU
 

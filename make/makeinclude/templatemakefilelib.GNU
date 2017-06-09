@@ -78,40 +78,12 @@ include $(USER_ROOT)/make/makeinclude/rules.lib.GNU
 include $(USER_ROOT)/make/makeinclude/rules.local.GNU
 
 LDFLAGS      += -L. $(if $(ARCH),-L./$(ARCH)) -L$(USER_ROOT)/libs\
--L$(JAVA_HOME)/jre/lib/amd64/server\
--L/opt/staros.xyz/starcore/libs\
--L/opt/staros.xyz/dipc/libs\
--L/opt/staros.xyz/stardlls/libs\
--L/opt/staros.xyz/starlang/libs\
--L/opt/staros.xyz/protocol/libs
+-L$(ACE_LIB_PATH)
+
 
 CPPFLAGS     += -I$(USER_ROOT)/include\
--I$(USER_ROOT)/src/include\
--I$(USER_ROOT)/src/lib\
--I$(USER_ROOT)/src\
--I/opt/staros.xyz/stardlls/include/cfgparser\
--I/opt/staros.xyz/stardlls/include/\
--I/opt/staros.xyz/stardlls/include/dispatch\
--I/opt/staros.xyz/stardlls/include/dpdk\
--I/opt/staros.xyz/stardlls/include/event2\
--I/opt/staros.xyz/stardlls/include/expat\
--I/opt/staros.xyz/stardlls/include/glog\
--I/opt/staros.xyz/stardlls/include/js\
--I/opt/staros.xyz/stardlls/include/json\
--I/opt/staros.xyz/stardlls/include/wocal\
--I/opt/staros.xyz/stardlls/include/starbase\
--I/opt/staros.xyz/stardlls/include/wface\
--I/opt/staros.xyz/stardlls/include/wfdb\
--I/opt/staros.xyz/stardlls/include/tbb/tbb\
--I/opt/staros.xyz/stardlls/include/soap\
--I/opt/staros.xyz/stardlls/include/java\
--I/opt/staros.xyz/stardlls/include/java/linux\
--I/opt/staros.xyz/dipc/include/dipc\
--I/opt/staros.xyz/starcore/include/starcore\
--I/opt/staros.xyz/starcore/include/coreutils\
--I/opt/staros.xyz/starcore/include/karafutils\
--I/opt/staros.xyz/starlang/include/xmlengine\
--I/opt/staros.xyz/protocol/include/shttp
+-I$(ACE_INCLUDE)
+
 ifeq ($(shared_libs),1)
   ifneq ($(SHLIB),)
     CPPFLAGS += -DUSER_BUILD_DLL -DCAW_OS_BUILD_DLL
@@ -162,7 +134,3 @@ realclean: clean
 ifneq ($(GENERATED_DIRTY),)
 	-$(RM) -r $(GENERATED_DIRTY)
 endif
-
-
-
-

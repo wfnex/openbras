@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (C) 2014, Nanjing WFNEX Technology Co., Ltd 
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved. 
 **********************************************************************/
 #ifndef CVPDNMANAGER_H
 #define CVPDNMANAGER_H

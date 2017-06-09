@@ -1,6 +1,6 @@
 #ifndef _CADDSESSIONID_H_
 #define _CADDSESSIONID_H_
-
+#include "aceinclude.h"
 #include <iostream>
 #include <list>
 

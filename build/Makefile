@@ -14,11 +14,11 @@ BETA_VERSION := $(shell awk '/BETA_VERSION/ { print $$3}' ${ROOTDIR}/version.h)
 VERSION = $(MAJOR_VERSION).$(MINOR_VERSION).$(BETA_VERSION)
 
 #######################################################################################
-ifeq (1,$(build_openbras))
-buidlall +=openbras
-endif
 ifeq (1,$(build_ace))
 buidlall +=ace
+endif
+ifeq (1,$(build_openbras))
+buidlall +=openbras
 endif
 ifeq (1,$(debug))
 TARNAME=$(PROJECT_NAME)_debug-$(VERSION)
@@ -42,16 +42,16 @@ all: check_dir $(buidlall)
 	@echo "build " $(PROJECT_NAME) " done!"
 	@echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SUCCESS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
-.PHONY:openbras
-openbras:check_dir
-	static=0
-	chmod a+x $(USER_ROOT)/make/add_rel_link.sh
-	make -C $(USER_ROOT) -f WFNOSMakefile
 .PHONY:ace
 ace: check_dir
 	make -C $(USER_ROOT)/src/ace ssl=0
 	cp -Lf $(INSTALL_PREFIX)/lib/libACE* $(PRJDIR)/$(PROJECT_NAME)/libs
 	cp -rf $(INSTALL_PREFIX)/include/ace $(PRJDIR)/$(PROJECT_NAME)/include
+.PHONY:openbras
+openbras:check_dir
+	static=0
+	chmod a+x $(USER_ROOT)/make/add_rel_link.sh
+	make -C $(USER_ROOT) -f WFNOSMakefile
 check_dir: 
 	@test -d $(PRJDIR)/$(PROJECT_NAME) || mkdir -p $(PRJDIR)/$(PROJECT_NAME)
 	@test -d $(PRJDIR)/$(PROJECT_NAME)/bin || mkdir -p $(PRJDIR)/$(PROJECT_NAME)/bin

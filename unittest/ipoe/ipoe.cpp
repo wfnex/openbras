@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (C) 2014, Nanjing WFNEX Technology Co., Ltd 
+ * Copyright (c) 2017 The OpenBras project authors. All Rights Reserved.
 **********************************************************************/
 
 #include "CIPOEModule.h"
@@ -61,7 +61,7 @@ std::string GetDHCPServerIP()
     
     iniparser_dump(ini, stderr);
 
-    s = iniparser_getstring(ini, "IPOE:dhcpserver", NULL);
+    s = const_cast<char *>(iniparser_getstring(ini, "IPOE:dhcpserver", NULL));
 	strip = std::string(s, strlen(s));
     iniparser_freedict(ini);
     return strip;

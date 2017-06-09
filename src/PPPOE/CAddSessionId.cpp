@@ -1,7 +1,7 @@
 #include "CAddSessionId.h"
 
-CAddSessionId::CAddSessionId(uint16_t startid,uint16_t endid)
-    :m_startid(startid),m_endid(endid)
+CAddSessionId::CAddSessionId()
+    :m_startid(0),m_endid(0)
 {
 }
 

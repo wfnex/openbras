@@ -10,7 +10,7 @@ CPPPOESessionHandler.cpp\
 CPPPOEEventHandler.cpp\
 CPPPOE.cpp\
 CSession.cpp\
-pppoe.cpp
+CAddSessionId.cpp
 
 MYCPPFLAGS= -I../include -I../PPP -std=gnu++11
 MYLDFLAGS= 
