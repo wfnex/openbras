@@ -1,0 +1,17 @@
+#you can use static_libs=1/0 ,to build static lib or dynamiclib
+include $(USER_ROOT)/make/makeinclude/macros.GNU
+MYLIB=Portal
+MYFILES = CPortalClient.cpp\
+CPortalConfig.cpp\
+CPortalFakeServer.cpp\
+CPortalManager.cpp\
+CPortalServerChannel.cpp\
+CPortalServerManager.cpp\
+CPortalUserMgr.cpp\
+CTCPTransport.cpp\
+portal.cpp
+MYCPPFLAGS=-I../include -I../libconfig/src -I../Utils -std=gnu++11
+MYLDFLAGS= 
+MYDLLLIB= 
+include $(USER_ROOT)/make/makeinclude/allinone.GNU
+

@@ -1,0 +1,25 @@
+#you can use static_libs=1/0 ,to build static lib or dynamiclib
+MYLIBNAME=PPP
+MYFILES = \
+CChap.cpp\
+CChapMd5.cpp\
+CChapMS.cpp\
+CChapMs2.cpp\
+CChapProtocol.cpp\
+CPPP.cpp\
+CPPPFsm.cpp\
+CPPPIPCP.cpp\
+CPPPLCP.cpp\
+CPPPProtocol.cpp\
+md4.cpp\
+md5.cpp\
+random.cpp\
+sha1.cpp\
+pppcrypt.cpp\
+CPapProtocol.cpp
+
+MYCPPFLAGS= -I../include -std=gnu++11
+MYLDFLAGS=
+MYDLLLIB=
+include $(ACE_ROOT)/include/makeinclude/templatemakefile.GNU
+
