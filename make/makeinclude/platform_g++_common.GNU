@@ -178,13 +178,6 @@ ifeq ($(shared_libs), 1)
       endif # LD_EXPORT_DEFINED = 1
     endif # GNU ld
 
-    # Take advantage of G++ (>= 4.x) visibility attributes to generate
-    # improved shared library binaries.
-    ifeq ($(GXX_4_OR_BETTER), 1)
-      ifneq ($(no_hidden_visibility),1)
-        CCFLAGS += -fvisibility=hidden -fvisibility-inlines-hidden
-      endif # no_hidden_visibility
-    endif # GXX_4_OR_BETTER == 1
   else
     # Explicitly disable G++ (>= 4.x) visibility attributes since
     # they are only meant for use when building shared libraries.

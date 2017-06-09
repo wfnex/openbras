@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     /////////////////
     CPPPOE pppoe;
 
-    pppoe.Init();
+    pppoe.Init("ens33", "10.1.1.1");
 
     if (pppoe.Start() == -1)
     {
