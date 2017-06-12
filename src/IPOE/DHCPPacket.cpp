@@ -9,7 +9,7 @@
 #include "aceinclude.h"
 #include "DHCPPacket.h"
 
-char DHCP_MAGIC_COOKIE[4] = {0x63, 0x82, 0x53, 0x63};
+unsigned char DHCP_MAGIC_COOKIE[4] = {0x63, 0x82, 0x53, 0x63};
 
 //Caller need to free the memory used for the DHCP packet 
 struct dhcp_packet *marshall(const char *buffer, int offset, int length)
