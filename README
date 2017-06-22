@@ -33,6 +33,8 @@ BNG PPPOE模块平台控制面
 	
 3)所有库编译生成动态链接库。
 
+注：如果编译失败，再次编译前，先执行make clean，再进行编译
+
 三）打包
 修过版本号version.h。
 #define MAJOR_VERSION 1
