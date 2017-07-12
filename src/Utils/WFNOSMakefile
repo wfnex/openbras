@@ -2,7 +2,6 @@
 include $(USER_ROOT)/make/makeinclude/macros.GNU
 MYLIB=utils
 MYFILES = \
-HttpParse.cpp\
 md4.cpp\
 md5.cpp\
 sha1.cpp\
