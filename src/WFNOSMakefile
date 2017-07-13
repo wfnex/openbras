@@ -1,3 +1,3 @@
 include $(USER_ROOT)/make/makeinclude/macros.GNU
-MYDIRS= Utils PPP PPPOE Portal IPOE AuthMgr BNGEvent UserMgr
+MYDIRS= Utils PPP PPPOE Portal IPOE AuthMgr BNGEvent UserMgr l2tp Radius
 include $(USER_ROOT)/make/makeinclude/allinone.GNU

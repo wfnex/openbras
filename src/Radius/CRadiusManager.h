@@ -36,6 +36,7 @@
 #include "aceinclude.h"
 #include <string>
 #include <unordered_map>
+#include "CRadiusConfig.h"
 
 class CRadiusScheme;
 class CRadiusManager
@@ -52,6 +53,7 @@ public:
         return m_config;
     }
     int TestRadiusAccess();
+    int TestRadiusAcct();
 private:
     ACE_Thread_Mutex m_mutex;
     CRadiusConfig m_config;

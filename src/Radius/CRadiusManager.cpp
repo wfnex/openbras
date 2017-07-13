@@ -33,7 +33,7 @@
 #include "CRadiusManager.h"
 #include "CRadiusScheme.h"
 
-CRadiusManager::CRadiusManager()
+CRadiusManager::CRadiusManager():m_config(*this)
 {
 }
 
@@ -48,8 +48,9 @@ int CRadiusManager::Init()
         return -1;
     }
     CRadiusScheme *radius = NULL;
+    std::string radiusname = "test";
 
-    if (CreateRadiusScheme("test",radius) == -1)
+    if (CreateRadiusScheme(radiusname,radius) == -1)
     {
         return -1;
     }
@@ -58,11 +59,15 @@ int CRadiusManager::Init()
     {
         return -1;
     }
+    ACE_INET_Addr AuthServerAddrP = m_config.GetAuthServerAddrP(); 
+    ACE_INET_Addr AcctServerAddrP = m_config.GetAcctServerAddrP();
+    ACE_INET_Addr AuthServerAddrS = m_config.GetAuthServerAddrS();
+    ACE_INET_Addr AcctServerAddrS = m_config.GetAcctServerAddrS();
     
-    radius->SetUpPrimaryAuthConn(m_config.GetAuthServerAdd());
-    radius->SetUpPrimaryAcctConn(m_config.GetAcctServerAddr());
-    radius->SetUpSecondaryAuthConn(m_config.GetAuthServerAdd());
-    radius->SetUpSecondaryAcctConn(m_config.GetAcctServerAddr());
+    radius->SetUpPrimaryAuthConn(AuthServerAddrP);
+    radius->SetUpPrimaryAcctConn(AcctServerAddrP);
+    radius->SetUpSecondaryAuthConn(AuthServerAddrS);
+    radius->SetUpSecondaryAcctConn(AcctServerAddrS);
 
 
     return -1;
@@ -120,8 +125,9 @@ int CRadiusManager::TestRadiusAccess()
     ACE_ASSERT( accessReqMsg.add( attrNasPortType ) );
 
     CRadiusScheme *pscheme = NULL;
+    std::string radiusname = "test";
 
-    FindRadiusScheme("test",pscheme);
+    FindRadiusScheme(radiusname,pscheme);
     if (pscheme == NULL)
     {
         return -1;
@@ -196,8 +202,9 @@ int CRadiusManager::TestRadiusAcct()
 
 
     CRadiusScheme *pscheme = NULL;
+    std::string radiusname = "test";
 
-    FindRadiusScheme("test",pscheme);
+    FindRadiusScheme(radiusname,pscheme);
     if (pscheme == NULL)
     {
         return -1;
@@ -220,7 +227,7 @@ int CRadiusManager::CreateRadiusScheme(std::string &name,CRadiusScheme *&radius)
     std::unordered_map<std::string, CRadiusScheme *>::iterator it = m_schemes.find(name);
     if (it != m_schemes.end())
     {
-        return -1£»
+        return -1;
     }
     CRadiusScheme *scheme = new CRadiusScheme(*this, name);
     if (scheme == NULL)
@@ -238,7 +245,7 @@ int CRadiusManager::DestroyRadiusScheme(std::string &name)
     std::unordered_map<std::string, CRadiusScheme *>::iterator it = m_schemes.find(name);
     if (it == m_schemes.end())
     {
-        return -1£»
+        return -1;
     }
     delete (it->second);
     m_schemes.erase(it);
@@ -252,7 +259,7 @@ int CRadiusManager::FindRadiusScheme(std::string &name,CRadiusScheme *&radius)
     std::unordered_map<std::string, CRadiusScheme *>::iterator it = m_schemes.find(name);
     if (it == m_schemes.end())
     {
-        return -1£»
+        return -1;
     }
     radius = it->second;
     return 0;

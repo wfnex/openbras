@@ -40,12 +40,12 @@
 #include <unordered_map>
 #include "openportal.h"
 #include "CReferenceControl.h"
+#include "CRadiusMessage.h"
+#include "CRadiusTransaction.h"
 //#include "CRadiusScheme.h"
 //class CPortalClient;
-class CRadiusMessage;
 class CRadiusScheme;
-class TransactionResponse;
-class CRadiusTransaction;
+
 class CRadiusConnector : public CReferenceControl,public ACE_Event_Handler
 {
 public:
@@ -56,6 +56,8 @@ public:
 
     virtual int handle_timeout (const ACE_Time_Value &current_time,
                               const void *act = 0);
+    virtual int RemoveTransaction(uint8_t id);
+    virtual int AddTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans);
 
     //ACE_Event_Handler interface，子类可以重载这些函数
     virtual int handle_input (ACE_HANDLE fd = ACE_INVALID_HANDLE);

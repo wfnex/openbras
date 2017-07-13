@@ -49,26 +49,26 @@ CRadiusScheme::~CRadiusScheme()
     m_SecondaryAcc.StopConnect();
 }
 
-int CRadiusScheme::SetUpPrimaryAuthConn(const ACE_INET_Addr &serveraddr)
+int CRadiusScheme::SetUpPrimaryAuthConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_PrimaryAuth.StartConnect(serveraddr);
     return result;
 }
 
-int CRadiusScheme::SetUpPrimaryAcctConn(const ACE_INET_Addr &serveraddr)
+int CRadiusScheme::SetUpPrimaryAcctConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_PrimaryAcc.StartConnect(serveraddr);
     return result;
 }
 
-int CRadiusScheme::SetUpSecondaryAuthConn(const ACE_INET_Addr &serveraddr)
+int CRadiusScheme::SetUpSecondaryAuthConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_SecondaryAuth.StartConnect(serveraddr);
     //connect = &m_SecondaryAuth;
     return result;
 }
 
-int CRadiusScheme::SetUpSecondaryAcctConn(const ACE_INET_Addr &serveraddr)
+int CRadiusScheme::SetUpSecondaryAcctConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_SecondaryAcc.StartConnect(serveraddr);
     //connect = &m_SecondaryAcc;

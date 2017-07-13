@@ -33,7 +33,7 @@
 
 #include <netinet/in.h>
 #include <time.h>
-#include "CRadiusMessage.hxx"
+#include "CRadiusMessage.h"
 
 
 /** Create a RADIUS Message with type, no Attriubte yet
@@ -136,8 +136,7 @@ CRadiusMessage::CRadiusMessage( const CRadiusData rawMsg, const char* secret)
 
     TODO: Enforce attribute quantity guide Section 5.44 of RFC 2865
  */
-int
-CRadiusMessage::decodeAttributes( const char* secret )
+int CRadiusMessage::decodeAttributes( const char* secret )
 {
     uint16_t totalLen = ntohs( myData.msgHdr.length );
 
@@ -332,7 +331,7 @@ CRadiusMessage::encodeUserPassword( uint8_t* newPassword,
                                    const char* secret,
                                    const CRadiusData& oldPassword )
 {
-    ACE_DEBUG ((LM_DEBUG,"Encode User-Password\n");
+    ACE_DEBUG ((LM_DEBUG,"Encode User-Password\n"));
 
     int secretLen = strlen(secret);
     assert( secretLen < 256 );
@@ -427,7 +426,8 @@ CRadiusMessage::hideUserPassword( const char* secret )
     assert( myData.msgHdr.code == RP_ACCESS_REQUEST );
 
     CRadiusData password;
-    password = get(RA_USER_PASSWORD).value();
+    RadiusAttrIter itr = getAll(RA_USER_PASSWORD).begin(); 
+    password = itr->value();
 
     
     uint8_t hiddenPassword[ 256 ];
@@ -499,10 +499,12 @@ CRadiusMessage::calcAccessRequestAuthenticator()
     unsigned int t = time( NULL );
     memcpy( hashInput, &t, sizeof(t) );
     int hashLen = sizeof(t);
+
+    RadiusAttrIter itr = getAll(RA_NAS_IP_ADDRESS).begin();
     memcpy( hashInput+hashLen,
-            get( RA_NAS_IP_ADDRESS ).value().data(),
-            get( RA_NAS_IP_ADDRESS ).value().length() );
-    hashLen += get( RA_NAS_IP_ADDRESS ).value().length();
+            itr->value().data(),
+            itr->value().length() );
+    hashLen += itr->value().length();
     memcpy( hashInput+hashLen,
             &myData.msgHdr.identifier,
             sizeof(myData.msgHdr.identifier) );
@@ -607,7 +609,7 @@ CRadiusMessage::encodeAttributes() const
     return msg;
 }
 
-int CRadiusMessage::get( const RadiusAttributeType t, const CRadiusAttribute& attr) const
+int CRadiusMessage::get( const RadiusAttributeType t, CRadiusAttribute& attr) const
 {
     for ( RadiusAttrIter itr = myAttributes.begin();
           itr != myAttributes.end();
@@ -645,17 +647,17 @@ CRadiusMessage::getAll( const RadiusAttributeType t ) const
 
 // Get a human readable representation of the message
 std::string
-CRadiusMessage::verbose() const
+CRadiusMessage::verbose()
 {
     return std::string( hexDump() + headerDump() + attributesVerbose() );
 }
 
 // Raw message in hex for debugging
 std::string
-CRadiusMessage::hexDump() const
+CRadiusMessage::hexDump()
 {
-    string s;        // Complete output (all lines)
-    string a;        // "Ascii" portion of a line
+    std::string s;        // Complete output (all lines)
+    std::string a;        // "Ascii" portion of a line
     uint8_t temp;   // One octet
     uint8_t hi;     // High hex digit of an octet
     uint8_t low;    // Low hex digit of an octet
@@ -690,10 +692,10 @@ CRadiusMessage::hexDump() const
     // Pad with ' ' to make the "ascii" interpreted part line up with
     //   the previous line
     int j = i % 16;
-    string b;    // Blanks
+    std::string b;    // Blanks
     if( j )
     {
-        b = string( (16-j)*3, ' ' );
+        b = std::string( (16-j)*3, ' ' );
     }
     s += b + a + "\n";
     return s;
@@ -701,9 +703,10 @@ CRadiusMessage::hexDump() const
 
 // Get a human readable representation of the message header
 std::string
-CRadiusMessage::headerDump() const
+CRadiusMessage::headerDump()
 {
-    string codeStr;
+    std::string codeStr;
+    std::list<CRadiusAttribute>::iterator itr = myAttributes.begin(); 
     switch( myData.msgHdr.code )
     {
         case RP_ACCESS_REQUEST:
@@ -738,17 +741,16 @@ CRadiusMessage::headerDump() const
         }
         default:
         {
-            codeStr = "Unknown (" + itos( myData.msgHdr.code ) + ")";
+            codeStr = "Unknown (" + itr->itos(myData.msgHdr.code) + ")";
         }
     }
-    return string( "\n  1 Code   = " + codeStr +
-                   "\n  1 ID     = " + itos( myData.msgHdr.identifier ) +
-                   "\n  2 Length = " + itos( ntohs(myData.msgHdr.length) ) +
-                   "\n 16 Authenticator\n" );
+    return std::string( "\n  1 Code   = " + codeStr +
+                        "\n  1 ID     = " + itr->itos( myData.msgHdr.identifier) +
+                        "\n  2 Length = " + itr->itos( ntohs(myData.msgHdr.length) ) +
+                        "\n 16 Authenticator\n" );
 }
 
-std::string
-CRadiusMessage::attributesVerbose() const
+std::string CRadiusMessage::attributesVerbose()
 {
     std::string s = "\nAttributes:\n";
 
@@ -759,6 +761,5 @@ CRadiusMessage::attributesVerbose() const
         s += itr->verbose();
     }
     return s;
+          
 }
-
-

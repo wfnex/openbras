@@ -107,7 +107,7 @@ int CRadiusTransaction::handle_timeout (const ACE_Time_Value &current_time,
 
 void CRadiusTransaction::SendRequest()
 {
-    return m_pconnector->SendData(reinterpret_cast<const char *>(m_requestmsg.data().buffer),
+    m_pconnector->SendData(reinterpret_cast<const char *>(m_requestmsg.data().buffer),
         ntohs(m_requestmsg.data().msgHdr.length));
 }
 

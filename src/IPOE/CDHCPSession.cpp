@@ -284,9 +284,10 @@ int CDHCPSession::HandleDiscover(const DHCPNetworkConfig &config)
     }
 
     StartLeaseTimer(ntohl(config.leasetime));
-
+    free_packet(response);
+    
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPSession::HandleDiscover end,sendresult=%d\n",sendresult));
-
+    
     return 0;
 }
 

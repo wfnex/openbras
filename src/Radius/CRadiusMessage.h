@@ -40,13 +40,25 @@
 #include <string>
 #include <list>
 
-#include "CRadiusData.hxx"
+#include "CRadiusData.h"
 #include "radius.h"
-#include "CRadiusAttribute.hxx"
+#include "CRadiusAttribute.h"
+#include "md5.h"
 
+struct MD5Context
+{
+	unsigned int  buf[4];
+	unsigned int  bits[2];
+	unsigned char in[64];
+};
+
+void MD5Init(struct MD5Context *context);
+void MD5Update(struct MD5Context *context, unsigned char const *buf, unsigned int len);
+void MD5Final(unsigned char digest[16], struct MD5Context *context);
 
 ///
 typedef std::list<CRadiusAttribute>::const_iterator RadiusAttrIter;
+
 
 
 /** RADIUS Packet as defined in RFC 2865 Section 3.
@@ -102,6 +114,7 @@ class CRadiusMessage
         {
             copyRhsToThis( rhs );
         }
+        int decodeAttributes( const char* secret );
 
         ///
         CRadiusMessage& operator=( const CRadiusMessage& rhs )
@@ -146,7 +159,7 @@ class CRadiusMessage
            Use getAll( RadiusAttributeType ) to retrieve multiple
              attributes with the same type 
          */
-        int get( const RadiusAttributeType t, const CRadiusAttribute& attr) const;
+        int get( const RadiusAttributeType t, CRadiusAttribute& attr) const;
 
         /**
            Get the list of all attributes of type attrType
@@ -193,16 +206,16 @@ class CRadiusMessage
         }
 
         /// Get a human readable representation of all attributes
-        std::string verbose() const;
+        std::string verbose();
 
         /// Raw message in hex for debugging
-        std::string hexDump() const;
+        std::string hexDump();
 
         /// Get a human readable representation of the message header
-        std::string headerDump() const;
+        std::string headerDump();
 
         /// Get a human readable representation of the message
-        std::string attributesVerbose() const;
+        std::string attributesVerbose();
 
     private:
 
@@ -219,7 +232,8 @@ class CRadiusMessage
             packet must either be treated as an Access-Reject or else
             silently discarded.
          */
-        void decodeAttributes( const char* secret );
+         
+        //void decodeAttributes( const char* secret );
 
         ///
         bool verifyAccountingRequestAuthenticator( const char* secret );
@@ -266,6 +280,7 @@ class CRadiusMessage
 
         /// RADIUS packet (in network byte order)
         RawMessage myData;
+
 };
 
 // Local Variables:

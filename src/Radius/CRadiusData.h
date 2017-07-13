@@ -31,41 +31,85 @@
 
 **********************************************************************/
 
+#ifndef CRADIUSDATA_H
+#define CRADIUSDATA_H
 
-#ifndef CRADIUSSCHEME_H
-#define CRADIUSSCHEME_H
-
+#include <cassert>
+#include "radius.h"
 #include "aceinclude.h"
 #include <stdint.h>
-#include "CReferenceControl.h"
-#include "CRadiusConnector.h"
-#include "CRadiusManager.h"
-class CRadiusScheme : public CReferenceControl
+
+
+
+/** Raw RADIUS data
+     This is a simple but limited implementation with a static size
+ */
+class CRadiusData
 {
 public:
-    CRadiusScheme(CRadiusManager &mgr,const std::string &schemename);
-    virtual ~CRadiusScheme();
-    int SetUpPrimaryAuthConn(ACE_INET_Addr &serveraddr);
-    int SetUpPrimaryAcctConn(ACE_INET_Addr &serveraddr);
-    int SetUpSecondaryAuthConn(ACE_INET_Addr &serveraddr);
-    int SetUpSecondaryAcctConn(ACE_INET_Addr &serveraddr);
-    CRadiusManager &GetRadiusManager()
+    CRadiusData( ) : myLength( 0 )
     {
-        return m_mgr;
+        ::memset( &myData, 0, RadiusMaxPacketSize);
     }
-    int SendAccessMessageP(CRadiusMessage &accessReqMsg,TransactionResponse callback);
-    int SendAcctMessageP(CRadiusMessage &acctReqMsg,TransactionResponse callback);
-    int SendAccessMessageS(CRadiusMessage &accessReqMsg,TransactionResponse callback);
-    int SendAcctMessageS(CRadiusMessage &acctReqMsg,TransactionResponse callback);
-    int SendAccessMessage(CRadiusMessage &accessReqMsg,TransactionResponse callback);
-    int SendAcctMessage(CRadiusMessage &acctReqMsg,TransactionResponse callback);
+
+    CRadiusData( const void *val, uint16_t len ) :
+        myLength( len > RadiusMaxPacketSize ? RadiusMaxPacketSize : len )
+    {
+        assert( val );
+        ::memcpy( &myData, val, myLength );
+    }
+    
+    CRadiusData( const CRadiusData& rhs )
+    {
+        copyRhsToThis( rhs );
+    }
+    CRadiusData& operator=( const CRadiusData& rhs )
+    {
+        if( this != &rhs )
+        {
+            copyRhsToThis( rhs );
+        }
+        return *this;
+    }
+    void copyRhsToThis( const CRadiusData& rhs )
+    {
+        myLength = rhs.myLength;
+        memcpy( &myData, rhs.myData, myLength);
+    }
+
+    CRadiusData& operator+=( const CRadiusData& rhs )
+    {
+        assert( this != &rhs );
+        append( &rhs.myData, rhs.myLength );
+        return *this;
+    }
+    int append( const void *val, const int len )
+    {
+        assert( val );
+
+        if( (myLength + len) > RadiusMaxPacketSize )
+        {
+            return -1;
+        }
+        memcpy( myData + myLength, val, len );
+        myLength += len;
+        return 0;
+    }
+    
+    ///
+    ~CRadiusData() {}
+    
+    ///
+    const uint8_t* data() const { return myData; }
+    
+    ///
+    uint16_t length() const { return myLength; }
+    
 private:
-    CRadiusManager &m_mgr;
-    std::string m_schemname;
-    CRadiusConnector m_PrimaryAuth;
-    CRadiusConnector m_PrimaryAcc;
-    CRadiusConnector m_SecondaryAuth;
-    CRadiusConnector m_SecondaryAcc;
+    uint16_t   myLength;
+    uint8_t    myData[RadiusMaxPacketSize];
 };
 
-#endif//CRADIUSSCHEME_H
+#endif
+
+

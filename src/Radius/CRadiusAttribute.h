@@ -36,7 +36,7 @@
 #include "aceinclude.h"
 #include <stdint.h>
 
-#include "CRadiusData.hxx"
+#include "CRadiusData.h"
 #include "radius.h"
 
 /** RADIUS Attribute as defined in RFC 2865 Section 5.

@@ -55,10 +55,10 @@ int CRadiusConfig::Init()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CRadiusConfig::Init\n")); 
 
     dictionary * ini = NULL;
-    char        * slocal  = NULL;
-    char        * sasip = NULL;
-    char        * scsip = NULL;
-    char        * sshared = NULL;
+    const char * slocal  = NULL;
+    const char * sasip = NULL;
+    const char * scsip = NULL;
+    const char * sshared = NULL;
 
     int         listcount = 0;
 
@@ -91,16 +91,16 @@ int CRadiusConfig::Init()
 #define RADIUS_TEST
     m_bauth = iniparser_getboolean(ini,"Test:test_access",1);
     m_bacc = iniparser_getboolean(ini,"Test:test_accounting",1);
-    char        *username  = iniparser_getstring(ini, "Test:User_Name", NULL);
+    const char *username  = iniparser_getstring(ini, "Test:User_Name", NULL);
     m_UserName=std::string(username, strlen(username));
 
-    char        *password  = iniparser_getstring(ini, "Test:User_Password", NULL);
+    const char *password  = iniparser_getstring(ini, "Test:User_Password", NULL);
     m_Userpassword=std::string(password, strlen(password));
 
-    char        *called_station_id  = iniparser_getstring(ini, "Test:Called_Station_Id", NULL);
+    const char  *called_station_id  = iniparser_getstring(ini, "Test:Called_Station_Id", NULL);
     m_called_station_id=std::string(called_station_id, strlen(called_station_id));
 
-    char        *calling_station_id  = iniparser_getstring(ini, "Test:Calling_Station_Id", NULL);
+    const char  *calling_station_id  = iniparser_getstring(ini, "Test:Calling_Station_Id", NULL);
     m_calling_station_id=std::string(calling_station_id, strlen(calling_station_id));
 
     m_acct_session_timeout=iniparser_getint(ini,"Test:Acct_Session_Time",0);

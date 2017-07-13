@@ -40,8 +40,10 @@
 #include "CPortalConfig.h"
 #include "md5.h"
 #include "radius.h"
-#include "CRadiusData.hxx"
+#include "CRadiusData.h"
 #include <arpa/inet.h>
+#include "CRadiusScheme.h"
+
 
 CRadiusConnector::CRadiusConnector(CRadiusScheme *scheme)
     :m_handler(ACE_INVALID_HANDLE)
@@ -253,8 +255,8 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
         return 1;
     }
     const uint8_t* reqAuth = 0;//transaction->getAuthenticator();
-    CRadiusMessage* accessResp( msgRecvd, secret );
-    if(!accessResp.verifyResponseAuthenticator(reqAuth, secret))
+    CRadiusMessage accessResp(msgRecvd,secret);
+    if(!accessResp.verifyResponseAuthenticator(reqAuth,secret))
     {
         return 0;
     }
@@ -276,7 +278,7 @@ int CRadiusConnector::RemoveTransaction(uint8_t id)
 int CRadiusConnector::AddTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1); 
-    std::string<uint8_t, CCmAutoPtr<CRadiusTransaction>>::iterator it = m_trans.find(id);
+    std::unordered_map<uint8_t, CCmAutoPtr<CRadiusTransaction>>::iterator it = m_trans.find(id);
     if (it != m_trans.end())
     {
         return -1;
@@ -379,7 +381,7 @@ int CRadiusConnector::SendMessage(CRadiusMessage &accessReqMsg,TransactionRespon
     }
 
     return  SendData(reinterpret_cast<const char *>(accessReqMsg.data().buffer),
-        std::ntohs(accessReqMsg.data().msgHdr.length));
+        ntohs(accessReqMsg.data().msgHdr.length));
 }
 
 
