@@ -1,7 +1,7 @@
 #you can use static_libs=1/0 ,to build static lib or dynamiclib
 include $(USER_ROOT)/make/makeinclude/macros.GNU
 MYLIB=PPPOE
-MYFILES = md5.cpp\
+MYFILES = \
 CClientDiscovery.cpp\
 CEtherIntf.cpp\
 CPPPOEPacketHandler.cpp\

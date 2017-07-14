@@ -35,6 +35,7 @@
 #ifndef CCHAPMS2_H
 #define CCHAPMS2_H
 #include "CChapMS.h"
+#include "openssl/sha.h"
 
 class VPN_PUBLIC CChapMs2 : public CChapMs 
 {

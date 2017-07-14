@@ -33,8 +33,8 @@
 
 
 #include "CChapMd5.h"
-#include "md5.h"
-#include "md4.h"
+#include "openssl/md5.h"
+#include "openssl/md4.h"
 #include <string.h>
 
 #define MD5_HASH_SIZE       16

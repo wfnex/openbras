@@ -39,7 +39,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "md5.h"
+#include "openssl/md5.h"
 #include "CSession.h"
 
 PPPoETag CPPPOEDiscoveryHandler::hostUniq;
@@ -711,14 +711,14 @@ void CPPPOEDiscoveryHandler::processPADT(PPPoEPacket *packet, SWORD32 len)
 void
 CPPPOEDiscoveryHandler::genCookie(BYTE const *peerEthAddr, BYTE const *myEthAddr, BYTE const *seed, BYTE *cookie)
 {
-    struct MD5Context ctx;
+    MD5_CTX ctx;
     pid_t pid = getpid();
 
-    MD5Init(&ctx);
-    MD5Update(&ctx, peerEthAddr, ETH_ALEN);
-    MD5Update(&ctx, myEthAddr, ETH_ALEN);
-    MD5Update(&ctx, seed, SEED_LEN);
-    MD5Final(cookie, &ctx);
+    MD5_Init(&ctx);
+    MD5_Update(&ctx, peerEthAddr, ETH_ALEN);
+    MD5_Update(&ctx, myEthAddr, ETH_ALEN);
+    MD5_Update(&ctx, seed, SEED_LEN);
+    MD5_Final(cookie, &ctx);
     memcpy(cookie+MD5_LEN, &pid, sizeof(pid));
 }
 

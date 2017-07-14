@@ -36,8 +36,13 @@
 #define CCHAPMS_H
 #include "CChap.h"
 #include "pppcrypt.h"
-#include "md5.h"
-#include "md4.h"
+#include "openssl/md5.h"
+#include "openssl/md4.h"
+
+int MD4_Init(MD4_CTX *c);
+int MD4_Update(MD4_CTX *c, const void *data_, size_t len);
+int MD4_Final(unsigned char *md, MD4_CTX *c);
+
 
 class VPN_PUBLIC CChapMs : public CChap 
 {

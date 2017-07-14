@@ -236,17 +236,17 @@ CChapMs::NTPasswordHash(u_char *secret, int secret_len, u_char hash[MD4_SIGNATUR
 
     int mdlen = secret_len * 8;
 
-    MD4_CTXEx md4Context;
+    MD4_CTX md4Context;
 
-    MD4Init(&md4Context);
+    MD4_Init(&md4Context);
     /* MD4Update can take at most 64 bytes at a time */
     while (mdlen > 512) {
-        MD4Update(&md4Context, secret, 512);
+        MD4_Update(&md4Context, secret, 512);
         secret += 64;
         mdlen -= 512;
     }
-    MD4Update(&md4Context, secret, mdlen);
-    MD4Final(hash, &md4Context);
+    MD4_Update(&md4Context, secret, mdlen);
+    MD4_Final(hash, &md4Context);
 }
 
 

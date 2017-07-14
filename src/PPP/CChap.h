@@ -37,7 +37,7 @@
 #include "aceinclude.h"
 
 #include "pppdef.h"
-#include "sha1.h"
+#include "openssl/sha.h"
 #include "random.h"
 //#include "pppcrypt.h"
 

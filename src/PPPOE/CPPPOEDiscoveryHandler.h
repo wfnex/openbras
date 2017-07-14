@@ -37,6 +37,7 @@
 
 #include "CPPPOEPacketHandler.h"
 #include "BNGPError.h"
+#include "openssl/md5.h"
 
 /* Random seed for cookie generation */
 #define SEED_LEN 16
@@ -51,6 +52,11 @@ typedef void ParseFunc(WORD16 type,
 
 class CPPPOE;
 class CSession;
+
+int MD5_Init(MD5_CTX *c);
+int MD5_Update(MD5_CTX *c, const void *data, size_t len);
+int MD5_Final(unsigned char *md, MD5_CTX *c);
+
 
 class CPPPOEDiscoveryHandler : public CPPPOEPacketHandler
 {

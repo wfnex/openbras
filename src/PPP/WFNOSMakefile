@@ -12,10 +12,7 @@ CPPPFsm.cpp\
 CPPPIPCP.cpp\
 CPPPLCP.cpp\
 CPPPProtocol.cpp\
-md4.cpp\
-md5.cpp\
 random.cpp\
-sha1.cpp\
 pppcrypt.cpp\
 CPapProtocol.cpp
 

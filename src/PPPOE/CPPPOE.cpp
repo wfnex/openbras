@@ -315,7 +315,7 @@ void CPPPOE::OnLCPDown(WORD16 sessionId, const std::string &reason)
 }
 
 #ifdef DEBUG_CHAP
-#include "../PPP/md5.h"
+#include "openssl/md5.h"
 
 static int
 chap_md5_verify_response(Auth_Request &authReq)

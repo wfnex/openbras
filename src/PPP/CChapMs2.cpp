@@ -265,23 +265,23 @@ CChapMs2::GenerateAuthenticatorResponse(u_char PasswordHashHash[MD4_SIGNATURE_SI
 	  0x6E };
 
     int		i;
-    SHA1_CTX	sha1Context;
-    u_char	Digest[SHA1_SIGNATURE_SIZE] ={0};
+    SHA_CTX	sha1Context;
+    u_char	Digest[SHA_DIGEST_LENGTH] ={0};
     u_char	Challenge[8];
 
-    SHA1_Init(&sha1Context);
-    SHA1_Update(&sha1Context, PasswordHashHash, MD4_SIGNATURE_SIZE);
-    SHA1_Update(&sha1Context, NTResponse, 24);
-    SHA1_Update(&sha1Context, Magic1, sizeof(Magic1));
-    SHA1_Final(Digest, &sha1Context);
+    SHA_Init(&sha1Context);
+    SHA_Update(&sha1Context, PasswordHashHash, MD4_SIGNATURE_SIZE);
+    SHA_Update(&sha1Context, NTResponse, 24);
+    SHA_Update(&sha1Context, Magic1, sizeof(Magic1));
+    SHA_Final(Digest, &sha1Context);
 
     ChallengeHash(PeerChallenge, rchallenge, username, Challenge);
 
-    SHA1_Init(&sha1Context);
-    SHA1_Update(&sha1Context, Digest, sizeof(Digest));
-    SHA1_Update(&sha1Context, Challenge, sizeof(Challenge));
-    SHA1_Update(&sha1Context, Magic2, sizeof(Magic2));
-    SHA1_Final(Digest, &sha1Context);
+    SHA_Init(&sha1Context);
+    SHA_Update(&sha1Context, Digest, sizeof(Digest));
+    SHA_Update(&sha1Context, Challenge, sizeof(Challenge));
+    SHA_Update(&sha1Context, Magic2, sizeof(Magic2));
+    SHA_Final(Digest, &sha1Context);
 
     /* Convert to ASCII hex string. */
     for (i = 0; i < MAX((MS_AUTH_RESPONSE_LENGTH / 2), sizeof(Digest)); i++)
@@ -311,8 +311,8 @@ CChapMs2::ChallengeHash(u_char PeerChallenge[16], u_char *rchallenge,
         char *username, u_char Challenge[8])
     
 {
-    SHA1_CTX        sha1Context;
-    u_char          sha1Hash[SHA1_SIGNATURE_SIZE] ={0};
+    SHA_CTX        sha1Context;
+    u_char          sha1Hash[SHA_DIGEST_LENGTH] ={0};
     char            *user;
 
     /* remove domain from "domain\username" */
@@ -321,11 +321,11 @@ CChapMs2::ChallengeHash(u_char PeerChallenge[16], u_char *rchallenge,
     else
         user = username;
 
-    SHA1_Init(&sha1Context);
-    SHA1_Update(&sha1Context, PeerChallenge, 16);
-    SHA1_Update(&sha1Context, rchallenge, 16);
-    SHA1_Update(&sha1Context, (unsigned char *)user, strlen(user));
-    SHA1_Final(sha1Hash, &sha1Context);
+    SHA_Init(&sha1Context);
+    SHA_Update(&sha1Context, PeerChallenge, 16);
+    SHA_Update(&sha1Context, rchallenge, 16);
+    SHA_Update(&sha1Context, (unsigned char *)user, strlen(user));
+    SHA_Final(sha1Hash, &sha1Context);
 
     BCOPY(sha1Hash, Challenge, 8);
 }
