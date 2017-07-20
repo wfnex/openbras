@@ -43,18 +43,12 @@
 #include "CRadiusData.h"
 #include "radius.h"
 #include "CRadiusAttribute.h"
-#include "md5.h"
+#include "openssl/md5.h"
 
-struct MD5Context
-{
-	unsigned int  buf[4];
-	unsigned int  bits[2];
-	unsigned char in[64];
-};
+int MD5_Init(MD5_CTX *c);
+int MD5_Update(MD5_CTX *c, const void *data, size_t len);
+int MD5_Final(unsigned char *md, MD5_CTX *c);
 
-void MD5Init(struct MD5Context *context);
-void MD5Update(struct MD5Context *context, unsigned char const *buf, unsigned int len);
-void MD5Final(unsigned char digest[16], struct MD5Context *context);
 
 ///
 typedef std::list<CRadiusAttribute>::const_iterator RadiusAttrIter;

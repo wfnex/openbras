@@ -588,10 +588,10 @@ CRadiusMessage::calcMD5( uint8_t *digest,
 {
     ACE_DEBUG ((LM_DEBUG,"Calculate MD5\n"));
 
-    MD5Context context;
-    MD5Init( &context );
-    MD5Update( &context, buf, bufLen );
-    MD5Final( digest, &context );
+    MD5_CTX context;
+    MD5_Init( &context );
+    MD5_Update( &context, buf, bufLen );
+    MD5_Final( digest, &context );
 }
 
 
