@@ -38,7 +38,6 @@
 #include "CPortalServerManager.h"
 #include "CPortalManager.h"
 #include "CPortalConfig.h"
-#include "md5.h"
 #include "radius.h"
 #include "CRadiusData.h"
 #include <arpa/inet.h>
