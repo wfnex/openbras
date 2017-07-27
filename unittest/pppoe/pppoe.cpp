@@ -4,6 +4,8 @@
 
 #include "CPPPOE.h"
 #include <stdlib.h>
+#include "iniparser.h"
+
 
 #ifndef _DEBUG
 #define _DEBUG
@@ -42,6 +44,47 @@ void InstallSignal()
     }
 }
 
+ACE_CString GetNetworkcard()
+{
+	ACE_CString strip;
+    dictionary * pini = NULL;
+    char        * s  = NULL;
+
+    pini = iniparser_load("pppoe.cfg");
+    if (pini == NULL) {
+        ACE_DEBUG ((LM_INFO, "GetNetworkcard, failed to iniparser_load pppoe.cfg.\n"));
+        return "" ;
+    }
+    
+    iniparser_dump(pini, stderr);
+
+    s = const_cast<char *>(iniparser_getstring(pini, "PPPOE:networkcard", NULL));
+	strip = s;
+    iniparser_freedict(pini);
+    return strip;
+}
+
+ACE_CString GetNetIp()
+{
+	ACE_CString ipaddr;
+    dictionary * pini = NULL;
+    char        * s  = NULL;
+
+    pini = iniparser_load("pppoe.cfg");
+    if (pini == NULL) {
+        ACE_DEBUG ((LM_INFO, "GetNetworkcard, failed to iniparser_load pppoe.cfg.\n"));
+        return "0.0.0.0" ;
+    }
+    
+    iniparser_dump(pini, stderr);
+
+    s = const_cast<char *>(iniparser_getstring(pini, "PPPOE:ipaddr", NULL));
+	ipaddr = s;
+    iniparser_freedict(pini);
+    return ipaddr;
+}
+
+
 int main(int argc, char **argv)
 {
     InstallSignal();
@@ -61,8 +104,11 @@ int main(int argc, char **argv)
 
     /////////////////
     CPPPOE pppoe;
-
-    pppoe.Init("ens33", "10.1.1.1");
+    
+    ACE_CString ifname = GetNetworkcard();
+    ACE_CString ifip = GetNetIp();
+    
+    pppoe.Init(ifname,ifip);
 
     if (pppoe.Start() == -1)
     {
