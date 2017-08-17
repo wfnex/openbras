@@ -62,16 +62,19 @@ CRadiusTransaction::~CRadiusTransaction()
 
 }
 
+//Add Reference
 uint32_t CRadiusTransaction::AddReference()
 {
     return CReferenceControl::AddReference();
 }
 
+//Release Reference
 uint32_t CRadiusTransaction::ReleaseReference()
 {
     return CReferenceControl::ReleaseReference();
 }
 
+//Receive Response
 void CRadiusTransaction::RecvResponse(CRadiusMessage *pResponse)
 {
     if (m_callback)
@@ -82,6 +85,7 @@ void CRadiusTransaction::RecvResponse(CRadiusMessage *pResponse)
     m_pconnector->RemoveTransaction(m_identifier);
 }
 
+//Timeout Handle
 int CRadiusTransaction::handle_timeout (const ACE_Time_Value &current_time,
                             const void *act)
 
@@ -105,6 +109,7 @@ int CRadiusTransaction::handle_timeout (const ACE_Time_Value &current_time,
     return 0;
 }
 
+//Send Request
 void CRadiusTransaction::SendRequest()
 {
     m_pconnector->SendData(reinterpret_cast<const char *>(m_requestmsg.data().buffer),

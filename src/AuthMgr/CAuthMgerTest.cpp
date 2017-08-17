@@ -32,6 +32,10 @@
 	**********************************************************************/
 
 #include "CAuthMgerTest.h"
+#include <string>
+#include <sstream>
+#include <iostream> 
+
 
 IAuthManager &IAuthManager::instance()
 {
@@ -41,8 +45,9 @@ IAuthManager &IAuthManager::instance()
 
 
 CAuthManager::CAuthManager()
-        :m_psink(0)
+        :m_psink(0),m_ip(0)
 {
+    InIt(0,255); 
 }
 
 CAuthManager::~CAuthManager()
@@ -64,6 +69,7 @@ int CAuthManager::Close()
     return 0;
 }
 
+
 int CAuthManager::AuthRequest(const Auth_Request *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CAuthManager::AuthRequest\n")); 
@@ -71,8 +77,9 @@ int CAuthManager::AuthRequest(const Auth_Request *request)
     ::memset(&response, 0, sizeof(response));
     response.authResult = 0;
     memcpy(response.mac,request->mac,6);
+    std::string tmpip = AllocIp();
 
-    ACE_INET_Addr subip(100,"100.1.1.2");
+    ACE_INET_Addr subip(100,tmpip.c_str());
     ACE_INET_Addr dns1(100,"200.1.1.1");
     ACE_INET_Addr dns2(100,"200.1.1.100");
     ACE_INET_Addr gateway(100,"100.1.1.1");
@@ -94,5 +101,42 @@ int CAuthManager::AuthRequest(const Auth_Request *request)
     return 0;
 }
 
+//Initializes the list to store the IP to be allocated
+void CAuthManager::InIt(uint16_t startip,uint16_t endip)
+{
+    std::string subip = "100.1.1.";
+    for(uint16_t i=startip;i<=endip;i++)
+    {
+        std::stringstream m_tmpip;
+        m_tmpip << subip << i;
+        m_tmpip >> m_ip;
+        m_subip.push_back(m_ip);
+        m_tmpip.clear();
+    }
+}
+
+//Take IP from the list
+std::string CAuthManager::AllocIp()
+{
+    if(m_subip.empty())
+    {
+        ACE_DEBUG((LM_ERROR, "CAuthManager::GetIp(), m_subip NULL.\n"));
+        return 0;
+    }
+    std::string ip = m_subip.front();
+    m_subip.pop_front();
+    return ip;
+}
+
+//Delete IP and add to the list at last
+void CAuthManager::FreeIp(std::string ip)
+{
+    if(ip != "")
+   {
+        m_subip.push_back(ip);
+   }
+    else
+        ACE_DEBUG((LM_ERROR, "CAuthManager::FreeIp(), ip NULL.\n")); 
+}
 
 

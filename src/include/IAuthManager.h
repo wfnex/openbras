@@ -36,6 +36,7 @@
 #define __IAUTHMANAGER_H__
 
 #include "aim_ex.h"
+#include <string>
 
 class IAuthManagerSink 
 {
@@ -53,6 +54,9 @@ public:
     virtual int OpenWithSink(IAuthManagerSink *psink) = 0;
     virtual int Close() = 0;
     virtual int AuthRequest(const Auth_Request *request) = 0;
+
+    virtual std::string AllocIp();
+    
 };
 
 #endif//__IAUTHMANAGER_H__

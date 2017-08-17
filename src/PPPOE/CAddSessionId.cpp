@@ -41,6 +41,7 @@ CAddSessionId::~CAddSessionId()
 {
 }
 
+//Init SessionId List
 void CAddSessionId::InIt(uint16_t startid,uint16_t endid)
 {
     m_startid = startid;
@@ -51,6 +52,7 @@ void CAddSessionId::InIt(uint16_t startid,uint16_t endid)
     }
 }
 
+//Alloc SessionId
 uint16_t CAddSessionId::GetId()
 {
     if(m_SessionId.empty())
@@ -63,6 +65,7 @@ uint16_t CAddSessionId::GetId()
     return id;
 }
 
+//Free SessionId
 void CAddSessionId::FreeId(uint16_t id)
 {
     if(id >= m_startid && id <= m_endid)

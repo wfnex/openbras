@@ -49,18 +49,21 @@ CRadiusScheme::~CRadiusScheme()
     m_SecondaryAcc.StopConnect();
 }
 
+//Start Primary Auth Connect
 int CRadiusScheme::SetUpPrimaryAuthConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_PrimaryAuth.StartConnect(serveraddr);
     return result;
 }
 
+//Start Primary Acct Connect
 int CRadiusScheme::SetUpPrimaryAcctConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_PrimaryAcc.StartConnect(serveraddr);
     return result;
 }
 
+//Start Secondary Auth Connect
 int CRadiusScheme::SetUpSecondaryAuthConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_SecondaryAuth.StartConnect(serveraddr);
@@ -68,6 +71,7 @@ int CRadiusScheme::SetUpSecondaryAuthConn(ACE_INET_Addr &serveraddr)
     return result;
 }
 
+//Start Secondary Acct Connect
 int CRadiusScheme::SetUpSecondaryAcctConn(ACE_INET_Addr &serveraddr)
 {
     int result = m_SecondaryAcc.StartConnect(serveraddr);
@@ -75,21 +79,25 @@ int CRadiusScheme::SetUpSecondaryAcctConn(ACE_INET_Addr &serveraddr)
     return result;
 }
 
+//Send primary Access Message
 int CRadiusScheme::SendAccessMessageP(CRadiusMessage &accessReqMsg,TransactionResponse callback)
 {
     return m_PrimaryAuth.SendMessage(accessReqMsg,callback);
 }
 
+//Send primary Acct Message
 int CRadiusScheme::SendAcctMessageP(CRadiusMessage &acctReqMsg,TransactionResponse callback)
 {
     return m_PrimaryAcc.SendMessage(acctReqMsg,callback);
 }
 
+//Send Secondary Access Message
 int CRadiusScheme::SendAccessMessageS(CRadiusMessage &accessReqMsg,TransactionResponse callback)
 {
     return m_SecondaryAuth.SendMessage(accessReqMsg,callback);
 }
 
+//Send Secondary Acct Message
 int CRadiusScheme::SendAcctMessageS(CRadiusMessage &acctReqMsg,TransactionResponse callback)
 {
     return m_SecondaryAcc.SendMessage(acctReqMsg,callback);

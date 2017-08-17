@@ -54,6 +54,7 @@ CPPP::~CPPP()
     ACE_DEBUG ((LM_DEBUG,"CPPP::~CPPP\n"));
 }
 
+//Init lcp and Select auth methods
 void CPPP::Init()
 {
     ACE_DEBUG ((LM_DEBUG,"CPPP::Init\n"));
@@ -82,6 +83,7 @@ void CPPP::Init()
     m_ipcp.Init();
 }
 
+//Auth Response
 void CPPP::OnAuthResponse(WORD32 result, std::string &reason)
 {
     ACE_DEBUG ((LM_DEBUG,
@@ -110,6 +112,7 @@ void CPPP::OnAuthResponse(WORD32 result, std::string &reason)
     }
 }
 
+//Start Fms
 void CPPP::StartFms()
 {
     ACE_DEBUG ((LM_DEBUG,"CPPP::StartFms\n"));
@@ -118,6 +121,7 @@ void CPPP::StartFms()
     //m_lcp.LowerUp();
 }
 
+//New Phase
 void CPPP::NewPhase(PPPPhase phase)
 {
     m_phase = phase;
@@ -292,6 +296,7 @@ void CPPP::OnLCPTerminate()
     }    
 }
 
+//IPCP Up
 void CPPP::OnIPCPUp()
 {
     ACE_DEBUG((LM_DEBUG, "CPPP::OnIPCPUp\n"));
@@ -338,6 +343,7 @@ void CPPP::OnIPCPUp()
     }
 }
 
+//IPCP Down
 void CPPP::OnIPCPDown()
 {
     ACE_DEBUG((LM_DEBUG, "CPPP::OnIPCPDown\n"));
@@ -359,6 +365,7 @@ void CPPP::OnIPCPDown()
     m_pSink->OnLCPDown(reason);
 }
 
+//IPCP Payload
 void CPPP::OnIPCPPayload(unsigned char *packet, size_t size)
 {
     if (m_pSink)
@@ -367,6 +374,7 @@ void CPPP::OnIPCPPayload(unsigned char *packet, size_t size)
     }
 }
 
+//Input Payload
 void CPPP::InputPayload(unsigned char *packet, size_t size)
 {
     if (m_bLinkOk)
@@ -375,6 +383,7 @@ void CPPP::InputPayload(unsigned char *packet, size_t size)
     }
 }
 
+//LCP Output
 void CPPP::OnLCPOutput(unsigned char *packet, size_t size)
 {
     ACE_DEBUG ((LM_DEBUG,"CPPP::OnLCPOutput, size=%u\n", size));
@@ -385,6 +394,7 @@ void CPPP::OnLCPOutput(unsigned char *packet, size_t size)
     }
 }
 
+//IPCP Output
 void CPPP::OnIPCPOutput(unsigned char *packet, size_t size)
 {
     ACE_DEBUG ((LM_DEBUG,"CPPP::OnIPCPOutput, size=%u\n", size));
@@ -406,6 +416,7 @@ void CPPP::SendAuthRequest2AM(Auth_Request &authReq)
     }
 }
 
+//Output Auth
 void CPPP::OnAuthenOutput(unsigned char *packet, size_t size)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPP::OnAuthenOutput size=%d\n", size));
@@ -416,6 +427,7 @@ void CPPP::OnAuthenOutput(unsigned char *packet, size_t size)
     }
 }
 
+//Auth Result
 void CPPP::OnAuthenResult(int result, int protocol)
 {
     ACE_DEBUG ((LM_DEBUG,"CPPP::OnAuthenResult, result=%d, protocol=%#x\n", result, protocol));

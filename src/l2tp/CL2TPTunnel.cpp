@@ -71,21 +71,24 @@ CL2TPTunnel::~CL2TPTunnel()
     UnInitSocket();
 }
 
+//Add Reference
 uint32_t CL2TPTunnel::AddReference()
 {
     return CReferenceControl::AddReference();
 }
+//Release Reference
 uint32_t CL2TPTunnel::ReleaseReference()
 {
     return CReferenceControl::ReleaseReference();
 }
 
-
+//Get handle
 ACE_HANDLE CL2TPTunnel::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close Handle
 int CL2TPTunnel::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {
@@ -94,13 +97,14 @@ int CL2TPTunnel::handle_close (ACE_HANDLE handle,
     return -1;
 }
 
-
+//Open Tunnel
 int CL2TPTunnel::Open(IL2TPTunnelSink *psink)
 {
     m_pTunnelSink = psink;
     return 0;
 }
 
+//Make Incoming Call
 int CL2TPTunnel::MakeIncomingCall(L2tpSessionProxy &proxy,bool bUserProxy)
 {
     uint16_t localcid = GetIncreaseCid();
@@ -119,7 +123,7 @@ int CL2TPTunnel::MakeIncomingCall(L2tpSessionProxy &proxy,bool bUserProxy)
 }
 
 
-
+//Disconnect
 int CL2TPTunnel::Disconnect()
 {
     char responsebuffer[MAX_RECV_SIZE]={0};
@@ -134,7 +138,7 @@ int CL2TPTunnel::Disconnect()
     return result;    
 }
 
-
+//Timeout Handle
 int CL2TPTunnel::handle_timeout (const ACE_Time_Value &current_time,
                           const void *act)
 {
@@ -155,6 +159,7 @@ int CL2TPTunnel::handle_timeout (const ACE_Time_Value &current_time,
     return 0;
 }
 
+//Add Session
 int CL2TPTunnel::AddSession(uint16_t callid,CCmAutoPtr<CL2TPSession> &session)
 {
     SESSIONType::iterator it = m_sessions.find(callid);
@@ -168,6 +173,7 @@ int CL2TPTunnel::AddSession(uint16_t callid,CCmAutoPtr<CL2TPSession> &session)
     return 0;
 }
 
+//Find Session
 CL2TPSession *CL2TPTunnel::FindSession(uint16_t callid)
 {
     SESSIONType::iterator it = m_sessions.find(callid);
@@ -180,33 +186,38 @@ CL2TPSession *CL2TPTunnel::FindSession(uint16_t callid)
     return NULL;
 }
 
+//Remove Session
 int CL2TPTunnel::RemoveSession(uint16_t callid)
 {
     m_sessions.erase(callid);
     return 0;
 }
 
+//Get Increase Call Id
 uint16_t CL2TPTunnel::GetIncreaseCid()
 {
     return m_sessionidbase++;
 }
 
+//Get Increase NS
 uint16_t CL2TPTunnel::GetIncreaseNS()
 {
     return m_control_seq_num++;
 }
 
+//DeCrease NS
 void CL2TPTunnel::DeCreaseNS()
 {
     m_control_seq_num--;
 }
 
+//InCrease NR
 void CL2TPTunnel::InCreaseNR()
 {
     m_control_rec_seq_num=m_control_rec_seq_num+1;
 }
 
-
+//Send Data
 int CL2TPTunnel::SendData(const char *data,size_t datasize)
 {
     ACE_TCHAR remote_str[80]={0};
@@ -235,7 +246,7 @@ int CL2TPTunnel::SendData(const char *data,size_t datasize)
 
 }
 
-
+//Init Socket
 int CL2TPTunnel::InitSocket()
 {
     
@@ -305,6 +316,7 @@ int CL2TPTunnel::InitSocket()
     return 0;
 }
 
+//UnInit Socket
 int CL2TPTunnel::UnInitSocket()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPTunnel::StopConnect\n"));
@@ -329,6 +341,7 @@ int CL2TPTunnel::UnInitSocket()
     return 0;
 }
 
+//input handle
 int CL2TPTunnel::handle_input (ACE_HANDLE fd)
 {
     ACE_INET_Addr addrRecv;
@@ -397,6 +410,7 @@ int CL2TPTunnel::handle_input (ACE_HANDLE fd)
     return 0;
 }
 
+//Check Control Message
 int CL2TPTunnel::CheckControlMessage(const CL2TPControllMessage & msg,CL2TPTunnel *t, CL2TPSession *session)
 {
     /*
@@ -458,7 +472,7 @@ int CL2TPTunnel::CheckControlMessage(const CL2TPControllMessage & msg,CL2TPTunne
     return 0;
 }
 
-
+//PayLoad Message Handle
 int CL2TPTunnel::HandlePayLoadMessage(const CL2TPDataMessage & datamsg)
 {
     ACE_DEBUG ((LM_DEBUG, "CL2TPLAC::HandlePayLoadMessage\n"));
@@ -477,7 +491,7 @@ int CL2TPTunnel::HandlePayLoadMessage(const CL2TPDataMessage & datamsg)
     return psession->HandlePayLoad(datamsg.GetPayload(), datamsg.GetPayloadSize());
 }
 
-
+//Controll Message Handle
 int CL2TPTunnel::HandleControllMessage(const CL2TPControllMessage &controllmsg)
 {
     //m_control_rec_seq_num++;
@@ -538,6 +552,8 @@ int CL2TPTunnel::HandleControllMessage(const CL2TPControllMessage &controllmsg)
     return result;
 }
 
+
+//Session Controll Message Handle
 int CL2TPTunnel::HandleSessionControllMessage(const CL2TPControllMessage &controllmsg)
 {
     if (CheckControlMessage(controllmsg,this) == -1)
@@ -555,7 +571,7 @@ int CL2TPTunnel::HandleSessionControllMessage(const CL2TPControllMessage &contro
     return psession->HandleControllMessage(controllmsg);
 }
 
-
+// ZLB Handle
 int CL2TPTunnel::HandleZLB(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -566,7 +582,7 @@ int CL2TPTunnel::HandleZLB(const CL2TPControllMessage &msg)
     return 0;
 }
 
-
+//Start Control Connection Request Handle
 int CL2TPTunnel::HandleStartControlConnectionRequest(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -608,6 +624,7 @@ int CL2TPTunnel::HandleStartControlConnectionRequest(const CL2TPControllMessage 
     return 0;
 }
 
+//Start Control Connection Reply Handle
 int CL2TPTunnel::HandleStartControlConnectionReply(const CL2TPControllMessage &msg)
 {
     ACE_Reactor::instance()->cancel_timer(this);
@@ -639,6 +656,7 @@ int CL2TPTunnel::HandleStartControlConnectionReply(const CL2TPControllMessage &m
     return result;
 }
 
+//Start Control Connection Connected Handle
 int CL2TPTunnel::HandleStartControlConnectionConnected(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -660,6 +678,7 @@ int CL2TPTunnel::HandleStartControlConnectionConnected(const CL2TPControllMessag
 #endif
 }
 
+//Stop Control Connection Notification Handle
 int CL2TPTunnel::HandleStopControlConnectionNotification(const CL2TPControllMessage &msg)
 {
     if (msg.GetTID() != m_ourtid)
@@ -690,6 +709,7 @@ int CL2TPTunnel::HandleStopControlConnectionNotification(const CL2TPControllMess
 
 }
 
+//Hello Handle
 int CL2TPTunnel::HandleHello(const CL2TPControllMessage &msg)
 {
     if (msg.GetTID() != m_ourtid)
@@ -707,7 +727,7 @@ int CL2TPTunnel::HandleHello(const CL2TPControllMessage &msg)
     return ControlZLB(this);
 }
 
-
+//WAN Error Notify Handle
 int CL2TPTunnel::HandleWANErrorNotify(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -716,6 +736,7 @@ int CL2TPTunnel::HandleWANErrorNotify(const CL2TPControllMessage &msg)
     return 0;
 }
 
+//Set Link Info Handle
 int CL2TPTunnel::HandleSetLinkInfo(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -723,6 +744,7 @@ int CL2TPTunnel::HandleSetLinkInfo(const CL2TPControllMessage &msg)
     return 0;
 }
 
+// Control ZLB
 int CL2TPTunnel::ControlZLB(CL2TPTunnel *tunnel, CL2TPSession *session)
 {
     uint16_t tid = 0;
@@ -751,7 +773,7 @@ int CL2TPTunnel::ControlZLB(CL2TPTunnel *tunnel, CL2TPSession *session)
     return SendData(zlbbuffer,responsesize);   
 }
 
-
+//Start Connect Request
 int CL2TPTunnel::StartConnectRequest()
 {
     char buffer[MAX_RECV_SIZE]={0};
@@ -773,7 +795,7 @@ int CL2TPTunnel::StartConnectRequest()
     return SendData(buffer,responsesize);    
 }
 
-
+//Session Call Back
 void CL2TPTunnel::OnSessionCallBack(int result ,CL2TPSession *psession)
 {
     if (m_pTunnelSink)

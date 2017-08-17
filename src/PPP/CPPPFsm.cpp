@@ -152,12 +152,14 @@ CPPPFsm::LowerDown()
     }
 }
 
+//Cancel Timer
 void CPPPFsm::CancelTimer()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPFsm::CancelTimer\n"));
     ACE_Reactor::instance()->cancel_timer(this);
 }
 
+//Start Timer
 void CPPPFsm::StartTime(int seconds)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPFsm::StartTime, seconds = %d\n", seconds));
@@ -294,6 +296,7 @@ CPPPFsm::Close(char *reason)
     }
 }
 
+//Timeout Handle
 int CPPPFsm::handle_timeout (const ACE_Time_Value &current_time,
                             const void *act)
 {
@@ -918,7 +921,7 @@ CPPPFsm::SendData(u_char code,
     Output(m_outpacket_buf, outlen + PPP_HDRLEN);
 }
 
-
+//Output Packet
 void CPPPFsm::Output(u_char *data, int datalen)
 {
     if (m_callbacks)
@@ -927,22 +930,25 @@ void CPPPFsm::Output(u_char *data, int datalen)
     }
     return;
 }
-
+//Fsm status
 int CPPPFsm::State()
 {
     return m_state;
 }
 
+//Enable Flag
 void CPPPFsm::EnableFlag(int flag)
 {
     m_flags |=flag;
 }
 
+//Disable Flag
 void CPPPFsm::DisableFlag(int flag)
 {
     m_flags &=~flag;
 }
 
+//Get Id
 int CPPPFsm::GetId()
 {
 	m_id++;

@@ -43,6 +43,7 @@ public:
     virtual int OpenWithSink(IAuthManagerSink *psink);
     virtual int Close();
     virtual int AuthRequest(const Auth_Request *request);
+    std::string AllocIp();
 private:
     IAuthManagerSink *m_psink;
 };

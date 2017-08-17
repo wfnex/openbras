@@ -116,6 +116,7 @@ SWORD32 CPPPOEPacketHandler::OpenX (WORD16 type)
     return 0; 
 }
 
+//Send Packet
 SWORD32 CPPPOEPacketHandler::SendPacket(const CHAR *pkt, SWORD32 size)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOEPacketHandler::SendPacket, size=%d\n", size));
@@ -129,6 +130,7 @@ SWORD32 CPPPOEPacketHandler::SendPacket(const CHAR *pkt, SWORD32 size)
     return 0;
 }
 
+//Input Handle
 int CPPPOEPacketHandler::handle_input (ACE_HANDLE fd)
 {
     static char buffer[2048] = {0};
@@ -150,11 +152,13 @@ int CPPPOEPacketHandler::handle_input (ACE_HANDLE fd)
     return 0;  
 }
 
+//Get Handle
 ACE_HANDLE CPPPOEPacketHandler::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close Handle
 int CPPPOEPacketHandler::handle_close (ACE_HANDLE handle, ACE_Reactor_Mask close_mask)
 {
     ACE_DEBUG ((LM_ERROR,"CPPPOEPacketHandler::handle_close\n"));
@@ -162,6 +166,7 @@ int CPPPOEPacketHandler::handle_close (ACE_HANDLE handle, ACE_Reactor_Mask close
     return 0;
 }
 
+//Bind Interface
 SWORD32 CPPPOEPacketHandler::BindInterface(CHAR const *ifname, WORD16 type)
 {
     struct sockaddr_ll sa;

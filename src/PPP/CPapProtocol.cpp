@@ -48,12 +48,14 @@ CPapProtocolSvr::~CPapProtocolSvr()
     CancelTimer();
 }
 
+//Cancel Timer
 void CPapProtocolSvr::CancelTimer()
 {
     ACE_DEBUG((LM_DEBUG, "CPapProtocolSvr::CancelTimer\n"));
     ACE_Reactor::instance()->cancel_timer(this);
 }
 
+//Start Timer
 void CPapProtocolSvr::StartTimer(int seconds)
 {
     ACE_DEBUG((LM_DEBUG, "CPapProtocolSvr::StartTimer, seconds=%d\n", seconds));
@@ -64,6 +66,7 @@ void CPapProtocolSvr::StartTimer(int seconds)
     ACE_Reactor::instance()->schedule_timer(this, 0, delay, delay); 
 }
 
+//Init Request Time
 void CPapProtocolSvr::Init()
 {
     ACE_DEBUG((LM_DEBUG, "CPapProtocolSvr::Init\n"));
@@ -192,6 +195,7 @@ void CPapProtocolSvr::Close(char *reason)
     return;
 }
 
+//Timeout Handle
 int CPapProtocolSvr::handle_timeout (const ACE_Time_Value &current_time, const void *act)
 {
     //if (u->us_serverstate != UPAPSS_LISTEN)
@@ -288,6 +292,7 @@ CPapProtocolSvr::upap_rauthreq(BYTE *inp, int id, int len)
     BZERO(rpasswd, rpasswdlen);
 }
 
+//Auth Result 
 void CPapProtocolSvr::ResponseAuthenResult(int result, std::string &reason)
 {
     char rhostname[256] = {0};

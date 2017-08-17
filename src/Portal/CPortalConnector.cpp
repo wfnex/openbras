@@ -55,6 +55,7 @@ CPortalConnector::~CPortalConnector()
     // Commented by mazhh: There is no need to call Close() here, as ~CIPOEModule() will call it.
 }
 
+//Start Connect
 int CPortalConnector::StartConnect(const ACE_INET_Addr &peeraddr)
 {
     m_peeraddr = peeraddr;
@@ -156,6 +157,7 @@ int CPortalConnector::StartConnect(const ACE_INET_Addr &peeraddr)
     return 0;
 }
 
+//Stop Connect
 int CPortalConnector::StopConnect()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalConnector::StopConnect\n"));
@@ -188,6 +190,8 @@ int CPortalConnector::GetLocalAddr (ACE_INET_Addr &address) const
     return 0;
 }
 #endif
+
+//Timeout Handle
 int CPortalConnector::handle_timeout (const ACE_Time_Value &current_time,
                           const void *act)
 {
@@ -204,6 +208,7 @@ int CPortalConnector::handle_timeout (const ACE_Time_Value &current_time,
     return 0;
 }
 
+//Input Handle
 int CPortalConnector::handle_input (ACE_HANDLE fd)
 {
     int result = -1;
@@ -321,17 +326,20 @@ int CPortalConnector::handle_input (ACE_HANDLE fd)
     return 0;
 }
 
+//Get Handle
 ACE_HANDLE CPortalConnector::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close Handle
 int CPortalConnector::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {
     return 0;
 }
 
+//Send Data
 int CPortalConnector::SendData(const char *data, size_t datasize)
 {
     ACE_TCHAR remote_str[80]={0};
@@ -359,6 +367,7 @@ int CPortalConnector::SendData(const char *data, size_t datasize)
     return 0;
 }
 
+//Portal Serialize Header
 void CPortalConnector::PortalSerializeHeader(openportal_header *pHeader, 
                                                         uint8_t code, 
                                                         uint8_t auth_type,
@@ -380,7 +389,7 @@ void CPortalConnector::PortalSerializeHeader(openportal_header *pHeader,
     pHeader->attr_num   = 0x00;   
 }
 
-
+//Start Detect
 void CPortalConnector::StartDetect(int second)
 {
     if (second>0)
@@ -391,17 +400,20 @@ void CPortalConnector::StartDetect(int second)
     }
 }
 
+//StopDetect
 void CPortalConnector::StopDetect()
 {
     ACE_Reactor::instance()->cancel_timer(this);
     m_isDetectedEnable=false;
 }
 
+//Check channel status
 bool CPortalConnector::IsChannelAlive()
 {
     return !m_isDead;
 }
 
+//Send Detect
 int CPortalConnector::SendDetect()
 {
     char packet[MAXIMUM_PORTAL_RX_PACKET_SIZE]={0};
@@ -431,6 +443,7 @@ int CPortalConnector::SendDetect()
     return 0;
 }
 
+//Add Authentication
 void CPortalConnector::AddAuthentication(openportal_header *phead)
 {
     PORTAL_ATTRIBUTE_ENTRY_T *p_attrib      = NULL;
@@ -503,15 +516,19 @@ void CPortalConnector::AddAuthentication(openportal_header *phead)
 
 }
 
-
+//Get Server Id
 uint8_t  CPortalConnector::GetServerId()
 {
     return m_cfg.server_id;
 }
+
+//Get Server Ip
 uint32_t  CPortalConnector::GetServerIP()
 {
     return m_cfg.ip_address;
 }
+
+//Get Server Port
 uint16_t  CPortalConnector::GetServerPort()
 {
     return m_cfg.port;

@@ -55,10 +55,13 @@ CL2TPSession::~CL2TPSession()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPSession::~CL2TPSession\n")); 
 }
 
+//Add Reference
 uint32_t CL2TPSession::AddReference()
 {
     return CReferenceControl::AddReference();
 }
+
+//Release Reference
 uint32_t CL2TPSession::ReleaseReference()
 {
     return CReferenceControl::ReleaseReference();
@@ -69,6 +72,7 @@ void CL2TPSession::OpenWithSink(IL2TPSessionSink *psink)
     m_psink = psink;
 }
 
+//Send Data
 int CL2TPSession::SendData(const char *data, size_t datasize)
 {
     ACE_DEBUG ((LM_DEBUG, 
@@ -99,33 +103,37 @@ int CL2TPSession::SendData(const char *data, size_t datasize)
 
 }
 
+//Get Local Call Id
 uint16_t CL2TPSession::GetLocalCID() const
 {
     return m_localcid;
 }
 
+//Get Peer Call Id
 uint16_t CL2TPSession::GetPeerCID() const
 {
     return m_peercid;
 }
 
+//Get Local Tunnel Id
 uint16_t CL2TPSession::GetLocalTID() const
 {
     return m_tunnel.GetLocalTID();
 }
 
+//Get Peer Tunnel Id
 uint16_t CL2TPSession::GetPeerTID() const
 {
     return m_tunnel.GetPeerTID();
 }
 
+//disconnect
 void CL2TPSession::Disconnect()
 {
     
 }
 
-
-
+//payload handle
 int CL2TPSession::HandlePayLoad(const char *data, size_t datasize)
 {
     if (m_psink)
@@ -135,11 +143,13 @@ int CL2TPSession::HandlePayLoad(const char *data, size_t datasize)
     return 0;
 }
 
+//Call Connevted 
 void CL2TPSession::CallConnected()
 {
     m_isconnected=true;
 }
 
+//Start Call
 int CL2TPSession::StartCall()
 {
     char requestbuffer[MAX_RECV_SIZE]={0};
@@ -165,13 +175,14 @@ int CL2TPSession::StartCall()
     return m_tunnel.SendData(requestbuffer,icrqsize);
 }
 
+//Outgoing Call Request handle
 int CL2TPSession::HandleOutgoingCallRequest(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
     return -1;
 
 }
-
+//Outgoing Call Reply handle
 int CL2TPSession::HandleOutgoingCallReply(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -179,6 +190,7 @@ int CL2TPSession::HandleOutgoingCallReply(const CL2TPControllMessage &msg)
 
 }
 
+//Outgoing Call Connected handle
 int CL2TPSession::HandleOutgoingCallConnected(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -186,6 +198,7 @@ int CL2TPSession::HandleOutgoingCallConnected(const CL2TPControllMessage &msg)
 
 }
 
+//Incoming Call Request handle
 int CL2TPSession::HandleIncomingCallRequest(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -223,6 +236,7 @@ int CL2TPSession::HandleIncomingCallRequest(const CL2TPControllMessage &msg)
     return 0;
 }
 
+//Incoming Call Reply handle
 int CL2TPSession::HandleIncomingCallReply(const CL2TPControllMessage &msg)
 {
 
@@ -242,6 +256,7 @@ int CL2TPSession::HandleIncomingCallReply(const CL2TPControllMessage &msg)
     return 0;
 }
 
+//Incoming Call Connected handle
 int CL2TPSession::HandleIncomingCallConnected(const CL2TPControllMessage &msg)
 {
     ACE_UNUSED_ARG(msg);
@@ -271,6 +286,7 @@ int CL2TPSession::HandleIncomingCallConnected(const CL2TPControllMessage &msg)
     return 0;
 }
 
+//Call Disconnect Notify handle
 int CL2TPSession::HandleCallDisconnectNotify(const CL2TPControllMessage &msg)
 {
     m_tunnel.ControlZLB(&m_tunnel,this);
@@ -283,6 +299,7 @@ int CL2TPSession::HandleCallDisconnectNotify(const CL2TPControllMessage &msg)
     return 0;
 }
 
+//Controll Message Handle
 int CL2TPSession::HandleControllMessage(const CL2TPControllMessage &controllmsg)
 {
     //m_control_rec_seq_num++;

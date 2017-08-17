@@ -36,6 +36,7 @@
 #define __ISESSIONMANAGER_H__
 
 #include "aim_ex.h"
+#include "../UserMgr/CUser.h"
 
 class ISessionManagerSink 
 {

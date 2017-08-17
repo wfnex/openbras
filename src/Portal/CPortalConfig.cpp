@@ -50,6 +50,7 @@ CPortalConfig::~CPortalConfig()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalConfig::~CPortalConfig\n")); 
 }
 
+//Init config
 int CPortalConfig::Init()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalConfig::Init\n")); 
@@ -159,18 +160,21 @@ int CPortalConfig::Init()
     return 0;
 }
 
+//Gets the address of the portal listener
 ACE_INET_Addr CPortalConfig::GetPortalListenAddr()
 {
     ACE_INET_Addr myaddr(m_portallistenport,m_portalistenip.c_str());
     return myaddr;
 }
 
+//Get Http Listen Addr
 ACE_INET_Addr CPortalConfig::GetHttpListenAdd()
 {
     ACE_INET_Addr myaddr(m_httplistenport,m_httplistenip.c_str());
     return myaddr;
 }
 
+//Get Server config
 PortalServerCfg *CPortalConfig::GetServerCfg(uint32_t serverip)
 {
     std::list<PortalServerCfg *>::iterator it = m_serverlist.begin();
@@ -190,6 +194,7 @@ PortalServerCfg *CPortalConfig::GetServerCfg(uint32_t serverip)
     return NULL;
 }
 
+//Get Redirect Config
 PortalServerCfg *CPortalConfig::GetRedirectCfg(uint8_t serverid)
 {
     std::list<PortalServerCfg *>::iterator it = m_serverlist.begin();

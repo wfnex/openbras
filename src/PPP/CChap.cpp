@@ -48,10 +48,13 @@ CChap::~CChap()
  * Note: challenge and response arguments below are formatted as
  * a length byte followed by the actual challenge/response data.
  */
+
+//Generate Challenge
 void CChap::GenerateChallenge(unsigned char *challenge)
 {
 }
 
+//Verify Response
 int CChap::VerifyResponse(int id, char *name,
     unsigned char *secret, int secret_len,
     unsigned char *challenge, unsigned char *response,
@@ -60,6 +63,7 @@ int CChap::VerifyResponse(int id, char *name,
 	return -1;
 }
 
+//Make Response
 void CChap::MakeResponse(unsigned char *response, int id, char *our_name,
     unsigned char *challenge, char *secret, int secret_len,
     unsigned char *priv)
@@ -67,11 +71,13 @@ void CChap::MakeResponse(unsigned char *response, int id, char *our_name,
 
 }
 
+//Check Success
 int CChap::CheckSuccess(int id, unsigned char *pkt, int len)
 {
 	return -1;
 }
 
+//Failure Handle
 void CChap::HandleFailure(unsigned char *pkt, int len)
 {
 }

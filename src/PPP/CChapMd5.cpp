@@ -50,6 +50,7 @@ CChapMd5::~CChapMd5()
 {
 }
 
+//Generate Challenge
 void CChapMd5::GenerateChallenge(unsigned char *challenge)
 {
     int clen;
@@ -60,6 +61,7 @@ void CChapMd5::GenerateChallenge(unsigned char *challenge)
 
 }
 
+//Verify Response
 int CChapMd5::VerifyResponse(int id, char *name,
     unsigned char *secret, int secret_len,
     unsigned char *challenge, unsigned char *response,
@@ -92,6 +94,7 @@ int CChapMd5::VerifyResponse(int id, char *name,
 
 }
 
+//Make Response
 void CChapMd5::MakeResponse(unsigned char *response, int id, char *our_name,
     unsigned char *challenge, char *secret, int secret_len,
     unsigned char *priv)
@@ -108,11 +111,13 @@ void CChapMd5::MakeResponse(unsigned char *response, int id, char *our_name,
     response[0] = MD5_HASH_SIZE;
 }
 
+//Check for Success
 int CChapMd5::CheckSuccess(int id, unsigned char *pkt, int len)
 {
     return 1;
 }
 
+//Failure Handle
 void CChapMd5::HandleFailure(unsigned char *pkt, int len)
 {
     return;

@@ -155,6 +155,7 @@ CL2TPControllMessage::~CL2TPControllMessage()
 {
 }
 
+//Decode addr
 int CL2TPControllMessage::Decode(char *buffer, size_t buffersize, const ACE_INET_Addr &peeraddr)
 {
     m_peeraddr = peeraddr;
@@ -187,6 +188,7 @@ int CL2TPControllMessage::Decode(char *buffer, size_t buffersize, const ACE_INET
     return 0;
 }
 
+//Reset
 void CL2TPControllMessage::Reset()
 {
     m_ver=0;
@@ -207,12 +209,13 @@ void CL2TPControllMessage::Reset()
     ::memset(&m_proxy, 0, sizeof(m_proxy));
 }
 
+//Determine the status of zlb
 bool CL2TPControllMessage::IsZLB() const
 {
     return m_bzlb;
 }
 
-
+//AVPs handle
 int CL2TPControllMessage::HandleAVPs(char *buffer, size_t buffersize)
 {
     /*
@@ -305,7 +308,7 @@ int CL2TPControllMessage::HandleAVPs(char *buffer, size_t buffersize)
     return 0;
 }
 
-
+//messagetype avp
 int CL2TPControllMessage::message_type_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::message_type_avp datalen=%d\n",datalen)); 
@@ -314,6 +317,7 @@ int CL2TPControllMessage::message_type_avp (void *data,int datalen)
     return 0;
 }
 
+//result code avp
 int CL2TPControllMessage::result_code_avp (void *data,int datalen)
 {
     ACE_UNUSED_ARG(data);
@@ -321,6 +325,8 @@ int CL2TPControllMessage::result_code_avp (void *data,int datalen)
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::result_code_avp datalen=%d\n",datalen)); 
     return 0;
 }
+
+//protocol version avp
 int CL2TPControllMessage::protocol_version_avp (void *data,int datalen)
 {
     ACE_UNUSED_ARG(data);
@@ -328,6 +334,8 @@ int CL2TPControllMessage::protocol_version_avp (void *data,int datalen)
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::protocol_version_avp datalen=%d\n",datalen)); 
     return 0;
 }
+
+//framing caps avp
 int CL2TPControllMessage::framing_caps_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::framing_caps_avp datalen=%d\n",datalen)); 
@@ -335,6 +343,8 @@ int CL2TPControllMessage::framing_caps_avp (void *data,int datalen)
 
     return 0;
 }
+
+//bearer caps avp
 int CL2TPControllMessage::bearer_caps_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::bearer_caps_avp datalen=%d\n",datalen)); 
@@ -343,7 +353,7 @@ int CL2TPControllMessage::bearer_caps_avp (void *data,int datalen)
     return 0;
 }
 
-
+//firmware rev avp
 int CL2TPControllMessage::firmware_rev_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::firmware_rev_avp datalen=%d\n",datalen)); 
@@ -352,6 +362,7 @@ int CL2TPControllMessage::firmware_rev_avp (void *data,int datalen)
     return 0;
 }
 
+//hostname avp
 int CL2TPControllMessage::hostname_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::hostname_avp datalen=%d\n",datalen)); 
@@ -359,6 +370,8 @@ int CL2TPControllMessage::hostname_avp (void *data,int datalen)
 
     return 0;
 }
+
+//vendor avp
 int CL2TPControllMessage::vendor_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::vendor_avp datalen=%d\n",datalen)); 
@@ -366,6 +379,8 @@ int CL2TPControllMessage::vendor_avp (void *data,int datalen)
 
     return 0;
 }
+
+//assigned tunnel avp
 int CL2TPControllMessage::assigned_tunnel_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::assigned_tunnel_avp datalen=%d\n",datalen)); 
@@ -378,6 +393,8 @@ int CL2TPControllMessage::assigned_tunnel_avp (void *data,int datalen)
 
     return 0;
 }
+
+//receive window size avp
 int CL2TPControllMessage::receive_window_size_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::receive_window_size_avp datalen=%d\n",datalen));
@@ -386,7 +403,7 @@ int CL2TPControllMessage::receive_window_size_avp (void *data,int datalen)
     return 0;
 }
 
-
+//challenge avp
 int CL2TPControllMessage::challenge_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::challenge_avp datalen=%d\n",datalen));
@@ -395,6 +412,7 @@ int CL2TPControllMessage::challenge_avp (void *data,int datalen)
     return 0;
 }
 
+//chalresp avp
 int CL2TPControllMessage::chalresp_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::chalresp_avp datalen=%d\n",datalen));
@@ -402,6 +420,8 @@ int CL2TPControllMessage::chalresp_avp (void *data,int datalen)
 
     return 0;
 }
+
+//assigned call avp
 int CL2TPControllMessage::assigned_call_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::assigned_call_avp datalen=%d\n",datalen));
@@ -414,6 +434,7 @@ int CL2TPControllMessage::assigned_call_avp (void *data,int datalen)
     return 0;
 }
 
+//init lcp req avp
 int CL2TPControllMessage::init_lcp_req_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::init_lcp_req_avp datalen=%d\n",datalen));
@@ -422,6 +443,7 @@ int CL2TPControllMessage::init_lcp_req_avp (void *data,int datalen)
     return 0;
 }
 
+//last lcp send avp
 int CL2TPControllMessage::last_lcp_send_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::last_lcp_send_avp datalen=%d\n",datalen));
@@ -429,6 +451,7 @@ int CL2TPControllMessage::last_lcp_send_avp (void *data,int datalen)
     return 0;
 }
 
+//last lcp recv avp
 int CL2TPControllMessage::last_lcp_recv_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::last_lcp_recv_avp datalen=%d\n",datalen));
@@ -436,6 +459,7 @@ int CL2TPControllMessage::last_lcp_recv_avp (void *data,int datalen)
     return 0;
 }
 
+//proxy auth type avp
 int CL2TPControllMessage::proxy_auth_type_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::proxy_auth_type_avp datalen=%d\n",datalen));
@@ -445,6 +469,7 @@ int CL2TPControllMessage::proxy_auth_type_avp (void *data,int datalen)
     return 0;
 }
 
+//proxy auth name avp
 int CL2TPControllMessage::proxy_auth_name_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::proxy_auth_name_avp datalen=%d\n",datalen));
@@ -453,6 +478,7 @@ int CL2TPControllMessage::proxy_auth_name_avp (void *data,int datalen)
     return 0;
 }
 
+//proxy auth challenge avp
 int CL2TPControllMessage::proxy_auth_challenge_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::proxy_auth_challenge_avp datalen=%d\n",datalen));
@@ -460,6 +486,7 @@ int CL2TPControllMessage::proxy_auth_challenge_avp (void *data,int datalen)
     return 0;
 }
 
+//proxy auth id avp
 int CL2TPControllMessage::proxy_auth_id_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::proxy_auth_id_avp datalen=%d\n",datalen));
@@ -471,6 +498,7 @@ int CL2TPControllMessage::proxy_auth_id_avp (void *data,int datalen)
     return 0;
 }
 
+//proxy auth response avp
 int CL2TPControllMessage::proxy_auth_response_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::proxy_auth_response_avp datalen=%d\n",datalen));
@@ -480,7 +508,7 @@ int CL2TPControllMessage::proxy_auth_response_avp (void *data,int datalen)
 }
 
 
-
+//call serno avp
 int CL2TPControllMessage::call_serno_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::call_serno_avp datalen=%d\n",datalen));
@@ -488,6 +516,8 @@ int CL2TPControllMessage::call_serno_avp (void *data,int datalen)
 
     return 0;
 }
+
+//bearer type avp
 int CL2TPControllMessage::bearer_type_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::bearer_type_avp datalen=%d\n",datalen));
@@ -496,6 +526,7 @@ int CL2TPControllMessage::bearer_type_avp (void *data,int datalen)
     return 0;
 }
 
+//frame type avp
 int CL2TPControllMessage::frame_type_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::frame_type_avp datalen=%d\n",datalen));
@@ -504,6 +535,7 @@ int CL2TPControllMessage::frame_type_avp (void *data,int datalen)
     return 0;
 }
 
+//packet delay avp
 int CL2TPControllMessage::packet_delay_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::packet_delay_avp datalen=%d\n",datalen));
@@ -511,6 +543,8 @@ int CL2TPControllMessage::packet_delay_avp (void *data,int datalen)
 
     return 0;
 }
+
+//dialed number avp 
 int CL2TPControllMessage::dialed_number_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::dialed_number_avp datalen=%d\n",datalen));
@@ -518,6 +552,8 @@ int CL2TPControllMessage::dialed_number_avp (void *data,int datalen)
 
     return 0;
 }
+
+//dialing number avp
 int CL2TPControllMessage::dialing_number_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::dialing_number_avp datalen=%d\n",datalen));
@@ -525,6 +561,8 @@ int CL2TPControllMessage::dialing_number_avp (void *data,int datalen)
 
     return 0;
 }
+
+//sub address avp
 int CL2TPControllMessage::sub_address_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::sub_address_avp datalen=%d\n",datalen));
@@ -533,6 +571,7 @@ int CL2TPControllMessage::sub_address_avp (void *data,int datalen)
     return 0;
 }
 
+//tx speed avp
 int CL2TPControllMessage::tx_speed_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::tx_speed_avp datalen=%d\n",datalen));
@@ -540,6 +579,8 @@ int CL2TPControllMessage::tx_speed_avp (void *data,int datalen)
 
     return 0;
 }
+
+//call physchan avp
 int CL2TPControllMessage::call_physchan_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::call_physchan_avp datalen=%d\n",datalen));
@@ -547,6 +588,7 @@ int CL2TPControllMessage::call_physchan_avp (void *data,int datalen)
 
     return 0;
 }
+//ignore avp
 int CL2TPControllMessage::ignore_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::ignore_avp datalen=%d\n",datalen));
@@ -555,6 +597,7 @@ int CL2TPControllMessage::ignore_avp (void *data,int datalen)
     return 0;
 }
 
+//rand vector avp
 int CL2TPControllMessage::rand_vector_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::rand_vector_avp datalen=%d\n",datalen));
@@ -563,6 +606,7 @@ int CL2TPControllMessage::rand_vector_avp (void *data,int datalen)
     return 0;
 }
 
+//rx speed avp
 int CL2TPControllMessage::rx_speed_avp (void *data,int datalen)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPControllMessage::rx_speed_avp datalen=%d\n",datalen));
@@ -571,6 +615,7 @@ int CL2TPControllMessage::rx_speed_avp (void *data,int datalen)
     return 0;
 }
 
+//seq reqd avp
 int CL2TPControllMessage::seq_reqd_avp (void *data,int datalen)
 {
     ACE_UNUSED_ARG(data);
@@ -586,7 +631,7 @@ struct half_words {
     _u16 s3;
 } __attribute__ ((packed));
 
-
+//add nonmandatory header
 void CL2TPControllMessage::add_nonmandatory_header(_u16 length, _u16 type) {
     struct avp_hdr *avp = (struct avp_hdr *) (m_buffer + m_currentsize);
     avp->length = htons (length);
@@ -594,6 +639,7 @@ void CL2TPControllMessage::add_nonmandatory_header(_u16 length, _u16 type) {
     avp->attr = htons (type);
 }
 
+//add header
 void CL2TPControllMessage::add_header(_u16 length, _u16 type) {
     add_nonmandatory_header(length|MBIT, type);
 }
@@ -924,7 +970,7 @@ int CL2TPControllMessage::add_proxy_auth_response_avp (unsigned char *c,int len)
 
 }
 
-
+//add control hdr
 size_t CL2TPControllMessage::add_control_hdr (uint16_t tid,
         uint16_t cid,
         uint16_t ns,
@@ -943,12 +989,13 @@ size_t CL2TPControllMessage::add_control_hdr (uint16_t tid,
 
     return m_currentsize;
 }
-
+//Get message type
 _u16 CL2TPControllMessage::get_message_type()
 {
     return m_messatetype;
 }
 
+//Print information
 void CL2TPControllMessage::Dump() const
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) m_ver=%d\n",m_ver));  
@@ -982,6 +1029,7 @@ CL2TPDataMessage::~CL2TPDataMessage()
 {
 }
 
+//decode 
 int CL2TPDataMessage::Decode(char *buffer, size_t buffersize, const ACE_INET_Addr &peeraddr)
 {
     m_encodemode = false;
@@ -1104,6 +1152,7 @@ int CL2TPDataMessage::Decode(char *buffer, size_t buffersize, const ACE_INET_Add
     return 0;
 }
 
+//add payload hdr
 size_t CL2TPDataMessage::AddPayloadHdr(int fbit,
                                         int lbit,
                                         uint16_t tid, 
@@ -1157,6 +1206,7 @@ size_t CL2TPDataMessage::AddPayloadHdr(int fbit,
     return hdrsize+datasize;
 }
 
+//reset
 void CL2TPDataMessage::Reset()
 {
     m_ver = 0;

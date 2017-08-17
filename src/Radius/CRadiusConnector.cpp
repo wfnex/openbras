@@ -62,6 +62,7 @@ CRadiusConnector::~CRadiusConnector()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CRadiusConnector::~CRadiusConnector\n"));
 }
 
+//Start Connect
 int CRadiusConnector::StartConnect(const ACE_INET_Addr &peeraddr)
 {
     m_peeraddr = peeraddr;
@@ -160,6 +161,7 @@ int CRadiusConnector::StartConnect(const ACE_INET_Addr &peeraddr)
     return 0;
 }
 
+//Stop Connect
 int CRadiusConnector::StopConnect()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CRadiusConnector::StopConnect\n"));
@@ -184,6 +186,7 @@ int CRadiusConnector::StopConnect()
     return 0;
 }
 
+//Timeout Handle
 int CRadiusConnector::handle_timeout (const ACE_Time_Value &current_time,
                           const void *act)
 {
@@ -192,6 +195,7 @@ int CRadiusConnector::handle_timeout (const ACE_Time_Value &current_time,
 
     return 0;
 }
+//Find Transaction                          
 int CRadiusConnector::FindTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -206,6 +210,7 @@ int CRadiusConnector::FindTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction>
     return 0;
 }
 
+//Input Handle
 int CRadiusConnector::handle_input (ACE_HANDLE fd)
 {
     int result = -1;
@@ -267,6 +272,7 @@ int CRadiusConnector::handle_input (ACE_HANDLE fd)
     return 0;
 }
 
+//Remove Transaction
 int CRadiusConnector::RemoveTransaction(uint8_t id)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1); 
@@ -274,6 +280,7 @@ int CRadiusConnector::RemoveTransaction(uint8_t id)
     return 0;
 }
 
+//Add Transaction
 int CRadiusConnector::AddTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> &trans)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1); 
@@ -288,17 +295,20 @@ int CRadiusConnector::AddTransaction(uint8_t id, CCmAutoPtr<CRadiusTransaction> 
     return 0;   
 }
 
+//Get Handle
 ACE_HANDLE CRadiusConnector::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close Handle
 int CRadiusConnector::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {
     return 0;
 }
 
+//Send Data
 int CRadiusConnector::SendData(const char *data, size_t datasize)
 {
     ACE_TCHAR remote_str[80]={0};
@@ -326,7 +336,7 @@ int CRadiusConnector::SendData(const char *data, size_t datasize)
     return 0;
 }
 
-
+//Get Share Key
 std::string CRadiusConnector::GetSharedKey()
 {
     if (m_pscheme)
@@ -339,6 +349,7 @@ std::string CRadiusConnector::GetSharedKey()
     }
 }
 
+//Get Timeout
 int CRadiusConnector::GetTimeOut()
 {
     if (m_pscheme)
@@ -351,6 +362,7 @@ int CRadiusConnector::GetTimeOut()
     }
 }
 
+//Get Retrans
 int CRadiusConnector::GetRetrans()
 {
     if (m_pscheme)
@@ -363,7 +375,7 @@ int CRadiusConnector::GetRetrans()
     }
 }
 
-
+//Send Message
 int CRadiusConnector::SendMessage(CRadiusMessage &accessReqMsg,TransactionResponse callback)
 {
     char secret[256];

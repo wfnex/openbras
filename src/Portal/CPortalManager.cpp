@@ -56,6 +56,7 @@ CPortalManager::~CPortalManager()
     m_fakeserver.StopListen();
 }
 
+//Init config Portal ListenIp and fake http server ListenIp
 int CPortalManager::Init()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalManager::Init\n" )); 
@@ -97,7 +98,7 @@ int CPortalManager::Init()
     return 0;
 }
 
-
+//Auth Response
 int CPortalManager::OnAuthResponse(const Auth_Response *response)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalManager::OnAuthResponse, user_ip=%d\n",response->user_ip)); 
@@ -122,21 +123,25 @@ int CPortalManager::OnAuthResponse(const Auth_Response *response)
     return 0;
 }
 
+//Add User Response
 int CPortalManager::OnAddUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Delete User Response
 int CPortalManager::OnDeleteUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Modify User Response
 int CPortalManager::OnModifyUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Kick User Notify
 int CPortalManager::OnKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalManager::OnKickUserNotify\n" )); 

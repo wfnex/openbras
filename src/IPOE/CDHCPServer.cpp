@@ -51,6 +51,7 @@ CDHCPServer::~CDHCPServer()
     // Commented by mazhh: There is no need to call Close() here, as ~CIPOEModule() will call it.
 }
 
+//Start Listen
 int CDHCPServer::StartListen(const std::string &serverip, ACE_Reactor *preactor)
 {
     m_ip = serverip;
@@ -76,6 +77,7 @@ int CDHCPServer::StartListen(const std::string &serverip, ACE_Reactor *preactor)
     return 0;
 }
 
+//Stop Listen
 int CDHCPServer::StopListen()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::StopListen\n"));
@@ -86,6 +88,7 @@ int CDHCPServer::StopListen()
     return 0;
 }
 
+//Open the reactor and establish a socket link locally
 int CDHCPServer::Open(ACE_Reactor *reactor)
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CDHCPServer::Open,  reactor=%#x\n", reactor));
@@ -220,6 +223,7 @@ int CDHCPServer::Open(ACE_Reactor *reactor)
     return 0;
 }
 
+//The reactor remove the handle and closes the socket link
 void CDHCPServer::Close()
 {
     ACE_DEBUG ((LM_DEBUG,ACE_TEXT ("(%P|%t) CDHCPServer::close \n")));
@@ -241,6 +245,7 @@ void CDHCPServer::Close()
 
 }
 
+//Get Local Addr
 int CDHCPServer::GetLocalAddr (ACE_INET_Addr &address) const
 {
     address = m_localaddr;
@@ -248,6 +253,7 @@ int CDHCPServer::GetLocalAddr (ACE_INET_Addr &address) const
     return 0;
 }
 
+//Get Local Addr Byte
 uint32_t CDHCPServer::GetLocalAddrByte() 
 { 
     //·µ»ØÍøÂçË³Ðò
@@ -255,6 +261,8 @@ uint32_t CDHCPServer::GetLocalAddrByte()
     return htonl(ipaddr);
 }
 
+
+//Receive Packet and return status
 ssize_t
 CDHCPServer::RcvPacket(ACE_HANDLE fd,void * buf,
                        size_t n,
@@ -273,6 +281,7 @@ CDHCPServer::RcvPacket(ACE_HANDLE fd,void * buf,
     return status;
 }
 
+//handle for input
 int CDHCPServer::handle_input (ACE_HANDLE fd)
 {
     ACE_INET_Addr addrRecv;
@@ -313,27 +322,32 @@ int CDHCPServer::handle_input (ACE_HANDLE fd)
     return 0;
 }
 
+//Get handle
 ACE_HANDLE CDHCPServer::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close handle
 int CDHCPServer::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {
     return 0;
 }
 
-
+//Get Server IP
 std::string CDHCPServer::GetServerIP()
 {
     return m_ip;
 }
+
+//Get Server Port 
 uint16_t CDHCPServer::GetServerPort()
 {
     return BOOTP_REQUEST_PORT;
 }
 
+//Discover handle,Bulid session and set discovery authrequest,set network config
 void CDHCPServer::HandleDiscover(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleDiscover\n")); 
@@ -393,6 +407,7 @@ void CDHCPServer::HandleDiscover(struct dhcp_packet *request)
     
 }
 
+// Request handle
 void CDHCPServer::HandleRequest(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleRequest\n")); 
@@ -409,6 +424,7 @@ void CDHCPServer::HandleRequest(struct dhcp_packet *request)
     dhcpsession->HandleRequest(request);
 }
 
+//Nak Request
 int CDHCPServer::NakRequest(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::NakRequest\n"));
@@ -498,6 +514,7 @@ int CDHCPServer::NakRequest(struct dhcp_packet *request)
     return 0;
 }
 
+//Release Handle
 void CDHCPServer::HandleRelease(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleRelease\n")); 
@@ -513,6 +530,7 @@ void CDHCPServer::HandleRelease(struct dhcp_packet *request)
     dhcpsession->HandleRelease(request);
 }
 
+//Handle Inform
 void CDHCPServer::HandleInform(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleInform\n")); 
@@ -530,6 +548,7 @@ void CDHCPServer::HandleInform(struct dhcp_packet *request)
     dhcpsession->HandleInform(request);
 }
 
+//Decline Handle 
 void CDHCPServer::HandleDecline(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleDecline\n")); 
@@ -627,6 +646,7 @@ void CDHCPServer::HandleDHCP(const char *msg, size_t msgsize)
     return;
 }
 
+//Add Session
 int CDHCPServer::AddSession(uint64_t sessionid, CDHCPSession *psession)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -645,6 +665,7 @@ int CDHCPServer::AddSession(uint64_t sessionid, CDHCPSession *psession)
     return 0;
 }
 
+//Find Session
 CDHCPSession *CDHCPServer::FindSession(uint64_t sessionid)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, NULL);
@@ -658,6 +679,7 @@ CDHCPSession *CDHCPServer::FindSession(uint64_t sessionid)
     return session.Get();
 }
 
+//Remove Session
 int CDHCPServer::RemoveSession(uint64_t sessionid)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -676,6 +698,7 @@ int CDHCPServer::RemoveSession(uint64_t sessionid)
     return 0;
 }
 
+//Clear All Sessions
 void CDHCPServer::ClearAllSession()
 {
     ACE_DEBUG ((LM_DEBUG, "CDHCPServer::ClearAllSession\n"));
@@ -687,6 +710,7 @@ void CDHCPServer::ClearAllSession()
     } 
 }
 
+//Get Session Id
 uint64_t CDHCPServer::GetSessionID(struct dhcp_packet *request)
 {
     uint64_t sessionid = 0;
@@ -716,6 +740,7 @@ uint64_t CDHCPServer::GetSessionID(const Sm_Kick_User* kickInfo)
     return sessionid;
 }
 
+//Send Broadcast Reply
 int CDHCPServer::SendBroadcastReply(struct dhcp_packet *response)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::SendBroadcastReply\n"));
@@ -723,6 +748,7 @@ int CDHCPServer::SendBroadcastReply(struct dhcp_packet *response)
     return SendDHCP(response, INADDR_BROADCAST);
 }
 
+//Auth Response Handle
 int CDHCPServer::HandleAuthResponse(const Auth_Response &response)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServer::HandleAuthResponse\n"));
@@ -741,6 +767,7 @@ int CDHCPServer::HandleAuthResponse(const Auth_Response &response)
     return 0;
 }
 
+//Get configuration from the response 
 int CDHCPServer::GetConfigFromResponse(const Auth_Response &response, DHCPNetworkConfig &config)
 {
     //configµØÖ·¶¼ÊÇÍøÂçË³Ðò
@@ -762,6 +789,7 @@ int CDHCPServer::GetConfigFromResponse(const Auth_Response &response, DHCPNetwor
 }
 
 // clienip should be in host byte order.
+//Send DHCP
 int CDHCPServer::SendDHCP(struct dhcp_packet *response, uint32_t clientip)
 {
     static char buffer[1024*2];
@@ -793,6 +821,7 @@ int CDHCPServer::SendDHCP(struct dhcp_packet *response, uint32_t clientip)
     return 0;
 }
 
+//Get Remote Addr
 int
 CDHCPServer::GetRemoteAddr (ACE_Addr &sa) const
 {
@@ -809,6 +838,7 @@ CDHCPServer::GetRemoteAddr (ACE_Addr &sa) const
   return 0;
 }
 
+//Get Local Addr 
 int
 CDHCPServer::GetLocalAddr (ACE_Addr &sa) const
 {
@@ -825,11 +855,13 @@ CDHCPServer::GetLocalAddr (ACE_Addr &sa) const
   return 0;
 }
 
+//Add User Request
 int CDHCPServer::AddUserRequest(const Session_User_Ex &user)
 {
     return m_ipoe.AddUserRequest(user);
 }
-    
+
+// Delete User Request    
 int CDHCPServer::DeleteUserRequest(const Session_Offline &user)
 {
     return m_ipoe.DeleteUserRequest(user);

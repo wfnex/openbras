@@ -49,11 +49,13 @@ CEtherIntf::~CEtherIntf()
 {
 }
 
+//provide PPPOE interface
 CPPPOE &CEtherIntf::GetPppoe()
 {
     return m_pppoe;
 }
 
+//Get Intf Name
 void CEtherIntf::GetIntfName(CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
 {
     if (acIntfName != NULL)
@@ -63,6 +65,7 @@ void CEtherIntf::GetIntfName(CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
     }
 }
 
+//Set Intf Name
 void CEtherIntf::SetIntfName(const CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
 {
     if (acIntfName != NULL)
@@ -72,6 +75,7 @@ void CEtherIntf::SetIntfName(const CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
     }
 }
 
+//Get Intf Mac
 void CEtherIntf::GetIntfMac(BYTE acIntfMac[ETH_ALEN])
 {
     if (acIntfMac != NULL)
@@ -80,6 +84,7 @@ void CEtherIntf::GetIntfMac(BYTE acIntfMac[ETH_ALEN])
     }
 }
 
+//Set Intf Ip
 void CEtherIntf::SetIntfIp(std::string &ip)
 {
     std::string tmp = ip;
@@ -89,6 +94,7 @@ void CEtherIntf::SetIntfIp(std::string &ip)
     SetIntfIp( htonl(addr.get_ip_address()) );
 }
 
+//Set Intf Mac By Name
 int CEtherIntf::SetIntfMacByName()
 {
     CHAR acEmptyName[ETHER_INTF_NAME_SIZE+1];

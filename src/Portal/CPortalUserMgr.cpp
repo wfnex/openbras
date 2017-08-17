@@ -54,43 +54,49 @@ CPortalUser::~CPortalUser()
     }
 }
 
+//Get User Id
 uint64_t CPortalUser::GetUserID()
 {
     return m_userid;
 }
 
+//Get Portal Server Ip
 ACE_INET_Addr CPortalUser::GetPortalServerIP()
 {
     return m_PortalServerAddr;
 }
 
+//Get Portal Local Ip
 ACE_INET_Addr CPortalUser::GetPortalLocalIP()
 {
     return m_PortalLocalAddr;
 }
 
-
+//Set Portal Server Ip
 void CPortalUser::SetPortalServerIP(const ACE_INET_Addr &ipaddr)
 {
     m_PortalServerAddr = ipaddr;
 }
 
+//Set Portal Local Ip
 void CPortalUser::SetPortalLocalIP(const ACE_INET_Addr &ipaddr)
 {
     m_PortalLocalAddr = ipaddr;
 }
 
-
+//check Auth Status
 bool CPortalUser::IsAuthOK()
 {
     return m_isAuthOk;
 }
 
+//Set Auth Result
 void CPortalUser::SetAuthResult(bool isAuthOk)
 {
     m_isAuthOk = isAuthOk;
 }
 
+//Set Auth Info
 void CPortalUser::SetAuthInfo(const char *packet, size_t packetsize)
 {
     ACE_DEBUG ((LM_ERROR,"(%P|%t) CPortalUser::SetAuthInfo SetAuthInfo packet=%d,packetsize=%d\n",packet,packetsize));
@@ -114,6 +120,7 @@ void CPortalUser::SetAuthInfo(const char *packet, size_t packetsize)
     m_packetsize = packetsize;
 }
 
+//Get Auth Info
 void CPortalUser::GetAuthInfo(char *&packet, size_t &packetsize)
 {
     packet = m_packet;
@@ -131,6 +138,7 @@ CPortalUserMgr::~CPortalUserMgr()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalUserMgr::~CPortalUserMgr\n")); 
 }
 
+//Get UserId
 uint64_t CPortalUserMgr::GetUserID(uint32_t ipaddr, uint32_t vrf)
 {
     uint64_t id = 0;
@@ -139,6 +147,7 @@ uint64_t CPortalUserMgr::GetUserID(uint32_t ipaddr, uint32_t vrf)
     return id;
 }
 
+//Add User
 int CPortalUserMgr::AddUser(CCmAutoPtr<CPortalUser> &user)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -153,6 +162,7 @@ int CPortalUserMgr::AddUser(CCmAutoPtr<CPortalUser> &user)
     return 0;
 }
 
+//Remove User
 int CPortalUserMgr::RemoveUser(uint64_t userid)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -168,7 +178,7 @@ int CPortalUserMgr::RemoveUser(uint32_t ipaddr, uint32_t vpnid)
     return RemoveUser(userid);
 }
 
-
+//Find User
 int CPortalUserMgr::FindUser(uint64_t userid, CPortalUser *&puser)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -189,6 +199,7 @@ int CPortalUserMgr::FindUser(uint32_t ipaddr, uint32_t vpnid, CPortalUser *&puse
     return FindUser(userid,puser);
 }
 
+//Create User
 int CPortalUserMgr::CreateUser(uint32_t ipaddr, uint32_t vpnid, CPortalUser *&puser)
 {
     uint64_t userid = GetUserID(ipaddr,vpnid);

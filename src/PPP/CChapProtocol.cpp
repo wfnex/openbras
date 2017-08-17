@@ -62,6 +62,7 @@ void CChapProtocolSvr::Init()
 #endif    
 }
 
+//Input handle
 void CChapProtocolSvr::Input(unsigned char *packet ,size_t size)
 {
     unsigned char code, id;
@@ -105,6 +106,7 @@ void CChapProtocolSvr::Input(unsigned char *packet ,size_t size)
     }    
 }
 
+//check auth status 
 void CChapProtocolSvr::Protrej()
 {
     if (m_server.flags & TIMEOUT_PENDING) 
@@ -158,6 +160,8 @@ void CChapProtocolSvr::Close(char *reason)
  * or a new challenge to start re-authentication.
  */
 // TBD !!! Is retransmission conform to the security considerations of RFC 1334?
+
+//Timeout Handle
 int CChapProtocolSvr::handle_timeout (const ACE_Time_Value &current_time, const void *act)
 {
     ACE_DEBUG ((LM_DEBUG, "CChapProtocolSvr::handle_timeout\n"));
@@ -190,12 +194,14 @@ int CChapProtocolSvr::handle_timeout (const ACE_Time_Value &current_time, const 
     return 0;
 }
 
+//Cancel Timer
 void CChapProtocolSvr::CancelTimer()
 {
     ACE_DEBUG((LM_DEBUG, "CChapProtocolSvr::CancelTimer\n"));
     ACE_Reactor::instance()->cancel_timer(this);    
 }
 
+//Start Timer
 void CChapProtocolSvr::StartTimer(int seconds)
 {
     ACE_DEBUG((LM_DEBUG, "CChapProtocolSvr::StartTimer, seconds=%d\n", seconds));

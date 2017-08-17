@@ -34,6 +34,10 @@
 #define CAUTHMGRTEST_H
 #include "IAuthManager.h"
 #include "aceinclude.h"
+#include <list>
+
+typedef std::list<std::string> LISTINT; 
+
 
 class CAuthManager : public IAuthManager
 {
@@ -43,8 +47,14 @@ public:
     virtual int OpenWithSink(IAuthManagerSink *psink);
     virtual int Close();
     virtual int AuthRequest(const Auth_Request *request);
+    
+    void InIt(uint16_t startip,uint16_t endip);
+    std::string AllocIp();
+    void FreeIp(std::string ip);
 private:
     IAuthManagerSink *m_psink;
+    LISTINT m_subip;
+    std::string m_ip;
 };
 
 #endif//CAUTHMGRTEST_H

@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ACE_Thread_Mutex mutex_;
 ACE_Condition_Thread_Mutex condition_(mutex_);
 
+//Provide interface
 IL2TPManager* IL2TPManager::Instance()
 {
     static CL2TPManager mgr;
@@ -60,6 +61,7 @@ CL2TPManager::~CL2TPManager()
 {
 }
 
+//Start server
 int CL2TPManager::Start()
 {
     ACE_DEBUG ((LM_DEBUG,"CL2TPManager::Start\n"));  
@@ -79,7 +81,7 @@ int CL2TPManager::Start()
     return 0;    
 }
 
-
+//Server cycle for work
 ACE_THR_FUNC_RETURN
 CL2TPManager::server_worker (void *p)
 {
@@ -101,6 +103,8 @@ CL2TPManager::server_worker (void *p)
     return NULL;
 }
 
+
+//Create LAC
 int CL2TPManager::CreateLAC(CCmAutoPtr<IL2TPLAC> &CallMake)
 {
     CCmAutoPtr<IL2TPLAC> lac(new CL2TPLAC(*this));

@@ -56,6 +56,7 @@ CIPOEModule::~CIPOEModule()
     m_eventReactor.Close();
 }
 
+//Start dhcpserver
 int CIPOEModule::Start(const std::string &serverip)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CIPOEModule::Start\n")); 
@@ -81,24 +82,28 @@ int CIPOEModule::Start(const std::string &serverip)
     return 0;
 }
 
+//Auth Request
 int CIPOEModule::AuthRequest(const Auth_Request &request)
 {
     ACE_DEBUG ((LM_DEBUG, "CIPOEModule::AuthRequest, m_AuthMgr.AuthRequest\n"));
     return m_AuthMgr.AuthRequest(&request);
 }
 
+// Add User Request
 int CIPOEModule::AddUserRequest(const Session_User_Ex &user)
 {
     ACE_DEBUG ((LM_DEBUG, "CIPOEModule::AddUserRequest, m_sessionmgr.addUserRequest\n"));
     return m_sessionmgr.addUserRequest(&user);
 }
 
+//Delete User Request
 int CIPOEModule::DeleteUserRequest(const Session_Offline &user)
 {
     ACE_DEBUG ((LM_DEBUG, "CIPOEModule::DeleteUserRequest, m_sessionmgr.deleteUserRequest\n"));
     return m_sessionmgr.deleteUserRequest(&user);
 }
 
+//Auth Response
 int CIPOEModule::OnAuthResponse(const Auth_Response *response)
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CIPOEModule::OnAuthResponse\n"));
@@ -121,21 +126,25 @@ int CIPOEModule::OnAuthResponse(const Auth_Response *response)
 }
 
 //ISessionManagerSink
+//Add User Response
 int CIPOEModule::OnAddUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Delete User Response
 int CIPOEModule::OnDeleteUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Modify User Response
 int CIPOEModule::OnModifyUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Kick User Notify
 int CIPOEModule::OnKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_INFO, "CIPOEModule::onKickUserNotify\n"));

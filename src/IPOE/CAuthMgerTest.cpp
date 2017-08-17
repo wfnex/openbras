@@ -89,5 +89,9 @@ int CAuthManager::AuthRequest(const Auth_Request *request)
     return 0;
 }
 
+std::string CAuthManager::AllocIp()
+{
+
+}
 
 

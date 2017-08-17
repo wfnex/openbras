@@ -65,6 +65,7 @@ CPPPOE::~CPPPOE()
     IEventReactor::Instance().Close();
 }
 
+//Clear All Discovery Client
 void CPPPOE::ClearAllClientDiscovery()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::ClearAllClientDiscovery\n"));
@@ -76,6 +77,7 @@ void CPPPOE::ClearAllClientDiscovery()
     } 
 }
 
+//Clear All Session
 void CPPPOE::ClearAllSession()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::ClearAllSession\n"));
@@ -124,22 +126,26 @@ int CPPPOE::Start()
     return 0;
 }
 
+//Get PPPOE Discovery Handle
 CPPPOEDiscoveryHandler &CPPPOE::GetPppoeDiscoveryHndl() 
 {
     return m_DiscoveryHandle;
 }
 
+//Get Pppoe Session Handle
 CPPPOESessionHandler &CPPPOE::GetPppoeSessionHndl() 
 {
     return m_SessionHandle;
 }
 
+//Get Ether Intf
 CEtherIntf &CPPPOE::GetEtherIntf() 
 {
     return m_etherIntf;
 }
 
 // m_clientDiscoveries related operations
+//Create Client Discovery
 int CPPPOE::CreateClientDiscovery(BYTE clientMac[ETH_ALEN], CCmAutoPtr<CClientDiscovery> &discovery)
 {
     if (NULL == clientMac)
@@ -162,6 +168,7 @@ int CPPPOE::CreateClientDiscovery(BYTE clientMac[ETH_ALEN], CCmAutoPtr<CClientDi
     return -1;
 }
 
+//Add Client Discovery
 int CPPPOE::AddClientDiscovery(WORD64 clientMac, CCmAutoPtr<CClientDiscovery> &discovery)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::AddClientDiscovery, clientMac = %#x\n", clientMac));
@@ -180,7 +187,7 @@ int CPPPOE::AddClientDiscovery(WORD64 clientMac, CCmAutoPtr<CClientDiscovery> &d
     
     return -1;
 }
-
+//Remove Client Discovery
 int CPPPOE::RemoveClientDiscovery(WORD64 clientMac)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::RemoveClientDiscovery, clientMac = %#x\n", clientMac));
@@ -206,6 +213,7 @@ int CPPPOE::RemoveClientDiscovery(CCmAutoPtr<CClientDiscovery> &discovery)
     return RemoveClientDiscovery(clientMac);
 }
 
+//Create Session
 int CPPPOE::CreateSession(CCmAutoPtr<CSession> &session)
 {
     WORD16 sessionId = AllocId();
@@ -228,6 +236,7 @@ int CPPPOE::CreateSession(CCmAutoPtr<CSession> &session)
     return -1;
 }
 
+//Add Session
 int CPPPOE::AddSession(WORD16 sessionid, CCmAutoPtr<CSession> &session)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::AddSession, sessionid = %#x\n", sessionid));
@@ -247,6 +256,7 @@ int CPPPOE::AddSession(WORD16 sessionid, CCmAutoPtr<CSession> &session)
     return -1;
 }
 
+//Remove Session
 int CPPPOE::RemoveSession(WORD16 sessionid)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::RemoveSession, sessionid=%#x\n", sessionid));
@@ -271,6 +281,7 @@ int CPPPOE::RemoveSession(CCmAutoPtr<CSession> &session)
     return RemoveSession(sessionid);
 }
 
+//Find Session
 CSession * CPPPOE::FindSession(WORD16 sessionid)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex4SessionMgr, NULL);
@@ -286,6 +297,7 @@ CSession * CPPPOE::FindSession(WORD16 sessionid)
     return session.Get();
 }
 
+//Alloc SessionId
 WORD16 CPPPOE::AllocId()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::CalculateValidSessId\n"));
@@ -295,11 +307,23 @@ WORD16 CPPPOE::AllocId()
     return m_psessionid.GetId();
 }
 
+//Free SessionId
 void CPPPOE::FreeId(uint16_t id)
 {
-        m_psessionid.FreeId(id);
+    m_psessionid.FreeId(id);
 }
 
+//Get subscriber Ip
+
+WORD32 CPPPOE::GetIp()
+{
+    std::string userip = IAuthManager::instance().AllocIp();
+    ACE_INET_Addr subip(userip.c_str());
+    WORD32 ip = htonl(subip.get_ip_address());
+    return ip;
+}
+
+//LCP is Down 
 void CPPPOE::OnLCPDown(WORD16 sessionId, const std::string &reason)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::OnLCPDown, sessionId=%#x, reason=%s\n", sessionId, reason.c_str()));
@@ -367,6 +391,7 @@ chap_md5_verify_response(Auth_Request &authReq)
 }
 #endif
 
+//PPPOE Auth Request
 void CPPPOE::OnPPPOEAuthRequest(Auth_Request &authReq)
 {
     ACE_DEBUG((LM_DEBUG, "CPPPOE::OnPPPOEAuthRequest\n"));
@@ -469,6 +494,7 @@ void CPPPOE::OnPPPOEAuthRequest(Auth_Request &authReq)
 #endif
 }
 
+//Auth Response
 int CPPPOE::OnAuthResponse(const Auth_Response *response)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::OnAuthResponse, sessionid=%d\n",response->session ));
@@ -489,6 +515,7 @@ int CPPPOE::OnAuthResponse(const Auth_Response *response)
     return 0;
 }
 
+//Auth Response handle
 int CPPPOE::HandleAuthResponse(const Auth_Response *response)
 {
     ACE_DEBUG((LM_DEBUG, "CPPPOE::HandleAuthResponse\n"));
@@ -534,21 +561,25 @@ int CPPPOE::HandleAuthResponse(const Auth_Response *response)
     return 0;
 }
 
+//Add User Response
 int CPPPOE::OnAddUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Delete User Response
 int CPPPOE::OnDeleteUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Modify User Response
 int CPPPOE::OnModifyUserResponse(const UM_RESPONSE &response)
 {
     return 0;
 }
 
+//Kick User Notify
 int CPPPOE::OnKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::onKickUserNotify\n"));
@@ -569,6 +600,7 @@ int CPPPOE::OnKickUserNotify(const Sm_Kick_User* kickInfo)
     return 0;
 }
 
+//Kick User Handle Notify
 int CPPPOE::HandleKickUserNotify(const Sm_Kick_User* kickInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::HandleKickUserNotify\n"));
@@ -607,6 +639,7 @@ int CPPPOE::HandleKickUserNotify(const Sm_Kick_User* kickInfo)
     return 0;
 }
 
+//Add Subscriber
 SWORD32 CPPPOE::AddSubscriber(Session_User_Ex &sInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::AddSubscriber, dump:\n"));
@@ -622,6 +655,7 @@ SWORD32 CPPPOE::AddSubscriber(Session_User_Ex &sInfo)
     return ISessionManager::instance().addUserRequest(&sInfo);
 }
 
+//Delete Subscriber
 SWORD32 CPPPOE::DelSubscriber(Session_Offline &sInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPOE::DelSubscriber, dump:\n"));
@@ -634,16 +668,19 @@ SWORD32 CPPPOE::DelSubscriber(Session_Offline &sInfo)
     return ISessionManager::instance().deleteUserRequest(&sInfo);
 }
 
+//Get AC Name
 CHAR * CPPPOE::GetACName()
 {
     return m_acName;
 }
 
+//Get Svc Name
 CHAR * CPPPOE::GetSvcName()
 {
     return m_svcName;
 }
 
+//Set AC Name
 void CPPPOE::SetACName(const CHAR acName[PPPOE_MAX_ACNAME_LENGTH])
 {
     if (acName != NULL)
@@ -653,6 +690,7 @@ void CPPPOE::SetACName(const CHAR acName[PPPOE_MAX_ACNAME_LENGTH])
     }
 }
 
+//Set Svc Name
 void CPPPOE::SetSvcName(const CHAR svcName[PPPOE_MAX_SERVICE_NAME_LENGTH])
 {
     if (svcName != NULL)
@@ -662,32 +700,37 @@ void CPPPOE::SetSvcName(const CHAR svcName[PPPOE_MAX_SERVICE_NAME_LENGTH])
     }
 }
 
-
+//Get VBUI Intf Name
 void CPPPOE::GetVBUIIntfName(CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
 {
     m_etherIntf.GetIntfName(acIntfName);
 }
 
+//Set VBUI Intf Name
 void CPPPOE::SetVBUIIntfName(const CHAR acIntfName[ETHER_INTF_NAME_SIZE+1])
 {
     m_etherIntf.SetIntfName(acIntfName);
 }
 
+//Get VBUI Intf Mtu
 WORD16 CPPPOE::GetVBUIIntfMtu()
 {
     return m_etherIntf.GetIntfMtu();
 }
 
+//Set VBUI Intf Mtu
 void CPPPOE::SetVBUIIntfMtu(WORD16 mtu)
 {
     m_etherIntf.SetIntfMtu(mtu);
 }
 
+//Get VBUI Intf IP
 WORD32 CPPPOE::GetVBUIIntfIP()
 {
     return m_etherIntf.GetIntfIp();
 }
 
+//Set VBUI Intf IP
 void CPPPOE::SetVBUIIntfIP(WORD32 ipAddr)
 {
     m_etherIntf.SetIntfIp(ipAddr);
@@ -698,11 +741,13 @@ void CPPPOE::SetVBUIIntfIP(std::string &ipAddr)
     m_etherIntf.SetIntfIp(ipAddr);
 }
 
+//Set Auth Type
 void CPPPOE::SetAuthType(uint16_t authType)
 {
     m_authType = authType;
 }
 
+//Set HostName
 void CPPPOE::SetHostName(std::string &hostName)
 {
     m_hostName = hostName;

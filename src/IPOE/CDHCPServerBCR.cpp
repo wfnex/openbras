@@ -153,16 +153,20 @@ int CDHCPServerBCR::Open(ACE_Reactor *reactor)
     return 0;
 }
 
+//handle for input
 int CDHCPServerBCR::handle_input (ACE_HANDLE fd)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPServerBCR::handle_input fd=%d\n",fd));
 
     return m_server.handle_input(fd);
 }
+
+// Get handle
 ACE_HANDLE CDHCPServerBCR::get_handle (void) const
 {
     return m_handler;
 }
+// Close handle
 int CDHCPServerBCR::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {

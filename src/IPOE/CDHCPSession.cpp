@@ -62,6 +62,7 @@ CDHCPSession::~CDHCPSession()
     StopLeaseTimer();
 }
 
+//Start Lease Timer
 void CDHCPSession::StartLeaseTimer(int second)
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CDHCPSession::StartLeaseTimer, second=%d\n", second));
@@ -72,12 +73,14 @@ void CDHCPSession::StartLeaseTimer(int second)
     ACE_Reactor::instance()->schedule_timer(this, 0, interval, interval);
 }
 
+//Stop Lease Timer
 void CDHCPSession::StopLeaseTimer()
 {
     ACE_DEBUG ((LM_DEBUG, "CDHCPSession::StopLeaseTimer\n"));
     ACE_Reactor::instance()->cancel_timer(this);
 }
 
+//Timeout handle
 int CDHCPSession::handle_timeout (const ACE_Time_Value &current_time,
                             const void *act)
 {
@@ -88,6 +91,7 @@ int CDHCPSession::handle_timeout (const ACE_Time_Value &current_time,
     return 0;
 }
 
+//Discovery handle
 int CDHCPSession::HandleDiscover(const DHCPNetworkConfig &config)
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CDHCPSession::HandleDiscover,start\n"));
@@ -291,6 +295,7 @@ int CDHCPSession::HandleDiscover(const DHCPNetworkConfig &config)
     return 0;
 }
 
+//Set Discovery Request
 void CDHCPSession::SetDiscoverRequest(struct dhcp_packet *request)
 {
     if (m_discovery)
@@ -302,11 +307,13 @@ void CDHCPSession::SetDiscoverRequest(struct dhcp_packet *request)
     m_discovery = request;
 }
 
+//Get Network Config
 void CDHCPSession::GetNetworkConfig(DHCPNetworkConfig &config)
 {
     ::memcpy(&config, &m_config, sizeof(DHCPNetworkConfig));
 }
 
+//Request handle
 int CDHCPSession::HandleRequest(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CDHCPSession::HandleRequest\n")); 
@@ -787,6 +794,7 @@ int CDHCPSession::HandleInform(struct dhcp_packet *request)
     return 0;
 }
 
+//Decline handle
 int CDHCPSession::HandleDecline(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG, "CDHCPSession::HandleDecline\n"));
@@ -796,6 +804,7 @@ int CDHCPSession::HandleDecline(struct dhcp_packet *request)
     return 0;
 }
 
+//Add User
 void CDHCPSession::AddUser()
 {
     ACE_DEBUG ((LM_DEBUG, "CDHCPSession::AddUser\n"));
@@ -842,6 +851,7 @@ void CDHCPSession::RemoveUser()
     m_Server.DeleteUserRequest(user);
 }
 
+//Release handle
 void CDHCPSession::HandleRelease(struct dhcp_packet *request)
 {
     ACE_DEBUG ((LM_DEBUG, "CDHCPSession::HandleRelease\n"));
@@ -855,11 +865,13 @@ void CDHCPSession::HandleRelease(struct dhcp_packet *request)
     free_packet(request);
 }
 
+//Remove Session
 void CDHCPSession::DestroySession()
 {
     m_Server.RemoveSession(m_sessionid);
 }
 
+//Lease Timeout handle
 void CDHCPSession::LeaseTimeOut()
 {
     DestroySession();

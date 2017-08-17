@@ -64,6 +64,7 @@ CPortalHTTPChannel::~CPortalHTTPChannel()
     //}
 }
 
+//Set Server Portal
 void CPortalHTTPChannel::SetPortalServer(CPortalFakeServer *pserver)
 {
     m_pserver = pserver;
@@ -84,6 +85,7 @@ void CPortalHTTPChannel::SetPortalServer(CPortalFakeServer *pserver)
    */
 /*********************************************************************************/
 
+//Message Handle
 size_t CPortalHTTPChannel::OnHandleMessage(const ACE_Message_Block &aData)
 {
     std::string str;
@@ -127,15 +129,17 @@ size_t CPortalHTTPChannel::OnHandleMessage(const ACE_Message_Block &aData)
     return aData.length();
 }
 
+//Rcv Buffer OverFlow
 void CPortalHTTPChannel::OnRcvBufferOverFlow(size_t maxbuffersize)
 {
     
 }
 
+//Connect
 void CPortalHTTPChannel::OnConnected()
 {
 }
-    
+ 
 CPortalFakeServer::CPortalFakeServer(CPortalManager &mgr)
     :m_mgr(mgr)
 {
@@ -146,6 +150,7 @@ CPortalFakeServer::~CPortalFakeServer()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalFakeServer::~CPortalFakeServer\n")); 
 }
 
+//Start Listen
 int CPortalFakeServer::StartListen(const ACE_INET_Addr &httplistenip)
 {
 
@@ -166,6 +171,7 @@ int CPortalFakeServer::StartListen(const ACE_INET_Addr &httplistenip)
     return 0;
 }
 
+//Stop Listen
 void CPortalFakeServer::StopListen()
 {
     UNBINDVSType::iterator it2 = m_UnBindVSs.begin();
@@ -177,7 +183,7 @@ void CPortalFakeServer::StopListen()
     ACCEPTOR::close();
 }
 
-
+//Accept svc Handle
 int CPortalFakeServer::accept_svc_handler (CPortalHTTPChannel *handler)
 {
     ACE_DEBUG ((LM_DEBUG,"CPortalFakeServer::accept_svc_handler\n"));
@@ -209,6 +215,7 @@ int CPortalFakeServer::accept_svc_handler (CPortalHTTPChannel *handler)
     return result;
 }
 
+//Make svc Handle
 int CPortalFakeServer::make_svc_handler (CPortalHTTPChannel *&sh)
 {
     ACE_DEBUG ((LM_DEBUG,"CPortalFakeServer::make_svc_handler\n"));
@@ -220,6 +227,7 @@ int CPortalFakeServer::make_svc_handler (CPortalHTTPChannel *&sh)
     return 0;
 }
 
+//Add Channel
 int CPortalFakeServer::AddChannel(CPortalHTTPChannel *pvs)
 {
     if (pvs == NULL)
@@ -235,12 +243,14 @@ int CPortalFakeServer::AddChannel(CPortalHTTPChannel *pvs)
     return 0;
 }
 
+//Remove Channel
 int CPortalFakeServer::RemoveChannel(CPortalHTTPChannel *pvs)
 {
     m_UnBindVSs.erase(pvs->GetID());
     return 0;
 }
 
+//Find Channel
 CPortalHTTPChannel *CPortalFakeServer::FindChannel(int handler)
 {
     if (handler <=0)
@@ -250,6 +260,8 @@ CPortalHTTPChannel *CPortalFakeServer::FindChannel(int handler)
     CCmAutoPtr<CPortalHTTPChannel> &channel = m_UnBindVSs[handler];
     return channel.Get();
 }
+
+//Get Portal Config
 CPortalConfig &CPortalFakeServer::GetPortalConfig()
 {
     return m_mgr.GetPortalConfig();

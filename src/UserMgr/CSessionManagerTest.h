@@ -36,6 +36,10 @@
 #define CSESSIONMANAGER_H
 #include "ISessionManager.h"
 #include "aceinclude.h"
+#include "CUser.h"
+#include <unordered_map>
+
+typedef std::unordered_map<uint32_t, CUser *> USERMAP;
 
 class CSessionManager : public ISessionManager 
 {
@@ -49,8 +53,13 @@ public:
     virtual int addUserRequest(const Session_User_Ex* sInfo);
     virtual int deleteUserRequest(const Session_Offline* sInfo);
     virtual int modifyUserRequest(const Session_User_Ex* sInfo);
+
+    void AddUser(CUser *user);
+    int DeleteUser(WORD32 ip);
+    WORD32 FindUserIp(WORD16 sessionid);
 private:
     ISessionManagerSink *m_psink;
+    USERMAP m_usermgr;
 };
 
 

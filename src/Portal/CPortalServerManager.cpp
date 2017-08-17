@@ -46,6 +46,7 @@ CPortalServerManager::~CPortalServerManager()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerManager::~CPortalServerManager\n")); 
 }
 
+//Add Channel
 int CPortalServerManager::AddChannel(const ACE_INET_Addr &peeraddr, 
         const ACE_INET_Addr &localaddr,
         CCmAutoPtr<CPortalServerChannel> &channel)
@@ -76,6 +77,7 @@ int CPortalServerManager::AddChannel(const ACE_INET_Addr &peeraddr,
     return 0;
 }
 
+//Find Channel
 CPortalServerChannel *CPortalServerManager::FindChannel(const ACE_INET_Addr &peeraddr, const ACE_INET_Addr &localaddr)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, NULL);
@@ -101,6 +103,7 @@ CPortalServerChannel *CPortalServerManager::FindChannel(const ACE_INET_Addr &pee
     return channel.Get();
 }
 
+//Remove Channel
 int CPortalServerManager::RemoveChannel(const ACE_INET_Addr &peeraddr, 
         const ACE_INET_Addr &localaddr)
 {
@@ -160,6 +163,7 @@ void CPortalServerManager::Dump()
     
 }
 
+//Start Listen
 int CPortalServerManager::StartListen(const ACE_INET_Addr &localaddr)
 {
     m_localaddr = localaddr;
@@ -258,6 +262,7 @@ int CPortalServerManager::StartListen(const ACE_INET_Addr &localaddr)
     return 0;
 }
 
+//Stop Listen
 int CPortalServerManager::StopListen()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerManager::StopListen\n"));
@@ -282,6 +287,7 @@ int CPortalServerManager::StopListen()
     return 0;
 }
 
+//Get Local Addr
 int CPortalServerManager::GetLocalAddr (ACE_INET_Addr &address) const
 {
     address = m_localaddr;
@@ -289,6 +295,7 @@ int CPortalServerManager::GetLocalAddr (ACE_INET_Addr &address) const
     return 0;
 }
 
+//Input Handle
 int CPortalServerManager::handle_input (ACE_HANDLE fd)
 {
     ACE_INET_Addr addrRecv;
@@ -354,17 +361,20 @@ int CPortalServerManager::handle_input (ACE_HANDLE fd)
     return 0;
 }
 
+//Get Handle
 ACE_HANDLE CPortalServerManager::get_handle (void) const
 {
     return m_handler;
 }
 
+//Close Handle
 int CPortalServerManager::handle_close (ACE_HANDLE handle,
                         ACE_Reactor_Mask close_mask)
 {
     return 0;
 }
 
+//Get Portal Manager
 CPortalManager &CPortalServerManager::GetPortalManager()
 {
     return m_portalmgr;

@@ -140,6 +140,7 @@ int CTCPTransport::open(void *acceptor_or_connector)
 
 
 //static CMessageBlock szBuf(16*1024);
+//Input Handle
 int CTCPTransport::handle_input (ACE_HANDLE handle)
 {
     for(;;)
@@ -184,7 +185,7 @@ int CTCPTransport::handle_input (ACE_HANDLE handle)
     return 0;
 }
 
-
+//Append Message
 int CTCPTransport::AppendMessage(ACE_Message_Block *pMessage, ACE_Message_Block *toAdd)
 {
     ACE_Message_Block *lastBuffer = pMessage;
@@ -198,7 +199,7 @@ int CTCPTransport::AppendMessage(ACE_Message_Block *pMessage, ACE_Message_Block 
     return 0;
 }
 
-
+//Receive Data
 int CTCPTransport::OnReceive_I(const ACE_Message_Block &aData)
 {
     ACE_DEBUG ((LM_DEBUG,"CTCPTransport::OnReceive_I,length=%d\n",aData.length()));
@@ -258,6 +259,7 @@ int CTCPTransport::OnReceive_I(const ACE_Message_Block &aData)
     return 0;
 }
 
+//Output Handle
 int CTCPTransport::handle_output (ACE_HANDLE handle)
 {
     SendBuffedMsg();
@@ -265,6 +267,7 @@ int CTCPTransport::handle_output (ACE_HANDLE handle)
     return 0;
 }
 
+//Close Handle
 int CTCPTransport::handle_close (ACE_HANDLE handle,ACE_Reactor_Mask mask)
 {
     //OnPeerDisconnect();
@@ -272,6 +275,7 @@ int CTCPTransport::handle_close (ACE_HANDLE handle,ACE_Reactor_Mask mask)
     return 0;
 }
 
+//Send Message
 int CTCPTransport::SendMessage(char *buffer, size_t size)
 {
     ACE_Message_Block *newblk = new ACE_Message_Block(size);
@@ -310,6 +314,7 @@ int CTCPTransport::SendMessage (ACE_Message_Block *pMsg)
     return SendBuffedMsg(); 
 }
 
+//Fill Iov
 int CTCPTransport::FillIov(const ACE_Message_Block *pmsg, iovec aIov[], int aMax) const
 {
     int iovcnt = 0;
@@ -335,7 +340,7 @@ int CTCPTransport::FillIov(const ACE_Message_Block *pmsg, iovec aIov[], int aMax
 
 }
 
-
+//Send Buffer Message
 int CTCPTransport::SendBuffedMsg()
 {
     if (m_sndbuf == NULL)
@@ -399,11 +404,13 @@ int CTCPTransport::SendBuffedMsg()
     return 0;
 }
 
+//Get Remote Address
 ACE_INET_Addr &CTCPTransport::GetRemoteAddress()
 {
     return m_remote_address;
 }
 
+//Get Local Address
 ACE_INET_Addr &CTCPTransport::GetLocalAddress()
 {
     return m_local_address;

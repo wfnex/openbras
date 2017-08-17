@@ -130,6 +130,7 @@ void CPPPLCP::Init()
     ao->neg_accompression = 0;
 }
 
+//Input packet
 void CPPPLCP::Input(unsigned char *packet ,size_t size)
 {
     m_fsm.Input(packet, size);
@@ -147,6 +148,7 @@ void CPPPLCP::Protrej()
     m_fsm.ProtReject();
 }
 
+//The lower layer is up
 void CPPPLCP::LowerUp()
 {
     // 在多个客户同时连接的情况下，此函数其实是没有办法区分出session的，所以此trace可能无效。
@@ -155,6 +157,7 @@ void CPPPLCP::LowerUp()
     m_fsm.LowerUp();
 }
 
+//The lower layer is down
 void CPPPLCP::LowerDown()
 {
     // 在多个客户同时连接的情况下，此函数其实是没有办法区分出session的，所以此trace可能无效。
@@ -163,6 +166,7 @@ void CPPPLCP::LowerDown()
     m_fsm.LowerDown();
 }
 
+//open fsm
 void CPPPLCP::Open()
 {
     // 在多个客户同时连接的情况下，此函数其实是没有办法区分出session的，所以此trace可能无效。
@@ -179,6 +183,7 @@ void CPPPLCP::Open()
     m_fsm.Open();
 }
 
+//Close fsm
 void CPPPLCP::Close(char *reason)
 {
     // 在多个客户同时连接的情况下，此函数其实是没有办法区分出session的，所以此trace可能无效。
@@ -187,6 +192,7 @@ void CPPPLCP::Close(char *reason)
     m_fsm.Close(reason);
 }
 
+//Timeout Handle
 int CPPPLCP::handle_timeout (const ACE_Time_Value &current_time, const void *act)
 {
     EchoTimeout();
@@ -194,11 +200,13 @@ int CPPPLCP::handle_timeout (const ACE_Time_Value &current_time, const void *act
     return 0;
 }
 
+// echo Timeout
 void CPPPLCP::EchoTimeout()
 {
     SendEchoRequest();
 }
 
+//receive echo reply
 void CPPPLCP::RcvEchoReply(int id, u_char *inp, int len)
 {
     uint32_t magic = 0;
@@ -236,6 +244,7 @@ void CPPPLCP::LcpLinkFailure()
     }
 }
 
+//Send Echo Request
 void CPPPLCP::SendEchoRequest()
 {
     uint32_t lcp_magic;
@@ -297,6 +306,7 @@ void CPPPLCP::EchoLowerDown ()
     }
 }
 
+//Cancel Echo Timer
 void CPPPLCP::CancelEchoTimer()
 {
     ACE_DEBUG((LM_DEBUG, "CPPPLCP::CancelEchoTimer\n"));
@@ -304,6 +314,7 @@ void CPPPLCP::CancelEchoTimer()
     ACE_Reactor::instance()->cancel_timer(this);
 }
 
+//Check Lcp Echo status
 void
 CPPPLCP::LcpEchoCheck ()
 {
@@ -320,6 +331,7 @@ CPPPLCP::LcpEchoCheck ()
     m_lcp_echo_timer_running = 1;
 }
 
+//Start Echo Timer
 void CPPPLCP::StartEchoTimer(int interval)
 {
     ACE_DEBUG((LM_DEBUG, "CPPPLCP::StartEchoTimer, interval=%d\n", interval));
@@ -1702,6 +1714,7 @@ CPPPLCP::LCPRcvProtRej(u_char *inp, int len)
     }
 }
 
+//Output Packet
 void CPPPLCP::OutputPacket(unsigned char *pkg, size_t size)
 {
     if (m_psink)
@@ -1710,6 +1723,7 @@ void CPPPLCP::OutputPacket(unsigned char *pkg, size_t size)
     }
 }
 
+//check Lcp status
 int CPPPLCP::State()
 {
     return m_fsm.State();

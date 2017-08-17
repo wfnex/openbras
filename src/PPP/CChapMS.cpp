@@ -43,12 +43,14 @@ CChapMs::~CChapMs()
 {
 }
 
+//Generate Challenge
 void CChapMs::GenerateChallenge(unsigned char *challenge)
 {
     *challenge++ = 8;
     random_bytes(challenge, 8);
 }
 
+//Verify Response
 int CChapMs::VerifyResponse(int id, char *name,
     unsigned char *secret, int secret_len,
     unsigned char *challenge, unsigned char *response,
@@ -96,6 +98,7 @@ int CChapMs::VerifyResponse(int id, char *name,
 
 }
 
+//Make Response
 void CChapMs::MakeResponse(unsigned char *response, int id, char *our_name,
     unsigned char *challenge, char *secret, int secret_len,
     unsigned char *priv)
@@ -105,11 +108,13 @@ void CChapMs::MakeResponse(unsigned char *response, int id, char *our_name,
     ChapMS(challenge, secret, secret_len, response);
 }
 
+//Check for Success
 int CChapMs::CheckSuccess(int id, unsigned char *pkt, int len)
 {
     return 1;
 }
 
+//Failure Handle
 void CChapMs::HandleFailure(unsigned char *inp, int len)
 {
     int err;
@@ -211,6 +216,7 @@ CChapMs::ChapMS_NT(u_char *rchallenge, char *secret, int secret_len,
     ChallengeResponse(rchallenge, PasswordHash, NTResponse);
 }
 
+//Challenge Response
 void
 CChapMs::ChallengeResponse(u_char *challenge,
       u_char PasswordHash[MD4_SIGNATURE_SIZE],
@@ -229,7 +235,7 @@ CChapMs::ChallengeResponse(u_char *challenge,
     DesEncrypt(challenge, response + 16);
 }
 
-
+//NT Password Hash
 void
 CChapMs::NTPasswordHash(u_char *secret, int secret_len, u_char hash[MD4_SIGNATURE_SIZE])
 {
@@ -250,6 +256,7 @@ CChapMs::NTPasswordHash(u_char *secret, int secret_len, u_char hash[MD4_SIGNATUR
 }
 
 
+//ascii unicode
 void
 CChapMs::ascii2unicode(char ascii[], int ascii_len, u_char unicode[])
 {

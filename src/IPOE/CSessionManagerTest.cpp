@@ -33,6 +33,7 @@
 
 #include "CSessionManagerTest.h"
 
+//Provide interface
 ISessionManager &ISessionManager::instance()
 {
     static CSessionManager sessionmgr;
@@ -47,7 +48,6 @@ CSessionManager::CSessionManager()
 CSessionManager::~CSessionManager()
 {
 }
-
 
 int CSessionManager::openWithSink(ISessionManagerSink *pSink)
 {
@@ -64,7 +64,7 @@ int CSessionManager::Close()
     return 0;
 }
 
-
+//Add User Request
 int CSessionManager::addUserRequest(const Session_User_Ex* sInfo)
 {
 	if (sInfo == NULL)
@@ -76,6 +76,7 @@ int CSessionManager::addUserRequest(const Session_User_Ex* sInfo)
     return 0;
 }
 
+//Delete User Request
 int CSessionManager::deleteUserRequest(const Session_Offline* sInfo)
 {
 	if (sInfo == NULL)
@@ -87,6 +88,7 @@ int CSessionManager::deleteUserRequest(const Session_Offline* sInfo)
     return 0;
 }
 
+//Modify User Request
 int CSessionManager::modifyUserRequest(const Session_User_Ex* sInfo)
 {
 	if (sInfo == NULL)

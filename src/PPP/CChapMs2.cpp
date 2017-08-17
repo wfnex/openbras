@@ -43,12 +43,14 @@ CChapMs2::~CChapMs2()
 {
 }
 
+//Generate Challenge
 void CChapMs2::GenerateChallenge(unsigned char *challenge)
 {
     *challenge++ = 16;
     random_bytes(challenge, 16);
 }
 
+//Verify Response
 int CChapMs2::VerifyResponse(int id, char *name,
     unsigned char *secret, int secret_len,
     unsigned char *challenge, unsigned char *response,
@@ -126,6 +128,7 @@ bad:
 
 }
 
+//Make Response
 void CChapMs2::MakeResponse(unsigned char *response, 
                                     int id, 
                                     char *our_name,
@@ -145,6 +148,7 @@ void CChapMs2::MakeResponse(unsigned char *response,
         MS_CHAP2_AUTHENTICATEE);
 }
 
+//Check for Success
 int CChapMs2::CheckSuccess(int id, unsigned char *msg, int len)
 {
     if ((len < MS_AUTH_RESPONSE_LENGTH + 2) ||strncmp((char *)msg, "S=", 2) != 0) 
@@ -181,6 +185,7 @@ int CChapMs2::CheckSuccess(int id, unsigned char *msg, int len)
 
 }
 
+//Failure Handle
 void CChapMs2::HandleFailure(unsigned char *pkt, int len)
 {
     CChapMs::HandleFailure(pkt, len);
@@ -221,7 +226,7 @@ CChapMs2::ChapMS2(u_char *rchallenge,
                 rchallenge, user, authResponse);
 }
 
-
+//Generate Authenticator Response Plain
 void
 CChapMs2::GenerateAuthenticatorResponsePlain
     (char *secret, int secret_len,
@@ -243,6 +248,7 @@ CChapMs2::GenerateAuthenticatorResponsePlain
             rchallenge, username, authResponse);
 }
 
+//Generate Authenticator Response
 void
 CChapMs2::GenerateAuthenticatorResponse(u_char PasswordHashHash[MD4_SIGNATURE_SIZE],
     u_char NTResponse[24], u_char PeerChallenge[16],
@@ -288,7 +294,7 @@ CChapMs2::GenerateAuthenticatorResponse(u_char PasswordHashHash[MD4_SIGNATURE_SI
         sprintf((char *)&authResponse[i * 2], "%02X", Digest[i]);
 }
 
-
+//Chap MS2_NT
 void
 CChapMs2::ChapMS2_NT(u_char *rchallenge, u_char PeerChallenge[16], char *username,
     char *secret, int secret_len, u_char NTResponse[24])
@@ -306,6 +312,7 @@ CChapMs2::ChapMS2_NT(u_char *rchallenge, u_char PeerChallenge[16], char *usernam
     ChallengeResponse(Challenge, PasswordHash, NTResponse);
 }
 
+//Challenge Hash
 void
 CChapMs2::ChallengeHash(u_char PeerChallenge[16], u_char *rchallenge,
         char *username, u_char Challenge[8])

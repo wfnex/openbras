@@ -48,6 +48,7 @@ CClientDiscovery::~CClientDiscovery()
 {
 }
 
+// Get Client Mac
 WORD64 CClientDiscovery::GetClientDiscoveryId()
 {
     WORD64 clientMac = 0;
@@ -55,6 +56,7 @@ WORD64 CClientDiscovery::GetClientDiscoveryId()
     return clientMac;
 }
 
+//Set Client Mac
 void CClientDiscovery::SetClientMac(BYTE clientMac[ETH_ALEN])
 {
     if (clientMac != NULL)
@@ -63,12 +65,14 @@ void CClientDiscovery::SetClientMac(BYTE clientMac[ETH_ALEN])
     }
 }
 
+//Get Service Name
 void CClientDiscovery::GetSvcName(CHAR svcName[PPPOE_MAX_SERVICE_NAME_LENGTH])
 {
     ::strncpy(svcName, m_serviceName, sizeof m_serviceName);
     svcName[PPPOE_MAX_SERVICE_NAME_LENGTH - 1] = 0;
 }
 
+//Set service Name
 void CClientDiscovery::SetSvcName(CHAR svcName[PPPOE_MAX_SERVICE_NAME_LENGTH])
 {
     ::strncpy(m_serviceName, svcName, sizeof m_serviceName);

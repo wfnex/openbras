@@ -59,6 +59,7 @@ CPPPOEDiscoveryHandler::~CPPPOEDiscoveryHandler()
 {
 }
 
+//provide PPPOE interface
 CPPPOE &CPPPOEDiscoveryHandler::GetPppoe() 
 {
     return m_pppoe;
@@ -102,6 +103,7 @@ SWORD32 CPPPOEDiscoveryHandler::Init()
     return 0;
 }
 
+//Init Cookies
 BNGPResult CPPPOEDiscoveryHandler::InitCookieSeed()
 {
     FILE *fp = NULL;

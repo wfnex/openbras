@@ -73,6 +73,7 @@ int CRadiusManager::Init()
     return -1;
 }
 
+//Radius Access Test 
 int CRadiusManager::TestRadiusAccess()
 {
     // Client Data
@@ -142,6 +143,7 @@ int CRadiusManager::TestRadiusAccess()
     pscheme->SendAccessMessageP(accessReqMsg, callback);
 }
 
+//Radius Acct Test
 int CRadiusManager::TestRadiusAcct()
 {
     // Client Data
@@ -220,7 +222,7 @@ int CRadiusManager::TestRadiusAcct()
     pscheme->SendAcctMessageP(acctReqMsg, callback);
 }
 
-
+//Creat Radius Scheme
 int CRadiusManager::CreateRadiusScheme(std::string &name,CRadiusScheme *&radius)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -239,6 +241,7 @@ int CRadiusManager::CreateRadiusScheme(std::string &name,CRadiusScheme *&radius)
     return 0;
 }
 
+//Remove Radius Scheme
 int CRadiusManager::DestroyRadiusScheme(std::string &name)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -253,6 +256,7 @@ int CRadiusManager::DestroyRadiusScheme(std::string &name)
 
 }
 
+//Find Radius Scheme
 int CRadiusManager::FindRadiusScheme(std::string &name,CRadiusScheme *&radius)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);

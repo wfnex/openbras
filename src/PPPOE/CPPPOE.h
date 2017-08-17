@@ -176,6 +176,7 @@ public:
 
     WORD16 AllocId();
      void FreeId(uint16_t id);
+     WORD32 GetIp();
 
     void OnLCPDown(WORD16 sessionId, const std::string &reason);
     void OnPPPOEAuthRequest(Auth_Request &authReq);

@@ -114,30 +114,35 @@ int CRadiusConfig::Init()
     return 0;
 }
 
+//Get Local Addr
 ACE_INET_Addr CRadiusConfig::GetLocalAddr()
 {
     ACE_INET_Addr myaddr(m_localport,m_localip.c_str());
     return myaddr;
 }
 
+//Get Primer Auth Server Addr
 ACE_INET_Addr CRadiusConfig::GetAuthServerAddrP()
 {
     ACE_INET_Addr myaddr(m_authserverport,m_authserverip.c_str());
     return myaddr; 
 }
 
+//Get Primer Acct Server Addr
 ACE_INET_Addr CRadiusConfig::GetAcctServerAddrP()
 {
     ACE_INET_Addr myaddr(m_accserverport,m_accserverip.c_str());
     return myaddr;
 }
 
+//Get Second Auth Server Addr
 ACE_INET_Addr CRadiusConfig::GetAuthServerAddrS()
 {
     ACE_INET_Addr myaddr(m_authserverports,m_authserverips.c_str());
     return myaddr; 
 }
 
+//Get Second Acct Server Addr
 ACE_INET_Addr CRadiusConfig::GetAcctServerAddrS()
 {
     ACE_INET_Addr myaddr(m_accserverports,m_accserverips.c_str());

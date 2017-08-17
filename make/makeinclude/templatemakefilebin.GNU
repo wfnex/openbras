@@ -150,7 +150,7 @@ ifeq ($(static_libs_only), 1)
 endif
 
 VLDLIBS +=-lm -lrt -lpthread -lutil -ldl -lcrypt \
-	-lACE \
+	-lACE -lAuthMgr\
 	$(MYDLLLIB)
 $(VBIN): $(addprefix $(VDIR), $(OBJS)) $(DEPLIBS)
   ifneq (,$(LINK.cc.override))

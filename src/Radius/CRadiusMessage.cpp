@@ -239,6 +239,7 @@ int CRadiusMessage::decodeAttributes( const char* secret )
     return 0;
 }
 
+//verify Acct Request Authenticator
 bool
 CRadiusMessage::verifyAccountingRequestAuthenticator( const char* secret )
 {
@@ -259,6 +260,7 @@ CRadiusMessage::verifyAccountingRequestAuthenticator( const char* secret )
                          RadiusAuthenticatorLength ) );
 }
 
+//verify Response Authenticator
 bool
 CRadiusMessage::verifyResponseAuthenticator( const u_int8_t *reqAuth,
                                             const char* secret )
@@ -284,6 +286,7 @@ CRadiusMessage::verifyResponseAuthenticator( const u_int8_t *reqAuth,
                          RadiusAuthenticatorLength ) );
 }
 
+//Add Radius Attribute
 bool
 CRadiusMessage::add( const CRadiusAttribute& attr )
 {
@@ -594,7 +597,7 @@ CRadiusMessage::calcMD5( uint8_t *digest,
     MD5_Final( digest, &context );
 }
 
-
+//Analytic attribute
 CRadiusData
 CRadiusMessage::encodeAttributes() const
 {
@@ -609,6 +612,7 @@ CRadiusMessage::encodeAttributes() const
     return msg;
 }
 
+//Get CRadiusAttribute instance
 int CRadiusMessage::get( const RadiusAttributeType t, CRadiusAttribute& attr) const
 {
     for ( RadiusAttrIter itr = myAttributes.begin();
@@ -626,7 +630,7 @@ int CRadiusMessage::get( const RadiusAttributeType t, CRadiusAttribute& attr) co
     return -1;
 }
 
-
+//Get All RadiusAttribute Instance
 std::list<CRadiusAttribute >
 CRadiusMessage::getAll( const RadiusAttributeType t ) const
 {
@@ -750,6 +754,7 @@ CRadiusMessage::headerDump()
                         "\n 16 Authenticator\n" );
 }
 
+//Verbose attributes
 std::string CRadiusMessage::attributesVerbose()
 {
     std::string s = "\nAttributes:\n";

@@ -262,6 +262,7 @@ void free_packet(struct dhcp_packet *packet)
     return;
 }
 
+//Get packet length
 int serialize(struct dhcp_packet *packet, char buffer[], int length)
 {
     if (NULL == packet)
@@ -350,6 +351,7 @@ void copy_packet(struct dhcp_packet *src, struct dhcp_packet *dst)
     
 }
 
+//Check the status of the request packet
 bool is_broadcast(struct dhcp_packet *request)
 {
     if (request == NULL)
@@ -370,6 +372,7 @@ bool is_broadcast(struct dhcp_packet *request)
     }
 }
 
+//Get Request Ip
 uint32_t get_request_ip(struct dhcp_packet *request)
 {
     uint32_t ipaddr = 0;
@@ -391,6 +394,7 @@ uint32_t get_request_ip(struct dhcp_packet *request)
     return ipaddr;
 }
 
+//Get Server Id
 uint32_t get_server_id(struct dhcp_packet *request)
 {
     uint32_t ipaddr = 0;

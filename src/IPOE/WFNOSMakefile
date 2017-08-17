@@ -13,6 +13,6 @@ CSessionManagerTest.cpp
 
 MYCPPFLAGS=-I../include -I../Utils -std=gnu++11 
 MYLDFLAGS= 
-MYDLLLIB= 
+MYDLLLIB=
 include $(USER_ROOT)/make/makeinclude/allinone.GNU
 

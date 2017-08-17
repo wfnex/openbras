@@ -51,6 +51,7 @@ CPortalClient::~CPortalClient()
     // Commented by mazhh: There is no need to call Close() here, as ~CIPOEModule() will call it.
 }
 
+//Create Connector
 int CPortalClient::CreateConnector(PortalServerCfg &cfg)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -96,6 +97,7 @@ int CPortalClient::CreateConnector(PortalServerCfg &cfg)
     }
 }
 
+//remove Connector
 int CPortalClient::DestroyConnector(uint8_t serverid)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -142,7 +144,7 @@ int CPortalClient::DestroyConnector(uint32_t peerip, uint16_t peerport)
     return 0;
 }
 
-
+//Find Active Server
 CPortalConnector *CPortalClient::FindActiveServer()
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, NULL);

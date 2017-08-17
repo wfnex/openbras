@@ -50,7 +50,7 @@ CSession::~CSession()
 {
     ACE_DEBUG((LM_DEBUG, "CSession::~CSession(), session id = %#x\n", m_sessionid));
 	m_pppoe.FreeId(m_sessionid);
-
+    
     CancelTimer();
 }
 
@@ -64,6 +64,7 @@ int CSession::Init()
     return 0;
 }
 
+//Input Session Data to Packet
 int CSession::ProcessSessData(const PPPoEPacket *packet, ssize_t size)    
 {
     // already check whether packet is NULL
@@ -133,6 +134,7 @@ int CSession::ProcessSessData(const PPPoEPacket *packet, ssize_t size)
     return 0;
 }
 
+//LCP is Down
 void CSession::OnLCPDown(const std::string reason)
 {
     ACE_DEBUG ((LM_DEBUG, "CSession::OnLCPDown, reason=%s\n", reason.c_str()));
@@ -208,6 +210,7 @@ void CSession::OnPPPPayload(unsigned char *packet, size_t size)
     return;
 }
 
+//Auth Request
 void CSession::OnAuthRequest(Auth_Request &authReq)
 {
     ACE_DEBUG ((LM_DEBUG, 
@@ -217,17 +220,19 @@ void CSession::OnAuthRequest(Auth_Request &authReq)
     authReq.session = m_sessionid;
     m_pppoe.OnPPPOEAuthRequest(authReq);
 }
-                                                                   
+
+//PPPOE Auth Response                                                                   
 void CSession::OnPPPOEAuthResponse(WORD32 result, std::string reason)
 {
     ACE_DEBUG((LM_DEBUG, "CSession::OnPPPOEAuthResponse, result=%u, reason=%s\n", result, reason.c_str()));
     m_ppp.OnAuthResponse(result, reason);
 }
 
+//Add Subscriber
 SWORD32 CSession::OnAddSubscriber(Session_User_Ex &sInfo)
 {
     ACE_DEBUG ((LM_DEBUG, "CSession::OnAddSubscriber, session=%#X\n", m_sessionid));
-
+    sInfo.user_ip = m_pppoe.GetIp();
     sInfo.session = m_sessionid;
     ::memcpy(sInfo.mac, m_clientEth, ETH_ALEN);
     sInfo.user_type = USER_TYPE_PPPOE;
@@ -235,6 +240,7 @@ SWORD32 CSession::OnAddSubscriber(Session_User_Ex &sInfo)
     return m_pppoe.AddSubscriber(sInfo);
 }
 
+//Delete Subscriber
 SWORD32 CSession::OnDelSubscriber()
 {
     ACE_DEBUG ((LM_DEBUG, "CSession::OnDelSubscriber, session=%#X\n", m_sessionid));
@@ -248,6 +254,7 @@ SWORD32 CSession::OnDelSubscriber()
     return m_pppoe.DelSubscriber(sInfo);
 }
 
+//Timeout Handle
 int CSession::handle_timeout (const ACE_Time_Value &current_time, const void *act)
 {
     ACE_DEBUG ((LM_DEBUG, "CSession::handle_timeout\n"));
@@ -266,12 +273,14 @@ int CSession::handle_timeout (const ACE_Time_Value &current_time, const void *ac
     return 0;
 }
 
+//Cancel Timer
 void CSession::CancelTimer()
 {
     ACE_DEBUG((LM_DEBUG, "CSession::CancelTimer\n"));
     ACE_Reactor::instance()->cancel_timer(this);
 }
 
+//Start One Off Timer
 void CSession::StartOneOffTimer()
 {
     ACE_DEBUG((LM_DEBUG, 

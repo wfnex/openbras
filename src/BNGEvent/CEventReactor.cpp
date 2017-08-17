@@ -59,6 +59,8 @@ CEventReactor::~CEventReactor()
                                    // Aborted (core dumped)
 }
 
+
+//timeout handle
 int CEventReactor::handle_timeout (const ACE_Time_Value &current_time,
                             const void *act)
 {
@@ -83,6 +85,7 @@ int CEventReactor::handle_timeout (const ACE_Time_Value &current_time,
     return -1;
 }
 
+//Start event stream
 void CEventReactor::StartEventSchedule()
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CEventReactor::StartEventSchedule\n"));
@@ -100,6 +103,7 @@ void CEventReactor::StartEventSchedule()
     }
 }
 
+//Cancel timer
 void CEventReactor::CancelTimer()
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CEventReactor::CancelTimer\n"));
@@ -110,6 +114,7 @@ void CEventReactor::CancelTimer()
     }    
 }
 
+//Event Stream
 int CEventReactor::ScheduleEvent(IEvent *pevent)
 {
     ACE_DEBUG ((LM_DEBUG, "(%P|%t) CEventReactor::ScheduleEvent, fireflag=%d\n", m_bfire));

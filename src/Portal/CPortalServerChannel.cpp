@@ -60,11 +60,13 @@ CPortalServerChannel::~CPortalServerChannel()
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::~CPortalServerChannel\n")); 
 }
 
+//Get Peer Addr
 ACE_INET_Addr CPortalServerChannel::GetPeerAddr()
 {
     return m_remote_addr;
 }
 
+//Get Local Addr
 ACE_INET_Addr CPortalServerChannel::GetLocalAddr()
 {
     return m_local_addr;
@@ -82,7 +84,7 @@ void CPortalServerChannel::set_handle (ACE_HANDLE fd)
     m_handler = fd;
 }
 
-
+//Portal Serialize Header
 void CPortalServerChannel::PortalSerializeHeader(openportal_header *pHeader, 
                                                         uint8_t code, 
                                                         uint8_t auth_type,
@@ -104,6 +106,7 @@ void CPortalServerChannel::PortalSerializeHeader(openportal_header *pHeader,
     pHeader->attr_num   = 0x00;   
 }
 
+//Send Data
 int CPortalServerChannel::SendData(const char *data, size_t datasize)
 {
     ACE_TCHAR remote_str[80]={0}, local_str[80]={0};
@@ -133,6 +136,7 @@ int CPortalServerChannel::SendData(const char *data, size_t datasize)
     return 0;
 }
 
+//Auth Response
 int CPortalServerChannel::OnAuthResponse(const Auth_Response *response)
 {
     ACE_DEBUG ((LM_ERROR,"(%P|%t) CPortalServerChannel::OnAuthResponse,begin %d\n",this)); 
@@ -219,6 +223,7 @@ int CPortalServerChannel::OnAuthResponse(const Auth_Response *response)
     return 0;
 }
 
+//Receive Data
 int CPortalServerChannel::RcvData(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_ERROR,"(%P|%t) CPortalServerChannel::RcvData msgsize=%d\n",msgsize)); 
@@ -352,6 +357,7 @@ int CPortalServerChannel::RcvData(const char *msg, size_t msgsize)
     return result;
 }
 
+//Check Authenticator
 bool CPortalServerChannel::CheckAuthenticator(openportal_header *pheader)
 {
     PORTAL_ATTRIBUTE_ENTRY_T *p_attrib      = NULL;
@@ -435,7 +441,7 @@ bool CPortalServerChannel::CheckAuthenticator(openportal_header *pheader)
 
 }
 
-
+//Challenge Request Handle
 int CPortalServerChannel::HandleChallengeRequest(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleChallengeRequest,msgsize=%d\n",msgsize)); 
@@ -500,6 +506,7 @@ int CPortalServerChannel::HandleChallengeRequest(const char *msg, size_t msgsize
     return 0;
 }
 
+//Make Challenge
 void CPortalServerChannel::MakeChallenge(char *pStr, size_t len)
 {
     uint8_t           round   = len / sizeof( WORD32 );
@@ -530,7 +537,7 @@ void CPortalServerChannel::MakeChallenge(char *pStr, size_t len)
     return;
 }
 
-
+//Challenge Response Handle
 int CPortalServerChannel::HandleChallengeResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleChallengeResponse\n")); 
@@ -539,6 +546,7 @@ int CPortalServerChannel::HandleChallengeResponse(const char *msg, size_t msgsiz
     return 0;
 }
 
+//Auth Request Handle
 int CPortalServerChannel::HandleAuthenRequest(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleAuthenRequest begin, msgsize=%d\n",msgsize));
@@ -730,6 +738,7 @@ int CPortalServerChannel::HandleAuthenRequest(const char *msg, size_t msgsize)
 
 }
 
+//Auth Response Handle
 int CPortalServerChannel::HandleAuthenResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleAuthenResponse\n"));
@@ -739,6 +748,7 @@ int CPortalServerChannel::HandleAuthenResponse(const char *msg, size_t msgsize)
 
 }
 
+//Logout Request Handle
 int CPortalServerChannel::HandleLogoutRequest(const char *msg, size_t msgsize)
 {
     size_t length = 0;
@@ -799,6 +809,7 @@ int CPortalServerChannel::HandleLogoutRequest(const char *msg, size_t msgsize)
 
 }
 
+//Logout Response Handle
 int CPortalServerChannel::HandleLogoutResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleLogoutResponse\n"));
@@ -808,6 +819,7 @@ int CPortalServerChannel::HandleLogoutResponse(const char *msg, size_t msgsize)
 
 }
 
+//Auth AFF Response Handle
 int CPortalServerChannel::HandleAuthenAFFResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleAuthenAFFResponse\n"));
@@ -815,6 +827,7 @@ int CPortalServerChannel::HandleAuthenAFFResponse(const char *msg, size_t msgsiz
     return 0;
 }
 
+//NTF Logout Handle
 int CPortalServerChannel::HandleNTFLogout(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleNTFLogout\n"));
@@ -822,6 +835,7 @@ int CPortalServerChannel::HandleNTFLogout(const char *msg, size_t msgsize)
     return 0;
 }
 
+//Info Response Handle
 int CPortalServerChannel::HandleInfoResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleInfoResponse\n"));
@@ -829,6 +843,7 @@ int CPortalServerChannel::HandleInfoResponse(const char *msg, size_t msgsize)
     return 0;
 }
 
+//Info Request Handle
 int CPortalServerChannel::HandleInfoRequest(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleInfoRequest\n"));
@@ -836,6 +851,7 @@ int CPortalServerChannel::HandleInfoRequest(const char *msg, size_t msgsize)
     return 0;
 }
 
+//NTF User Discovery Handle
 int CPortalServerChannel::HandleNTFUserDiscovery(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleNTFUserDiscovery\n"));
@@ -843,6 +859,7 @@ int CPortalServerChannel::HandleNTFUserDiscovery(const char *msg, size_t msgsize
     return 0;
 }
 
+//UserIp Change Notify Handle
 int CPortalServerChannel::HandleUserIPChangeNotify(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleUserIPChangeNotify\n"));
@@ -850,6 +867,7 @@ int CPortalServerChannel::HandleUserIPChangeNotify(const char *msg, size_t msgsi
     return 0;
 }
 
+//AFF NTF UserIp Change Handle
 int CPortalServerChannel::HandleAFFNTFUserIPChange(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleUserIPChangeNotify\n"));
@@ -857,6 +875,7 @@ int CPortalServerChannel::HandleAFFNTFUserIPChange(const char *msg, size_t msgsi
     return 0;
 }
 
+//NTF Logout Response Handle 
 int CPortalServerChannel::HandleNTFLogoutResponse(const char *msg, size_t msgsize)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::HandleUserIPChangeNotify\n"));
@@ -864,6 +883,7 @@ int CPortalServerChannel::HandleNTFLogoutResponse(const char *msg, size_t msgsiz
     return 0;
 }
 
+//Add Attribute
 void CPortalServerChannel::AddAttribute(char *vpPacket, 
                         size_t *vpOffset, 
                         uint8_t tlv_type, 
@@ -888,6 +908,7 @@ void CPortalServerChannel::AddAttribute(char *vpPacket,
     return;
 }
 
+//Add Authentication
 void CPortalServerChannel::AddAuthentication(openportal_header *phead)
 {
     PORTAL_ATTRIBUTE_ENTRY_T *p_attrib      = NULL;
@@ -960,18 +981,19 @@ void CPortalServerChannel::AddAuthentication(openportal_header *phead)
 
 }
 
-
+//Get Server Config
 PortalServerCfg &CPortalServerChannel::GetServerCfg()
 {
     return m_cfg;
 }
 
+//Set Server Config
 void CPortalServerChannel::SetServerCfg(PortalServerCfg &cfg)
 {
     ::memcpy(&m_cfg, 0, sizeof(PortalServerCfg));
 }
 
-
+// Logout Request Notify
 int CPortalServerChannel::NotifyLogoutRequest(uint32_t userid)
 {
     char packet[MAXIMUM_PORTAL_RX_PACKET_SIZE]={0};
@@ -1002,6 +1024,7 @@ int CPortalServerChannel::NotifyLogoutRequest(uint32_t userid)
     return 0;
 }
 
+//Print Portal Head
 void CPortalServerChannel::PrintPortalHead(openportal_header *pHeader)
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CPortalServerChannel::PrintPortalHead:\n")); 

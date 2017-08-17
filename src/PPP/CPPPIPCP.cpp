@@ -53,6 +53,7 @@ CPPPIPCP::~CPPPIPCP()
 {
 }
 
+//Init ipcp options
 void CPPPIPCP::Init()
 {
     ACE_DEBUG((LM_DEBUG, "CPPPIPCP::Init\n"));
@@ -96,6 +97,7 @@ void CPPPIPCP::Init()
     ao->default_route = 1;
 }
 
+//Input packet
 void CPPPIPCP::Input(unsigned char *packet ,size_t size)
 {
     #ifdef DEBUG_PKT
@@ -105,18 +107,21 @@ void CPPPIPCP::Input(unsigned char *packet ,size_t size)
     m_fsm.Input(packet, size);
 }
 
+//A Protocol-Reject was received.
 void CPPPIPCP::Protrej()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPIPCP::Protrej\n"));
     m_fsm.LowerDown();
 }
 
+//The lower layer is up.
 void CPPPIPCP::LowerUp()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPIPCP::LowerUp\n"));
     m_fsm.LowerUp();
 }
 
+//The lower layer is down
 void CPPPIPCP::LowerDown()
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPIPCP::LowerDown\n"));
@@ -1210,6 +1215,7 @@ void CPPPIPCP::Retransmit(CPPPFsm *pfsm)
     ACE_DEBUG ((LM_DEBUG, "CPPPIPCP::Retransmit\n"));    
 }
 
+//Output Packet
 void CPPPIPCP::OutputPacket(unsigned char *pkg, size_t size)
 {
     ACE_DEBUG ((LM_DEBUG, "CPPPIPCP::OutputPacket, size=%u\n", size));
@@ -1227,11 +1233,13 @@ int CPPPIPCP::ExtCode(CPPPFsm *pfsm, int, int, u_char *, int)
     return 0;
 }
 
+//check fsm status
 int CPPPIPCP::State()
 {
     return m_fsm.State();
 }
 
+//Send Payload
 void CPPPIPCP::SendPayload(unsigned char *pkg, size_t size)
 {
     unsigned char buffer[1024*4] = {0};
@@ -1258,6 +1266,7 @@ void CPPPIPCP::SendPayload(unsigned char *pkg, size_t size)
     }  
 }
 
+//Input Data to packet
 void CPPPIPCP::InputData(unsigned char *packet, size_t size)
 {
     if (m_psink)
@@ -1283,6 +1292,7 @@ void CPPPIPCP::SetMyIP(std::string &myIP)
     SetMyIP( htonl(addr.get_ip_address()) );
 }
 
+//Set Subscriber Ip
 void CPPPIPCP::SetSubscriberIP(WORD32 hisIP)
 {
     m_ipcp_wantoptions.hisaddr = hisIP;
@@ -1297,6 +1307,7 @@ void CPPPIPCP::SetSubscriberIP(std::string &hisIP)
     SetSubscriberIP( htonl(addr2.get_ip_address()) );
 }
 
+//Set Primary DNS
 void CPPPIPCP::SetPrimaryDNS(WORD32 dns)
 {
     m_ipcp_allowoptions.dnsaddr[0] = dns;
@@ -1311,6 +1322,7 @@ void CPPPIPCP::SetPrimaryDNS(std::string &dns)
     SetPrimaryDNS( htonl(dnsAddr1.get_ip_address()) );
 }
 
+//Set Secondary DNS
 void CPPPIPCP::SetSecondaryDNS(WORD32 dns)
 {
     m_ipcp_allowoptions.dnsaddr[1] = dns;
@@ -1325,16 +1337,19 @@ void CPPPIPCP::SetSecondaryDNS(std::string &dns)
     SetSecondaryDNS( htonl(dnsAddr2.get_ip_address()) );
 }
 
+//Get Subscriber IP
 WORD32 CPPPIPCP::GetSubscriberIP()
 {
     return m_ipcp_wantoptions.hisaddr;
 }
 
+//Get Primary DNS
 WORD32 CPPPIPCP::GetPrimaryDNS()
 {
     return m_ipcp_allowoptions.dnsaddr[0];
 }
 
+//Get Secondary DNS
 WORD32 CPPPIPCP::GetSecondaryDNS()
 {
     return m_ipcp_allowoptions.dnsaddr[1];

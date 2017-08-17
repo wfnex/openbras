@@ -48,15 +48,20 @@ CL2TPLAC::~CL2TPLAC()
 {
     ACE_DEBUG ((LM_DEBUG,"(%P|%t) CL2TPLAC::~CL2TPLAC\n")); 
 }
+
+//Add Reference
 uint32_t CL2TPLAC::AddReference()
 {
     return CReferenceControl::AddReference();
 }
+
+//Release Reference
 uint32_t CL2TPLAC::ReleaseReference()
 {
     return CReferenceControl::ReleaseReference();
 }
 
+//Add Channel
 int CL2TPLAC::AddChannel(const ACE_INET_Addr &peeraddr, 
         CCmAutoPtr<CL2TPTunnel> &channel)
 {
@@ -76,6 +81,8 @@ int CL2TPLAC::AddChannel(const ACE_INET_Addr &peeraddr,
     return 0;
 }
 
+
+//Find Channel
 CL2TPTunnel *CL2TPLAC::FindChannel(const ACE_INET_Addr &peeraddr)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, NULL);
@@ -90,6 +97,7 @@ CL2TPTunnel *CL2TPLAC::FindChannel(const ACE_INET_Addr &peeraddr)
     return channel.Get();
 }
 
+//Remove Channel
 int CL2TPLAC::RemoveChannel(const ACE_INET_Addr &peeraddr)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, g, m_mutex, -1);
@@ -119,7 +127,7 @@ int CL2TPLAC::RemoveChannel(CCmAutoPtr<CL2TPTunnel> &channel)
     return 0;
 }
 
-
+//Make Tunnel
 int CL2TPLAC::MakeTunnel(IL2TPTunnelIndication *psink,
         const ACE_INET_Addr &serveraddr)
 {
@@ -152,7 +160,7 @@ int CL2TPLAC::MakeTunnel(IL2TPTunnelIndication *psink,
     return 0;
 }
 
-
+//Tunnel Result
 void CL2TPLAC::OnTunnelResult(int result, CL2TPTunnel *ptunnel)
 {
     if (m_psink)
