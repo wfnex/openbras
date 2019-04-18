@@ -55,7 +55,7 @@ public:
     virtual int Close() = 0;
     virtual int AuthRequest(const Auth_Request *request) = 0;
 
-    virtual std::string AllocIp();
+    virtual std::string AllocIp() = 0;
     
 };
 
